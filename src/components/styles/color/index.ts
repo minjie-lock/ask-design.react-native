@@ -1,0 +1,14 @@
+export { default as RED } from './red';
+export { default as ORANGE_RED }  from './orange-red';
+export { default as ORANGE } from './orange';
+export { default as GOLD } from './gold';
+export { default as YELLOW } from './yellow';
+export { default as LIME } from './lime';
+export { default as GREEN } from './green';
+export { default as CYAN } from './cyan';
+export { default as BLUE } from './blue';
+export { default as NAVY_BLUE } from './navy-blue';
+export { default as PURPLE } from './purple';
+export { default as PINK_PURPLE } from './pink-purple';
+export { default as MAGENTA } from './magenta';
+export { default as GRAY } from './gray'
