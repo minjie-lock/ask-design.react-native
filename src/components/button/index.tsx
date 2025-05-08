@@ -1,17 +1,14 @@
 
-import { useRef } from 'react';
 import {
-  Animated,
   GestureResponderEvent,
   ButtonProps as NButtonProps,
-  Text,
-  Button as IButton,
   View,
   ViewStyle,
   TouchableHighlight,
   TextStyle,
 } from 'react-native';
 import { useConfiguration } from '../configuration';
+import { content } from '../../utils';
 
 type ButtonProps = {
   /**
@@ -148,6 +145,7 @@ export default function Button(props: ButtonProps) {
     color: background?.[fill].color,
     fontSize: sizes?.[size],
     fontWeight: 700,
+    lineHeight: sizes?.[size],
   };
 
   return (
@@ -159,11 +157,7 @@ export default function Button(props: ButtonProps) {
     >
       <View>
         {
-          ['string', 'number']?.includes(typeof children) ?
-            <Text style={text}>
-              {children}
-            </Text>
-            : children
+          content(children, text)
         }
       </View>
     </TouchableHighlight>

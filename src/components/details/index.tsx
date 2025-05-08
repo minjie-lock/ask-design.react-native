@@ -1,11 +1,11 @@
 
 import { useControllableValue } from '../../hooks';
 import { GestureResponderEvent, StyleSheet, View } from 'react-native';
-import Summary from './summary';
+import Summary, { SummaryProps } from './summary';
 import { useConfiguration } from '../configuration';
-import { Children, cloneElement, createContext } from 'react';
+import React, { Children, cloneElement, createContext } from 'react';
 
-export const DetailsContext = createContext<{ current?: (string | number)[] }>({
+export const DetailsContext = createContext<{ current: (string | number)[] | void }>({
   current: [],
 });
 
@@ -28,7 +28,7 @@ type DetailsProps<T extends boolean> = {
   /**
    * 默认值
   */
-  defaultValue?: DetailsProps<T>;
+  defaultValue?: DetailsValue<T>;
 }
 
 /**
@@ -78,13 +78,14 @@ export default function Details<T extends boolean>(props: DetailsProps<T>) {
     <DetailsContext.Provider value={{ current: accordion ? [value] : value }}>
       <View style={styles.main}>
         {
-          Children.map(children, (children) => {
+          children &&
+          Children.map(children as React.ReactElement<SummaryProps>, (children) => {
             const props = children?.props;
             return cloneElement(children, props?.disabled ? props : {
               ...props,
               onPress: (event: GestureResponderEvent) => {
                 props?.onPress?.(event);
-                onPress?.(props?.value);
+                onPress?.(props?.value as DetailsValue<T>);
               },
             });
           })

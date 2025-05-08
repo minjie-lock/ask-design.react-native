@@ -3,7 +3,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 interface Options<T> {
   defaultValue?: T;
   value?: T;
-  onChange?: (value: T) => void;
+  onChange?: (value?: T) => void;
 }
 
 export default  function useControllableValue<T>(options: Options<T> = {}): [T, (value: T) => void] {

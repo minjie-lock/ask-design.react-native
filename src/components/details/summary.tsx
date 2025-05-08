@@ -1,8 +1,9 @@
-import { Animated, Easing, GestureResponderEvent, Pressable, StyleSheet, Text, View } from 'react-native';
+import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useConfiguration } from '../configuration';
 import { content } from '../../utils';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 import { DetailsContext } from '.';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 export type SummaryProps = {
   /**
@@ -54,8 +55,9 @@ export default function Summary(props: SummaryProps) {
   );
 
   // 折叠动画
-  const height = useRef(new Animated.Value(0));
-  const arrow = useRef(new Animated.Value(0));
+  const height = useSharedValue(0);
+  const arrow = useSharedValue('0deg');
+  // const arrow = useRef(new Animated.Value(0));
 
   const styles = StyleSheet.create({
     main: {
@@ -80,7 +82,6 @@ export default function Summary(props: SummaryProps) {
       fontWeight: 700,
     },
     content: {
-      maxHeight: height.current,
       height: 'auto',
       ...(current?.includes?.(value) ? {
         borderStyle: details.border.type,
@@ -91,55 +92,36 @@ export default function Summary(props: SummaryProps) {
   });
 
   useEffect(() => {
-    /**
-     * 恢复动画
-    */
-    // const rest = () => {
-    //   height.current.resetAnimation();
-    //   arrow.current.resetAnimation();
-    // };
     if (current) {
       if (current.includes(value)) {
-        Animated.timing(height.current, {
-          toValue: 1000,
-          duration: 500,
-          easing: Easing.ease,
-          useNativeDriver: false,
-        }).start();
-        Animated.timing(arrow.current, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }).start();
+        height.value = 1000;
+        arrow.value = '180deg';
       } else {
-        Animated.timing(height.current, {
-          toValue: 0,
-          duration: 500,
-          easing: Easing.ease,
-          useNativeDriver: false,
-        }).start();
-        Animated.timing(arrow.current, {
-          toValue: 0,
-          duration: 500,
-          useNativeDriver: true,
-        }).start();
+        height.value = 0;
+        arrow.value = '0deg';
       }
     }
     // return rest;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, current]);
+
+  const heightStyle = useAnimatedStyle(() => ({
+    maxHeight: withTiming(height.value, {
+      duration: 500,
+    }),
+  }));
+
+  const arrowStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: withTiming(arrow.value, { duration: 500 }) }],
+  }));
+
+
 
   return (
     <View style={styles.main}>
       <Pressable onPress={onPress} style={styles?.pressable}>
         <Text style={styles.title}>{title}</Text>
-        <Animated.View style={{
-          transform: [{
-            rotate: arrow.current.interpolate({
-              inputRange: [0, 1],
-              outputRange: ['0deg', '180deg'],
-            }),
-          }],
-        }}>
+        <Animated.View style={[arrowStyle]}>
           {
             typeof arrowIcon === 'function' ?
               content(arrowIcon?.(current?.includes?.(value) ?? false)) :
@@ -147,7 +129,7 @@ export default function Summary(props: SummaryProps) {
           }
         </Animated.View>
       </Pressable>
-      <Animated.View style={styles.content}>
+      <Animated.View style={[heightStyle, styles.content]}>
         <View style={{ paddingVertical: 12 }}>
           {content(children)}
         </View>
