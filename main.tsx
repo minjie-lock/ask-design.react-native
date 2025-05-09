@@ -1,5 +1,5 @@
 import { Dimensions, ScrollView } from 'react-native';
-import { Button, Card, Configuration, Details, SeparationLine, Swiper, Watermark } from './src/components';
+import { Button, Card, Configuration, Details, SeparationLine, Space, Swiper, Tag, Watermark } from './src/components';
 
 export default function Root() {
 
@@ -7,13 +7,30 @@ export default function Root() {
 
   return (
     <Configuration>
-      <Watermark content={['@ask-design', 'react-native']}>
+      {/* <Watermark content={['@ask-design', 'react-native']}> */}
         <ScrollView style={{
           width: screen.width,
           height: screen.height,
           backgroundColor: '#F6F6F6',
           padding: 40,
         }}>
+          <Card>
+            <Space gap={10} wrap>
+              <Tag>Primary</Tag>
+              <Tag color="magenta">magenta</Tag>
+              <Tag color="red">red</Tag>
+              <Tag color="volcano">volcano</Tag>
+              <Tag color="orange">orange</Tag>
+              <Tag color="gold">gold</Tag>
+              <Tag color="lime">lime</Tag>
+              <Tag color="green">green</Tag>
+              <Tag color="cyan">cyan</Tag>
+              <Tag color="blue">blue</Tag>
+              <Tag color="geekblue">geekblue</Tag>
+              <Tag color="purple">purple</Tag>
+            </Space>
+          </Card>
+          <SeparationLine />
           <Card title="标题" footer={
             <Button onPress={() => {
               console.log(1);
@@ -76,7 +93,7 @@ export default function Root() {
             </Swiper.Item>
           </Swiper>
         </ScrollView>
-      </Watermark>
+      {/* </Watermark> */}
     </Configuration>
   );
 }
