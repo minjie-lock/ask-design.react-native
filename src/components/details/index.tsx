@@ -60,11 +60,11 @@ export default function Details<T extends boolean>(props: DetailsProps<T>) {
     },
   });
 
-  const onPress = (current: DetailsProps<T>['value']) => {
+  const onPress = (current: Required<DetailsProps<T>>['value']) => {
     if (!accordion) {
-      if (value?.includes?.(current)) {
+      if (value?.includes?.(current as string | number)) {
         setValue?.(
-          value?.filter((item) => item !== current)
+          value?.filter((item) => item !== (current))
         );
       } else {
         setValue([...(value ?? []), current]);

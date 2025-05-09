@@ -7,7 +7,7 @@ const gloabl = {
   },
 };
 
-type Color = Required<Omit<ConfigurationProps, 'children'>['scheme']>
+type Color = Required<Omit<ConfigurationProps, 'children'>>['scheme']
 
 export const light: Color = {
   components: {

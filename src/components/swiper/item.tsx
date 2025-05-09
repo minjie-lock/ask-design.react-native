@@ -1,6 +1,5 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { content } from '../../utils';
-import { useSwiper } from '.';
 
 export type SwiperItemProps = {
   /**
@@ -24,12 +23,10 @@ export default function Item(props: SwiperItemProps) {
     style,
   } = props;
 
-  const { width, height, current } = useSwiper();
-
   const styles = StyleSheet.create({
     content: {
-      width,
-      height,
+      width: '100%',
+      height: '100%',
       ...style,
     },
   });

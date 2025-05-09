@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from 'react';
 
 /**
  * @function useGetState
@@ -21,4 +21,4 @@ export default function useGetState<T>(initialValue: T) {
   const getState = useCallback(() => stateRef.current, []);
 
   return [state, setStateWrapper, getState] as const;
-};
+}

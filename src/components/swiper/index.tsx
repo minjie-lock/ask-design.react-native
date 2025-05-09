@@ -1,22 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import Item, { SwiperItemProps } from './item';
+import Item from './item';
 import {
   Children,
-  cloneElement,
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useImperativeHandle,
+  useRef,
 } from 'react';
 import { useControllableValue } from '../../hooks';
 import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
-const SwiperContext = createContext({
-  width: '100%',
-  height: '100%',
-  current: null,
-});
+const SwiperContext = createContext<number | null>(null);
 
 /**
  * @function useSwiper
@@ -27,6 +25,14 @@ export const useSwiper = () => {
   return useContext(SwiperContext);
 };
 
+export const useSwiperRef = () => {
+  return useRef<{
+    to: (index: number) => void;
+    next: () => void;
+    prev: () => void;
+  }>(null);
+};
+
 type SwiperProps = {
   ref?: React.RefObject<unknown>;
   /**
@@ -34,7 +40,7 @@ type SwiperProps = {
   */
   allowTouchMove?: boolean;
   /**
-   * 是否允许切换
+   * 自动播放
   */
   autoplay?: boolean;
   /**
@@ -80,14 +86,14 @@ type SwiperProps = {
   /**
    * 宽度
   */
-  width?: ViewStyle['width'];
+  width?: number;
   /**
    * 高度
   */
-  height?: ViewStyle['height'];
+  height?: number;
 }
 
-export default function Swiper(props: SwiperProps) {
+export default function Swiper({ ref, ...props }: SwiperProps) {
 
   const {
     allowTouchMove = true,
@@ -99,128 +105,150 @@ export default function Swiper(props: SwiperProps) {
     onChange,
     style,
     children,
-    width = '100%',
+    width = 100,
     height = 120,
     ...rest
   } = props ?? {};
 
-
-  const [value, setValue] = useControllableValue<SwiperProps['value']>({
+  const horizontal = direction === 'horizontal';
+  const count = Children.count(children) + 2;
+  const [value, setValue] = useControllableValue<Required<SwiperProps>['value']>({
     defaultValue: props?.defaultValue,
     value: props?.value,
     onChange,
   });
+
   const current = useSharedValue(1);
-  const translateX = useSharedValue(-width);
+  const interval = useRef(null);
+  const timeout = useRef(null);
+  const translate = useSharedValue(
+    horizontal ? -width : -height
+  );
+  useImperativeHandle(ref, () => {
+    return {
+      next: () => {
+        current.value += 1;
+        setValue(value + 1);
+      },
+      prev: () => {
+        current.value -= 1;
+        setValue(value - 1);
+      },
+      to: (index: number) => {
+        current.value = index;
+        setValue(index);
+      },
+    };
+  });
 
-  // useImperativeHandle(ref, () => {
-  //   return {
-  //     next: () => {
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{
+        [
+          horizontal ?
+            'translateX'
+            : 'translateY'
+        ]: translate.value,
+      }],
+    };
+  });
 
-  //     },
-  //     prev: () => {
+  const onAutoplay = useCallback(() => {
+    if (autoplay) {
+      interval.current = setInterval(() => {
+        current.value++;
+        runOnJS(setValue)(current.value);
+        translate.value = withTiming(-current.value * (horizontal ? width : height), {
+          duration: 1000,
+        }, () => {
+          /**
+           * 值会滞前所以减一
+           */
+          if (current.value - 1 === count - 1) {
+            current.value = 1;
+            translate.value = -(horizontal ? width : height);
+          }
+        });
+        if (!loop) {
+          clearInterval(interval.current!);
+        }
+      }, autoplayInterval);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loop, autoplayInterval, autoplay]);
 
-  //     },
-  //     to: (index: number) => {
-  //       int.onChange(index);
-  //     },
-  //   };
-  // });
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-      // flatListRef.current?.scrollToIndex({ index: currentIndex, animated: true });
-    }, 3000); // 每 3 秒切换
-    return () => clearInterval(interval);
-  }, []);
-  // const onLoop = useCallback(() => {
-  //   if (time.current) {
-  //     clearInterval(time.current);
-  //   }
-  //   time.current = setInterval(() => {
-  //     if (count.current === Children.count(children)) {
-  //       setValue(0);
-  //       count.current = 0;
-  //       animated.current.resetAnimation();
-  //     } else {
-  //       setValue((value) => {
-  //         count.current++;
-  //         Animated.timing(animated.current, {
-  //           toValue: ++value,
-  //           duration: autoplayInterval,
-  //           useNativeDriver: true,
-  //         }).start();
-  //         return value;
-  //       });
-  //     }
-  //   }, autoplayInterval);
-  //   console.log(time.current, 'current');
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [loop]);
+  const clearTimer = () => {
+    if (autoplay) {
+      if (interval.current) {
+        clearInterval(interval.current);
+        interval.current = null;
+      }
+    }
+  };
 
   /**
    * 长按停止轮播
   */
+  useEffect(() => {
+    onAutoplay();
+    return clearTimer;
+  }, [onAutoplay]);
 
-  // useEffect(() => {
-  //   onLoop();
-  //   return () => {
-  //     clearInterval(time.current);
-  //   };
-  // }, [onLoop]);
-  const updateIndex = (index: number) => {
-    current.value = index; // ✅ 变更索引
-    translateX.value = -index * width; // ✅ 瞬间跳转
+  const setTimer = () => {
+    clearTimeout(timeout.current!);
+    timeout.current = setTimeout(() => {
+      onAutoplay?.();
+    }, 1000);
   };
 
-  const transform = {
-    horizontal: () => {
-      const count = Children.count(children) + 2;
-      return {
-        gesture: Gesture.Pan().onUpdate((event) => {
-          translateX.value = -current.value * width + event.translationX; // ✅ 滑动时实时更新位置
-        }).onEnd((event) => {
-          if (event.translationX > 50 && current.value > 0) {
-            current.value -= 1; // 左滑
-          } else if (event.translationX < -50 && current.value < count - 1) {
-            current.value += 1;
+  const transform = (
+    translation: 'translationX' | 'translationY',
+    dimension: number
+  ) => {
+    if (!allowTouchMove) {
+      return Gesture.Pan();
+    }
+    return Gesture.Simultaneous(
+      Gesture.LongPress().onStart(() => {
+        runOnJS(clearTimer)();
+      }),
+      Gesture.Pan().onStart(() => {
+        runOnJS(clearTimer)();
+      }).onUpdate((event) => {
+        translate.value = -current.value * dimension + event[translation]; // ✅ 滑动时实时更新位置
+      }).onEnd((event) => {
+        if (event[translation] > 50 && current.value > 0) {
+          current.value -= 1; // 左滑
+        } else if (event[translation] < -50 && current.value < count - 1) {
+          current.value += 1;
+        }
+        runOnJS(setValue)(
+          current.value,
+        );
+        translate.value = withTiming(-current.value * dimension, {
+          duration: 500,
+        }, () => {
+          if (current.value === count - 1) {
+            current.value = 1;
+            translate.value = -dimension;
+            return;
           }
-          runOnJS(setValue)(
-            current.value,
-          );
-          translateX.value = withTiming(-current.value * width, {
-            duration: 500,
-          }, () => {
-            if (current.value === count - 1) {
-              console.log("动画结束，执行回调函数！");
-              current.value = 1;
-              translateX.value = -width;
-            }
-          }); // ✅ 平滑切换
-        }),
-      };
-    },
-    vertical: () => {
-      const count = Children.count(children) + 1;
-      return {
-        style: {
-          translateY: animated.current.interpolate({
-            inputRange:
-              [...Array.from({ length: count }).map(
-                (...[, index]) => index
-              )],
-            outputRange: [
+          if (current.value === 0) {
+            current.value = count - 2;
+            translate.value = -current.value * dimension;
+            return;
+          }
+          if (!interval.current) {
+            // runOnJS(setTimer)();
+          }
+        }); // ✅ 平滑切换
+      })
+    );
+  };
 
-            ],
-          }),
-        },
-      };
-    },
+  const gesture = {
+    horizontal: transform('translationX', width),
+    vertical: transform('translationY', height),
   };
 
   const styles = StyleSheet.create<{
@@ -238,7 +266,7 @@ export default function Swiper(props: SwiperProps) {
       width,
       height,
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: horizontal ? 'row' : 'column',
       // transform: [
       //   transform[direction]?.().style,
       // ],
@@ -246,42 +274,30 @@ export default function Swiper(props: SwiperProps) {
     },
     indicators: {
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: horizontal ? 'row' : 'column',
       justifyContent: 'center',
       position: 'absolute',
       gap: 5,
-      width: '100%',
-      bottom: 10,
+      width: horizontal ? '100%' : 'auto',
+      height: horizontal ? 'auto' : '100%',
+      bottom: horizontal ? 10 : '-10%',
+      right: horizontal ? 'auto' : 10,
     },
   });
 
 
   return (
-    <SwiperContext.Provider value={{
-      width,
-      height,
-      curent: value,
-    }}>
+    <SwiperContext.Provider value={value}>
       <View style={styles.main}>
         <GestureHandlerRootView>
-          <GestureDetector gesture={transform[direction]?.().gesture}>
+          <GestureDetector gesture={gesture[direction]}>
             <Animated.View style={[
               styles.content,
               animatedStyle,
             ]}>
               {Children.toArray(children)?.at(-1)}
-              {
-                children && Children.map(children as React.ReactElement<SwiperItemProps>, (children) => {
-                  return (
-                    cloneElement(children, {
-                      // ...children?.porps,
-                    })
-                  );
-                })
-              }
-              {
-                Children.toArray(children)?.at(0)
-              }
+              {children}
+              {Children.toArray(children)?.at(0)}
             </Animated.View>
           </GestureDetector>
         </GestureHandlerRootView>
@@ -293,11 +309,11 @@ export default function Swiper(props: SwiperProps) {
                   length: Children.count(children),
                 })?.map((...[, index]) => {
                   const total = Children.count(children) + 2;
-                  const content = (value - 1) === index || index === 0 && total - 1 === value;
+                  const content = (value - 1) === index || (index === 0 && total - 1 === value) || (index === total - 3 && value === 0);
                   return (
                     <Animated.View key={index} style={{
-                      width: content ? 15 : 4,
-                      height: 4,
+                      width: horizontal ? content ? 15 : 4 : 4,
+                      height: horizontal ? 4 : content ? 15 : 4,
                       backgroundColor: content ? 'blue' : '#CCC',
                     }} />
                   );

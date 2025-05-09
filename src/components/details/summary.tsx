@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useConfiguration } from '../configuration';
 import { content } from '../../utils';
@@ -57,6 +58,7 @@ export default function Summary(props: SummaryProps) {
   // 折叠动画
   const height = useSharedValue(0);
   const arrow = useSharedValue('0deg');
+  const border = useSharedValue(0);
   // const arrow = useRef(new Animated.Value(0));
 
   const styles = StyleSheet.create({
@@ -83,21 +85,18 @@ export default function Summary(props: SummaryProps) {
     },
     content: {
       height: 'auto',
-      ...(current?.includes?.(value) ? {
-        borderStyle: details.border.type,
-        borderBottomWidth: 1,
-        borderBottomColor: details.border.color,
-      } : {}),
     },
   });
 
   useEffect(() => {
     if (current) {
-      if (current.includes(value)) {
+      if (current?.includes?.(value)) {
         height.value = 1000;
+        border.value = 1;
         arrow.value = '180deg';
       } else {
         height.value = 0;
+        border.value = 0;
         arrow.value = '0deg';
       }
     }
@@ -109,6 +108,13 @@ export default function Summary(props: SummaryProps) {
     maxHeight: withTiming(height.value, {
       duration: 500,
     }),
+  }));
+
+
+  const borderStyle = useAnimatedStyle(() => ({
+    borderStyle: details.border.type,
+    borderBottomWidth: withTiming(border.value, { duration: 1000 }),
+    borderBottomColor: details.border.color,
   }));
 
   const arrowStyle = useAnimatedStyle(() => ({
@@ -129,7 +135,7 @@ export default function Summary(props: SummaryProps) {
           }
         </Animated.View>
       </Pressable>
-      <Animated.View style={[heightStyle, styles.content]}>
+      <Animated.View style={[heightStyle, borderStyle, styles.content]}>
         <View style={{ paddingVertical: 12 }}>
           {content(children)}
         </View>

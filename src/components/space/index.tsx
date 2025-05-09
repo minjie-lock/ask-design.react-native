@@ -1,4 +1,4 @@
-import { View, ViewStyle } from "react-native";
+import { View, ViewStyle } from 'react-native';
 
 type SpaceProps = {
   /**
@@ -6,7 +6,7 @@ type SpaceProps = {
   */
   align?: ViewStyle['alignItems'];
   /**
-   * 
+   * 子级
   */
   children?: React.ReactNode;
   /**
@@ -23,9 +23,15 @@ type SpaceProps = {
   gap?: number;
 }
 
+/**
+ * @function Space
+ * @description 弹性布局
+ * @param props
+ * @returns
+ */
 export default function Space(props: SpaceProps){
 
-  const { 
+  const {
     align = 'flex-start',
     justif = 'flex-start',
     children,
@@ -34,6 +40,7 @@ export default function Space(props: SpaceProps){
 
   return (
     <View
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         display: 'flex',
         alignItems: align,
@@ -43,5 +50,5 @@ export default function Space(props: SpaceProps){
     >
       {children}
     </View>
-  )
+  );
 }

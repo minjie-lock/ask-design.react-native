@@ -6,3 +6,4 @@ export { default as Card } from './card';
 export { default as SafeArea } from './safe-area';
 export { default as Swiper } from './swiper';
 export { default as Details } from './details';
+export { default as Watermark } from './watermark';
