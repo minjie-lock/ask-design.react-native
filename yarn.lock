@@ -6114,6 +6114,18 @@ react-native-reanimated@^3.17.5:
     invariant "^2.2.4"
     react-native-is-edge-to-edge "1.1.7"
 
+react-native-root-siblings@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.npmmirror.com/react-native-root-siblings/-/react-native-root-siblings-5.0.1.tgz#97e050e5155228f65810fb1c466ff8e769c5272c"
+  integrity sha512-Ay3k/fBj6ReUkWX5WNS+oEAcgPLEGOK8n7K/L7D85mf3xvd8rm/b4spsv26E4HlFzluVx5HKbxEt9cl0wQ1u3g==
+
+react-native-root-toast@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npmmirror.com/react-native-root-toast/-/react-native-root-toast-4.0.1.tgz#ee367d0af7af832c1a3dd618e6a38551b5564d10"
+  integrity sha512-Zpz+EMKfcCAO/+KuarPeJ/BkmMrXYWRPyTeBhvUondykqUOkQqQO8DEbxqwoUv+ax7MbS3cDJW94L4qTbOFtBw==
+  dependencies:
+    react-native-root-siblings "^5.0.0"
+
 react-native@0.79.1:
   version "0.79.1"
   resolved "https://registry.npmmirror.com/react-native/-/react-native-0.79.1.tgz#e25dd74c08bfde0862079cbeb64642c5dfbbb454"

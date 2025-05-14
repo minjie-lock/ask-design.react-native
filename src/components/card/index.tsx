@@ -1,13 +1,33 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import SeparationLine from '../separation-line';
 import { Fragment } from 'react';
 import { content } from '../../utils';
 import { useConfiguration } from '../configuration';
 
 type CardProps = {
+  /**
+   * 标题
+   */
   title?: React.ReactNode;
+  /**
+   * 内容
+   */
   children?: React.ReactNode;
+  /**
+   * 底部
+   */
   footer?: React.ReactNode;
+  /**
+   * 样式
+  */
+  style?: ViewStyle;
+  /**
+   * 多个样式
+  */
+  styles?: {
+    title?: ViewStyle;
+    body?: ViewStyle;
+  };
 }
 
 /**
@@ -20,6 +40,8 @@ export default function Card(props: CardProps) {
     title,
     children,
     footer,
+    style,
+    styles: stylesBase,
   } = props;
 
   const card = useConfiguration(
@@ -30,16 +52,19 @@ export default function Card(props: CardProps) {
     main: {
       borderRadius: card.round,
       backgroundColor: card.background,
-      padding: 12,
+      ...style,
+      paddingVertical: 12,
     },
     header: {
-
+      paddingHorizontal: 12,
+      ...stylesBase?.title,
     },
     content: {
-
+      paddingHorizontal: 12,
+      ...stylesBase?.body,
     },
     footer: {
-
+      paddingHorizontal: 12,
     },
     line: {
       marginVertical: 12,

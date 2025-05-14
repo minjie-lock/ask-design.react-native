@@ -41,6 +41,18 @@ export type ConfigurationProps = {
           color: string;
         }
       };
+      List: {
+        header: {
+          background: string;
+          color: string;
+        },
+      };
+    };
+    hooks: {
+      toast: {
+        background: string;
+        color: string;
+      };
     }
   }
 }

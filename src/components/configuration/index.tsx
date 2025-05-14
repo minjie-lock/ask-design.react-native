@@ -7,6 +7,7 @@ type State = Required<Omit<ConfigurationProps, 'children'>>;
 const Arrangement = createContext<State>({
   scheme: {
     components: light?.components,
+    hooks: light.hooks,
   },
 });
 

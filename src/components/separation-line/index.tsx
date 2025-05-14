@@ -49,42 +49,45 @@ export default function SeparationLine(props: SeparationLine) {
   });
 
   if (children && direction === 'horizontal') {
-    const main: ViewStyle = {
-      width: '100%',
-      height: 'auto',
-      marginVertical: 32,
-      display: 'flex',
-      justifyContent:'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-    };
-    const text: ViewStyle = {
-      marginHorizontal: 10,
-    };
-    const solid: ViewStyle = {
-      flex: 1,
-      height: 1,
-      borderStyle: 'solid',
-      backgroundColor: separatio.background,
-    };
+    const styles = StyleSheet.create({
+      main: {
+        width: '100%',
+        height: 'auto',
+        marginVertical: 32,
+        display: 'flex',
+        justifyContent:'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        ...style,
+      },
+      text: {
+        marginHorizontal: 10,
+      },
+      solid: {
+        height: 1,
+        borderStyle: 'solid',
+        backgroundColor: separatio.background,
+      },
+      content: {
+        color: separatio.color,
+      },
+    });
 
     return (
-      <View style={main}>
+      <View style={styles.main}>
         <View style={{
-          ...solid,
+          ...styles.solid,
           flex: {
             left: 1,
             center: 1,
             right: 3,
           }[position],
         }} />
-        <View style={text}>
-          <Text style={{
-            color: separatio.color,
-          }}>{children}</Text>
+        <View style={styles.text}>
+          <Text style={styles.content}>{children}</Text>
         </View>
         <View style={{
-          ...solid,
+          ...styles.solid,
           flex: {
             left: 3,
             right: 1,

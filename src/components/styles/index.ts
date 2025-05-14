@@ -51,6 +51,18 @@ export const light: Color = {
         color: GRAY.nine,
       },
     },
+    List: {
+      header: {
+        background: 'transparent',
+        color: GRAY.five,
+      },
+    },
+  },
+  hooks: {
+    toast: {
+      background: '#000000',
+      color: '#FFFFFF',
+    },
   },
 };
 

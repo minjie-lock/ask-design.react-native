@@ -21,6 +21,26 @@ const colors = {
     color: '#595959',
     border: '#d9d9d9',
   },
+  success: {
+    background: '#f6ffed',
+    color: '#52c41a',
+    border: '#e6f7ff',
+  },
+  processing: {
+    background: '#fffbe6',
+    color: '#faad14',
+    border: '#fffbe6',
+  },
+  error: {
+    background: '#fff2f0',
+    color: '#f5222d',
+    border: '#fff2f0',
+  },
+  warning: {
+    background: '#fffbe6',
+    color: '#faad14',
+    border: '#fffbe6',
+  },
   magenta: {
     background: '#fff0f6',
     color: '#c41d7f',
@@ -82,7 +102,7 @@ export default function Tag(props: TagProps) {
 
   const {
     children,
-    bordered = false,
+    bordered = true,
     color = 'default',
   } = props;
 
