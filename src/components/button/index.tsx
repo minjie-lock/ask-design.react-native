@@ -71,6 +71,15 @@ const sizes = {
   large: 18,
 };
 
+
+
+/**
+ * @function Button
+ * @description 按钮
+ * @author Lock
+ * @param props
+ * @returns
+ */
 export default function Button(props: ButtonProps) {
 
   const {

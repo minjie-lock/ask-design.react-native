@@ -3,7 +3,7 @@ import { useControllableValue } from '../../hooks';
 import { GestureResponderEvent, StyleSheet, View } from 'react-native';
 import Summary, { SummaryProps } from './summary';
 import { useConfiguration } from '../configuration';
-import React, { Children, cloneElement, createContext } from 'react';
+import React, { Children, cloneElement, createContext, JSX } from 'react';
 
 export const DetailsContext = createContext<{ current: (string | number)[] | void }>({
   current: [],
@@ -34,6 +34,8 @@ type DetailsProps<T extends boolean> = {
 /**
  * @function Details
  * @description 折叠面板
+ * @author Lock
+ * @returns {JSX.Element}
 */
 export default function Details<T extends boolean>(props: DetailsProps<T>) {
 

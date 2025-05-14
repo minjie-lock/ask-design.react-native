@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 type TagProps = {
@@ -98,6 +99,13 @@ const colors = {
   },
 } as const;
 
+/**
+ * @function Tag
+ * @description 标签
+ * @author Lock
+ * @param props
+ * @returns {JSX.Element}
+ */
 export default function Tag(props: TagProps) {
 
   const {

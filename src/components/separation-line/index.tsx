@@ -23,6 +23,8 @@ type SeparationLine = {
 /**
  * @function SeparationLine
  * @description 分割线
+ * @author Lock
+ * @returns {JSX.Element}
 */
 export default function SeparationLine(props: SeparationLine) {
 

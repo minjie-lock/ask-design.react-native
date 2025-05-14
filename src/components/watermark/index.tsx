@@ -15,6 +15,13 @@ interface WatermarkProps {
   children: React.ReactNode;
 }
 
+/**
+ * @function Watermark
+ * @description 水印
+ * @author Lock
+ * @param props
+ * @returns
+ */
 const WaterMark = (props: WatermarkProps) => {
   const {
     content = 'Watermark',

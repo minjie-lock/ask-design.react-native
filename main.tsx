@@ -11,7 +11,7 @@ export default function Root() {
     'Australian walks 100km after outback crash.',
     'Man charged over missing wedding girl.',
     'Los Angeles battles huge wildfires.',
-  ]
+  ];
 
   return (
     <Configuration>

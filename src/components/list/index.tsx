@@ -26,6 +26,13 @@ type ListProps<T> = {
   virtualized?: boolean;
 }
 
+/**
+ * @function List
+ * @description 列表
+ * @author Lock
+ * @param props
+ * @returns
+ */
 export default function List<T>(props: ListProps<T>) {
 
   const {

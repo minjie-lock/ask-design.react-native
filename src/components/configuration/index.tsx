@@ -15,6 +15,7 @@ const Arrangement = createContext<State>({
 /**
  * @function Configuration
  * @description 全局配置组件
+ * @author Lock
  * @param props;
  * @returns;
  */

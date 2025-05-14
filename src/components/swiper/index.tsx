@@ -4,6 +4,7 @@ import Item from './item';
 import {
   Children,
   createContext,
+  JSX,
   useCallback,
   useContext,
   useEffect,
@@ -92,6 +93,14 @@ type SwiperProps = {
   */
   height?: number;
 }
+
+/**
+ * @function Swiper
+ * @description 轮播
+ * @author Lock
+ * @param props;
+ * @returns {JSX.Element}
+ */
 
 export default function Swiper({ ref, ...props }: SwiperProps) {
 
