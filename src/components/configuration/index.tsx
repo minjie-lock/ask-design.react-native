@@ -1,13 +1,25 @@
-import { createContext, useContext } from 'react';
+import { createContext, Fragment, useContext, useRef } from 'react';
 import type { ConfigurationProps } from './types';
 import { light } from '../styles';
+import Toast, { ToastRef } from '../toast';
 
 type State = Required<Omit<ConfigurationProps, 'children'>>;
 
 const Arrangement = createContext<State>({
   scheme: {
     components: light?.components,
-    hooks: light.hooks,
+  },
+  hooks: {
+    toast: {
+      current: {
+        show: () => {
+
+        },
+        hide: () => {
+
+        },
+      },
+    },
   },
 });
 
@@ -28,6 +40,8 @@ export default function Configuration(
     ...rest
   } = props;
 
+  const toast = useRef<ToastRef>({});
+
   const value: State = {
     scheme: {
       components: {
@@ -35,13 +49,19 @@ export default function Configuration(
         ...rest,
       },
     },
+    hooks: {
+      toast,
+    },
     ...rest,
   };
 
   return (
-    <Arrangement.Provider value={value}>
-      {children}
-    </Arrangement.Provider>
+    <Fragment>
+      <Arrangement.Provider value={value}>
+        {children}
+      </Arrangement.Provider>
+      <Toast ref={toast} />
+    </Fragment>
   );
 }
 
@@ -49,7 +69,7 @@ export default function Configuration(
 type Fn<F extends Fn<F>> = (configuration: State) => ReturnType<F>;
 
 export function useConfiguration<F extends Fn<F>>(fn?: F):
-F extends Function ? ReturnType<F> : State {
+  F extends Function ? ReturnType<F> : State {
   const configuration = useContext(Arrangement);
   if (typeof fn === 'function') {
     return fn(configuration);

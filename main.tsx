@@ -1,5 +1,31 @@
 import { Dimensions, ScrollView } from 'react-native';
 import { Button, Card, Configuration, Details, List, SeparationLine, Space, Swiper, Tag, Watermark } from './src/components';
+import useToast from './src/hooks/toast';
+
+const Content = () => {
+
+  const toast = useToast();
+
+  return (
+    <Card title="标题" footer={
+      <Space gap={10}>
+        <Button onPress={() => {
+          toast.show({
+            content: '提示内容',
+            icon: 'success',
+          });
+        }}>Show</Button>
+        <Button color="danger" onPress={() => {
+          toast.hide();
+        }}>
+          Hide
+        </Button>
+      </Space>
+    }>
+      内容
+    </Card>
+  )
+}
 
 export default function Root() {
 
@@ -42,14 +68,7 @@ export default function Root() {
           </Space>
         </Card>
         <SeparationLine />
-        <Card title="标题" footer={
-          <Button onPress={() => {
-            console.log(1);
-
-          }}>按钮</Button>
-        }>
-          内容
-        </Card>
+        <Content />
         <SeparationLine />
         <Details onChange={(value) => {
           console.log(value);
@@ -104,7 +123,7 @@ export default function Root() {
           </Swiper.Item>
         </Swiper>
         <SeparationLine />
-        <List
+        {/* <List
           header="列表"
           dataSource={dataSource}
           render={(item) => {
@@ -114,7 +133,7 @@ export default function Root() {
               </List.Item>
             );
           }}
-        />
+        /> */}
       </ScrollView>
       {/* </Watermark> */}
     </Configuration>

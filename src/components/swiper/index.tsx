@@ -4,7 +4,6 @@ import Item from './item';
 import {
   Children,
   createContext,
-  JSX,
   useCallback,
   useContext,
   useEffect,

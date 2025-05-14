@@ -1,4 +1,5 @@
-import { ViewStyle } from "react-native";
+import type { ViewStyle } from 'react-native';
+import type { ToastRef } from '../toast';
 
 
 type ButtonColor = {
@@ -48,11 +49,8 @@ export type ConfigurationProps = {
         },
       };
     };
-    hooks: {
-      toast: {
-        background: string;
-        color: string;
-      };
-    }
+  };
+  hooks?: {
+    toast: React.RefObject<ToastRef>;
   }
 }
