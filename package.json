@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@ant-design/icons-react-native": "^2.3.2",
-    "ask-hooks": "^1.0.2",
     "react": "19.0.0",
     "react-native": "0.79.1",
     "react-native-gesture-handler": "^2.25.0",

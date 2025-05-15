@@ -5,6 +5,7 @@ import { content } from '../../utils';
 import { useContext, useEffect } from 'react';
 import { DetailsContext } from '.';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Icon from '../icon';
 
 export type SummaryProps = {
   /**
@@ -129,9 +130,9 @@ export default function Summary(props: SummaryProps) {
         <Text style={styles.title}>{title}</Text>
         <Animated.View style={[arrowStyle]}>
           {
-            typeof arrowIcon === 'function' ?
+            arrowIcon ? typeof arrowIcon === 'function' ?
               content(arrowIcon?.(current?.includes?.(value) ?? false)) :
-              arrowIcon
+              arrowIcon : <Icon name="down" size={20} />
           }
         </Animated.View>
       </Pressable>

@@ -48,9 +48,15 @@ export type ConfigurationProps = {
           color: string;
         },
       };
+      Dialog: {
+        background: string;
+        color: string;
+        round: number;
+      }
     };
   };
   hooks?: {
-    toast: React.RefObject<ToastRef>;
+    toast?: React.RefObject<ToastRef>;
+    dialog?: React.RefObject<DialogRef>;
   }
 }

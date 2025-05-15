@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useConfiguration } from '../../components/configuration';
-import { ToastRef } from '../../components/toast';
+import { useConfiguration } from '../configuration';
+import { ToastRef } from '.';
 
 
 /**
@@ -12,13 +12,13 @@ import { ToastRef } from '../../components/toast';
 export default function useToast() {
 
   const toast = useConfiguration(
-    configuration => configuration.hooks.toast
+    configuration => configuration?.hooks?.toast
   );
 
   const on = {};
 
   useEffect(() => {
-    Object.assign(on, toast.current);
+    Object.assign(on, toast?.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

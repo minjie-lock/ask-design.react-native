@@ -1,25 +1,17 @@
-import { createContext, Fragment, useContext, useRef } from 'react';
+import { createContext, useContext, useRef } from 'react';
 import type { ConfigurationProps } from './types';
 import { light } from '../styles';
 import Toast, { ToastRef } from '../toast';
+import Dialog, { DialogRef } from '../dialog';
 
-type State = Required<Omit<ConfigurationProps, 'children'>>;
+type State = Required<Omit<ConfigurationProps, 'children' | 'hooks'>> &
+{
+  hooks?: ConfigurationProps['hooks']
+};
 
 const Arrangement = createContext<State>({
   scheme: {
     components: light?.components,
-  },
-  hooks: {
-    toast: {
-      current: {
-        show: () => {
-
-        },
-        hide: () => {
-
-        },
-      },
-    },
   },
 });
 
@@ -41,6 +33,7 @@ export default function Configuration(
   } = props;
 
   const toast = useRef<ToastRef>({});
+  const dialog = useRef<DialogRef>({});
 
   const value: State = {
     scheme: {
@@ -51,17 +44,17 @@ export default function Configuration(
     },
     hooks: {
       toast,
+      dialog,
     },
     ...rest,
   };
 
   return (
-    <Fragment>
-      <Arrangement.Provider value={value}>
-        {children}
-      </Arrangement.Provider>
+    <Arrangement.Provider value={value}>
+      {children}
       <Toast ref={toast} />
-    </Fragment>
+      <Dialog ref={dialog} />
+    </Arrangement.Provider>
   );
 }
 

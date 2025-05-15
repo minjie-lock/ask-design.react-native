@@ -25,6 +25,10 @@ type SpaceProps = {
    * 允许换行
    */
   wrap?: boolean;
+  /**
+   * 填充
+  */
+  flex?: number;
 }
 
 /**
@@ -42,6 +46,7 @@ export default function Space(props: SpaceProps){
     vertical = false,
     children,
     wrap = false,
+    flex,
     gap,
   } = props;
 
@@ -54,6 +59,7 @@ export default function Space(props: SpaceProps){
         justifyContent: justif,
         flexWrap: wrap ? 'wrap' : 'nowrap',
         flexDirection: vertical ? 'column' : 'row',
+        flex,
         gap,
       }}
     >

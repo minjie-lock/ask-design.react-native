@@ -12,7 +12,7 @@ type Color = Required<Omit<ConfigurationProps, 'children'>>['scheme']
 export const light: Color = {
   components: {
     Button: {
-      round: 6,
+      round: gloabl.round,
       color: {
         primary: {
           default: NAVY_BLUE.five,
@@ -27,8 +27,8 @@ export const light: Color = {
           obvious: GRAY.nine,
         },
         danger: {
-          default : RED.four,
-          obvious: RED.five,
+          default : RED.five,
+          obvious: RED.four,
         },
         warning: {
           default: GOLD.five,
@@ -41,7 +41,7 @@ export const light: Color = {
       color: GRAY.one,
     },
     Card: {
-      round: 6,
+      round: gloabl.round,
       background: '#FFFFFF',
     },
     Details: {
@@ -57,11 +57,10 @@ export const light: Color = {
         color: GRAY.five,
       },
     },
-  },
-  hooks: {
-    toast: {
-      background: '#000000',
-      color: '#FFFFFF',
+    Dialog: {
+      background: '#FFFFFF',
+      color: '#000000',
+      round: gloabl.round,
     },
   },
 };

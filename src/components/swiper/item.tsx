@@ -36,5 +36,6 @@ export default function Item(props: SwiperItemProps) {
       {content(children)}
     </View>
   );
-};
+}
+
 

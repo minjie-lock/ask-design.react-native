@@ -2,7 +2,6 @@
 import {
   GestureResponderEvent,
   ButtonProps as NButtonProps,
-  View,
   ViewStyle,
   TouchableHighlight,
   TextStyle,
@@ -10,7 +9,7 @@ import {
 import { useConfiguration } from '../configuration';
 import { content } from '../../utils';
 
-type ButtonProps = {
+export type ButtonProps = {
   /**
    * 是否块级元素
   */
@@ -26,7 +25,7 @@ type ButtonProps = {
   /**
    * 填充模式
   */
-  fill?: 'solid' | 'outline' | 'none';
+  fill?: 'solid' | 'outline' | 'none' | 'text';
   /**
    * 是否处于加载状态，'auto' 模式会监听 onClick 的 Promise 状态自动更新 loading
   */
@@ -121,6 +120,9 @@ export default function Button(props: ButtonProps) {
       borderWidth: 1,
       borderColor: button?.color[color]?.default,
     },
+    text: {
+      color: button?.color[color]?.default,
+    },
   };
 
   const style: ViewStyle = {
@@ -148,6 +150,9 @@ export default function Button(props: ButtonProps) {
     outline: {
       color: '',
     },
+    text: {
+      color: 'transparent',
+    },
   };
 
   const text: TextStyle = {
@@ -164,11 +169,7 @@ export default function Button(props: ButtonProps) {
       style={style}
       underlayColor={obvious[fill].color}
     >
-      <View>
-        {
-          content(children, text)
-        }
-      </View>
+      {content(children, text)}
     </TouchableHighlight>
   );
 }

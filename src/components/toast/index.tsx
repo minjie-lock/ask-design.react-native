@@ -1,6 +1,15 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { StyleSheet, Text, View } from 'react-native';
-import { useImperativeHandle, useState } from 'react';
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
+import { useEffect, useImperativeHandle, useState } from 'react';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+import Icon from '../icon';
 
 export type ToastOptions = {
   onClose?: () => void;
@@ -37,29 +46,45 @@ type ToastProps = {
   ref: React.RefObject<ToastRef>;
 }
 
+/**
+ * @function Toast
+ * @description 提示
+ * @author Lock
+ * @param props
+ * @returns
+ */
 export default function Toast({ ref }: ToastProps) {
 
   const [options, setOptions] = useState<ToastOptions>({
     position: 'center',
   });
   const shared = useSharedValue(0);
+  const loading = useSharedValue(0);
 
   const styles = StyleSheet.create({
     container: {
       position: 'relative',
       top: '-50%',
-      left: '25%',
+      left: '30%',
     },
     background: {
-      width: '50%',
+      maxWidth: '40%',
       height: 'auto',
       backgroundColor: 'rgba(0, 0, 0, 0.8)',
-      padding: 17,
+      paddingVertical: 30,
       borderRadius: 5,
     },
     content: {
       color: 'white',
       textAlign: 'center',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    icon: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 20,
     },
   });
 
@@ -71,10 +96,13 @@ export default function Toast({ ref }: ToastProps) {
           duration: 500,
         },
         () => {
-          shared.value = withDelay(
-            options.duration ?? 2000,
-            withTiming(0, {duration: 500})
-          );
+          if (options.duration) {
+            shared.value = withDelay(
+              options.duration ?? 2000,
+              withTiming(0, { duration: 500 })
+            );
+            cancelAnimation(loading);
+          }
         }
       );
     },
@@ -95,9 +123,45 @@ export default function Toast({ ref }: ToastProps) {
     };
   });
 
+  const loadingStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotate: `${loading.value}deg` }],
+    };
+  });
+
+  useEffect(() => {
+    if (options.icon === 'loading') {
+      loading.value = withRepeat(
+        withTiming(-360, { duration: 1000 }),
+        -1, // 无限循环
+      );
+    }
+    return () => {
+      // cancelAnimation?.(loading);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options?.icon]);
+
+  const icon = {
+    'success': <Icon name="check" size={40} color="white" />,
+    'fail': <Icon name="close" size={40} color="white" />,
+    'loading': (
+      <Animated.View style={[loadingStyle]}>
+        <Icon name="loading-3-quarters" size={40} color="white" />
+      </Animated.View>
+    ),
+  };
+
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.background, opacityStyle]}>
+        <View style={styles.icon}>
+          {
+            typeof options?.icon === 'string' ?
+              icon?.[options.icon as keyof typeof icon] :
+              options?.icon
+          }
+        </View>
         <Text style={styles.content}>
           {options?.content}
         </Text>

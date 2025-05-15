@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+
 import { StyleSheet, Text, View } from 'react-native';
 
 type TagProps = {
@@ -9,7 +9,7 @@ type TagProps = {
   /**
    * 颜色
   */
-  color?: keyof typeof colors;
+  color?: keyof typeof colors | string;
   /**
    * 边框
    */
@@ -25,22 +25,22 @@ const colors = {
   success: {
     background: '#f6ffed',
     color: '#52c41a',
-    border: '#e6f7ff',
+    border: '#b7eb8f',
   },
   processing: {
-    background: '#fffbe6',
-    color: '#faad14',
-    border: '#fffbe6',
+    background: '#e6f4ff',
+    color: '#1677ff',
+    border: '#91caff',
   },
   error: {
     background: '#fff2f0',
     color: '#f5222d',
-    border: '#fff2f0',
+    border: '#ffccc7',
   },
   warning: {
     background: '#fffbe6',
     color: '#faad14',
-    border: '#fffbe6',
+    border: '#ffe58f',
   },
   magenta: {
     background: '#fff0f6',
@@ -114,24 +114,27 @@ export default function Tag(props: TagProps) {
     color = 'default',
   } = props;
 
+  const scheme = colors?.[color as keyof typeof colors];
+
   const styles = StyleSheet.create({
     container: {
-      padding: 3,
+      paddingVertical: 3,
+      paddingHorizontal: 6,
       width: 'auto',
       height: 'auto',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      ...(bordered ? {
+      ...(bordered && scheme?.border ? {
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: colors?.[color].border,
+        borderColor: scheme?.border,
       } : {}),
       borderRadius: 5,
-      backgroundColor: colors?.[color].background,
+      backgroundColor: scheme?.background ?? color,
     },
     content: {
-      color: colors?.[color].color,
+      color: scheme?.color ?? 'white',
     },
   });
 
