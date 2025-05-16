@@ -32,8 +32,8 @@ export default function Configuration(
     ...rest
   } = props;
 
-  const toast = useRef<ToastRef>({});
-  const dialog = useRef<DialogRef>({});
+  const toast = useRef<ToastRef | {}>({});
+  const dialog = useRef<DialogRef | {}>({});
 
   const value: State = {
     scheme: {
@@ -52,8 +52,8 @@ export default function Configuration(
   return (
     <Arrangement.Provider value={value}>
       {children}
-      <Toast ref={toast} />
-      <Dialog ref={dialog} />
+      <Toast ref={toast as React.RefObject<ToastRef>} />
+      <Dialog ref={dialog as React.RefObject<DialogRef>} />
     </Arrangement.Provider>
   );
 }

@@ -169,7 +169,7 @@ export default function Dialog({ ref }: DialogProps) {
             <Animated.View style={[styles.content, containerStyle]}>
               <View style={styles.title}>
                 {
-                  content((options?.content as React.ReactNode) ?? '人在天上看', {
+                  content((options?.content as React.ReactNode) ?? '', {
                     fontSize: 15,
                   })
                 }
@@ -177,18 +177,18 @@ export default function Dialog({ ref }: DialogProps) {
               <SeparationLine style={styles.line} />
               {
                 options?.actions?.length &&
-                options?.actions?.map?.((item) => {
-                  return (
-                    <View key={item.key}>
-                      <Space align="center" justif="center" flex={1}>
-                        <Button {...item} fill="text" block>
-                          {item.text}
-                        </Button>
-                      </Space>
-                      <SeparationLine style={styles.line} />
-                    </View>
-                  );
-                })
+                  options?.actions?.map?.((item) => {
+                    return (
+                      <View key={item.key}>
+                        <Space align="center" justif="center" flex={1}>
+                          <Button {...item} fill="text" block>
+                            {item.text}
+                          </Button>
+                        </Space>
+                        <SeparationLine style={styles.line} />
+                      </View>
+                    );
+                  })
               }
               <ActionButton
                 type={type}

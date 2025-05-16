@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useEffect, useImperativeHandle, useState } from 'react';
 import Animated, {
   cancelAnimation,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -35,11 +36,11 @@ export type ToastRef = {
   /**
    * 显示提示
   */
-  show: (options: ToastOptions) => void;
+  show?: (options: ToastOptions) => void;
   /**
    * 隐藏提示
   */
-  hide: () => void;
+  hide?: () => void;
 }
 
 type ToastProps = {
@@ -58,12 +59,13 @@ export default function Toast({ ref }: ToastProps) {
   const [options, setOptions] = useState<ToastOptions>({
     position: 'center',
   });
+  const [open, setOpen] = useState(false);
   const shared = useSharedValue(0);
   const loading = useSharedValue(0);
 
   const styles = StyleSheet.create({
     container: {
-      position: 'relative',
+      position: 'absolute',
       top: '-50%',
       left: '30%',
     },
@@ -90,6 +92,7 @@ export default function Toast({ ref }: ToastProps) {
 
   useImperativeHandle(ref, () => ({
     show: (options: ToastOptions) => {
+      setOpen(true);
       setOptions(options);
       shared.value = withTiming(1,
         {
@@ -101,6 +104,7 @@ export default function Toast({ ref }: ToastProps) {
               options.duration ?? 2000,
               withTiming(0, { duration: 500 })
             );
+            runOnJS(setOpen)(false);
             cancelAnimation(loading);
           }
         }
@@ -111,6 +115,9 @@ export default function Toast({ ref }: ToastProps) {
         shared.value = withTiming(0,
           {
             duration: 500,
+          },
+          () => {
+            runOnJS(setOpen)(false);
           }
         );
       }
@@ -151,6 +158,10 @@ export default function Toast({ ref }: ToastProps) {
       </Animated.View>
     ),
   };
+
+  if (!open) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>

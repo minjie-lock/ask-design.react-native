@@ -22,5 +22,5 @@ export default function useToast() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return on as ToastRef;
+  return on as Required<ToastRef>;
 }

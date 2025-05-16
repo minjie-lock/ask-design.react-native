@@ -51,10 +51,10 @@ const sizes = {
  * @function Avatar
  * @description 头像
  * @author Lock
- * @param props
+ * @param {AvatarProps} props
  * @returns {React.ReactNode}
  */
-export default function Avatar<T extends string | void>(props: AvatarProps<T>) {
+export default function Avatar<T extends string | void>(props: AvatarProps<T>):  React.ReactNode {
 
   const {
     size = 'middle',
@@ -94,7 +94,7 @@ export default function Avatar<T extends string | void>(props: AvatarProps<T>) {
     },
     text: {
       color: 'white',
-      fontSize: 20,
+      fontSize: sizes[size] / 2,
       fontWeight: 'bold',
     },
   });

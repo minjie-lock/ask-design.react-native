@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 interface Options<T> {

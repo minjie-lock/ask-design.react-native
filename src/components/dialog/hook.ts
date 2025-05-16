@@ -22,5 +22,5 @@ export default function useDialog() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return on as DialogRef;
+  return on as Required<DialogRef>;
 }

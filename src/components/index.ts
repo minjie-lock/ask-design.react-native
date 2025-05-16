@@ -13,6 +13,7 @@ export { default as Icon } from './toast';
 export { default as Toast } from './toast';
 export { default as Dialog } from './dialog';
 export { default as Avatar } from './avatar';
+export { default as Ellipsis } from './ellipsis';
 
 
 export { default as useDialog } from './dialog/hook';
