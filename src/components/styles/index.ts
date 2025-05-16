@@ -62,6 +62,10 @@ export const light: Color = {
       color: '#000000',
       round: gloabl.round,
     },
+    Avatar: {
+      round: gloabl.round,
+      background: GRAY.nine,
+    },
   },
 };
 

@@ -12,5 +12,8 @@ export { default as List } from './list';
 export { default as Icon } from './toast';
 export { default as Toast } from './toast';
 export { default as Dialog } from './dialog';
+export { default as Avatar } from './avatar';
+
+
 export { default as useDialog } from './dialog/hook';
 export { default as useToast } from './toast/hook';

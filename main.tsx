@@ -1,5 +1,5 @@
 import { Dimensions, ScrollView } from 'react-native';
-import { Button, Card, Configuration, Details, SeparationLine, Space, Swiper, Tag } from './src/components';
+import { Avatar, Button, Card, Configuration, Details, SeparationLine, Space, Swiper, Tag } from './src/components';
 import { useToast,  useDialog } from './src/components';
 
 const Content = () => {
@@ -230,6 +230,18 @@ export default function Root() {
             );
           }}
         /> */}
+        <Card>
+          <Space gap={10}>
+          <Avatar
+            src="https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+          />
+          <Avatar
+          />
+          <Avatar>
+            鲒
+          </Avatar>
+          </Space>
+        </Card>
       </ScrollView>
       {/* </Watermark> */}
     </Configuration>
