@@ -34,5 +34,5 @@ export default function Start(){
 PLEASE READ THE CONTRIBUTING GUIDE BEFORE MAKING A PULL REQUEST.
 
 ## 许可
-MIT © [@ask-design](https://github.com/minjie.lock/ask-design.react-native)
+MIT © [@ask-design](https://github.com/minjie-lock/ask-design.react-native)
 
