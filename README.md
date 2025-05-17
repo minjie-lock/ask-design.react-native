@@ -28,11 +28,11 @@ export default function Start(){
 
 ## 声明
 
-本库基于的图标来源于 [@ant-design/icons-react-native](https://rn.mobile.ant.design/components/icon-cn/)
+本库图标来源于 [@ant-design/icons-react-native](https://rn.mobile.ant.design/components/icon-cn/)
 
 ## 贡献
 PLEASE READ THE CONTRIBUTING GUIDE BEFORE MAKING A PULL REQUEST.
 
 ## 许可
-MIT © [@ask-design](https://github.com/minjie.lock/ask-design)
+MIT © [@ask-design](https://github.com/minjie.lock/ask-design.react-native)
 
