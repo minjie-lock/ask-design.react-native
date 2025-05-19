@@ -22,11 +22,11 @@ const Arrangement = createContext<State>({
  * @description 全局配置组件
  * @author Lock
  * @param props;
- * @returns;
+ * @returns {React.ReactNode}
  */
 export default function Configuration(
   props: ConfigurationProps
-) {
+): React.ReactNode {
 
   const {
     children,
@@ -63,12 +63,15 @@ export default function Configuration(
 
 
 type Fn<F extends Fn<F>> = (configuration: State) => ReturnType<F>;
+type Configuration<F extends Fn<F>> = F extends Function ? ReturnType<F> : State;
 
-export function useConfiguration<F extends Fn<F>>(fn?: F):
-  F extends Function ? ReturnType<F> : State {
+export function useConfiguration<F extends Fn<F>>(
+  fn?: F
+): Configuration<F> {
   const configuration = useContext(Arrangement);
+
   if (typeof fn === 'function') {
-    return fn(configuration);
+    return fn(configuration) as Configuration<F>;
   }
-  return configuration;
+  return configuration as Configuration<F>;
 }
