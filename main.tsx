@@ -1,125 +1,127 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Configuration, Details, Ellipsis, SafeArea, SeparationLine, Space, Swiper, Tag } from './src/components';
+import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
+import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, Result, SafeArea, SeparationLine, Space, Swiper, Tag } from './src/components';
 import { useToast, useDialog } from './src/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from './src/utils';
+import { Text } from 'react-native-gesture-handler';
 
 const Content = () => {
 
   const toast = useToast();
   const dialog = useDialog();
 
-
   return (
-    <Card title="标题" footer={
-      <Space gap={10} wrap>
-        <Button onPress={() => {
-          toast.show({
-            content: '提示内容',
-            icon: 'success',
-          });
-        }}>Show</Button>
-        <Button color="danger" onPress={() => {
-          toast.hide();
-        }}>
-          Hide
-        </Button>
-        <Button color="danger" onPress={() => {
-          toast.show({
-            content: '提示内容',
-            icon: 'fail',
-          });
-        }}>
-          error
-        </Button>
-        <Button color="warning" onPress={() => {
-          toast.show({
-            content: '提示内容',
-            icon: 'loading',
-            duration: 0,
-          });
-        }}>
-          loading
-        </Button>
-      </Space>
-    }>
-      <Space gap={10} wrap>
-        <Button color="success" onPress={() => {
-          dialog.show({
-            content: '提示内容',
-          });
-        }}>
-          show
-        </Button>
-        <Button color="warning" onPress={async () => {
-          await dialog.alert({
-            content: '提示内容',
-          });
-          console.log('await');
-        }}>
-          alert
-        </Button>
-        <Button color="warning" onPress={async () => {
-          const confirm = await dialog.confirm({
-            content: '提示内容',
+    <View>
+      <Card title="标题" footer={
+        <Space gap={10} wrap>
+          <Button onPress={() => {
+            toast.show({
+              content: '提示内容',
+              icon: 'success',
+            });
+          }}>Show</Button>
+          <Button color="danger" onPress={() => {
+            toast.hide();
+          }}>
+            Hide
+          </Button>
+          <Button color="danger" onPress={() => {
+            toast.show({
+              content: '提示内容',
+              icon: 'fail',
+            });
+          }}>
+            error
+          </Button>
+          <Button color="warning" onPress={() => {
+            toast.show({
+              content: '提示内容',
+              icon: 'loading',
+              duration: 0,
+            });
+          }}>
+            loading
+          </Button>
+        </Space>
+      }>
+        <Space gap={10} wrap>
+          <Button color="success" onPress={() => {
+            dialog.show({
+              content: '提示内容',
+            });
+          }}>
+            show
+          </Button>
+          <Button color="warning" onPress={async () => {
+            await dialog.alert({
+              content: '提示内容',
+            });
+            console.log('await');
+          }}>
+            alert
+          </Button>
+          <Button color="warning" onPress={async () => {
+            const confirm = await dialog.confirm({
+              content: '提示内容',
 
-          });
-          console.log(confirm);
-        }}>
-          confirm
-        </Button>
-        <Button color="warning" onPress={async () => {
-          const confirm = await dialog.confirm({
-            content: '提示内容',
-            actions: [
-              {
-                key: 'download',
-                text: '取消',
-                onPress: () => {
-                  console.log('取消');
+            });
+            console.log(confirm);
+          }}>
+            confirm
+          </Button>
+          <Button color="warning" onPress={async () => {
+            const confirm = await dialog.confirm({
+              content: '提示内容',
+              actions: [
+                {
+                  key: 'download',
+                  text: '取消',
+                  onPress: () => {
+                    console.log('取消');
+                  },
                 },
-              },
-              {
-                key: 'confirm',
-                text: '确定',
-                onPress: () => {
-                  console.log('确定');
+                {
+                  key: 'confirm',
+                  text: '确定',
+                  onPress: () => {
+                    console.log('确定');
+                  },
                 },
-              },
-            ],
-          });
-          console.log(confirm);
-        }}>
-          action
-        </Button>
-        <Button onPress={async () => {
-          const confirm = await dialog.confirm({
-            content: '提示内容',
-            mask: false,
-            actions: [
-              {
-                key: 'download',
-                text: '取消',
-                onPress: () => {
-                  console.log('取消');
+              ],
+            });
+            console.log(confirm);
+          }}>
+            action
+          </Button>
+          <Button onPress={async () => {
+            const confirm = await dialog.confirm({
+              content: '提示内容',
+              mask: false,
+              actions: [
+                {
+                  key: 'download',
+                  text: '取消',
+                  onPress: () => {
+                    console.log('取消');
+                  },
                 },
-              },
-              {
-                key: 'confirm',
-                text: '确定',
-                onPress: () => {
-                  console.log('确定');
+                {
+                  key: 'confirm',
+                  text: '确定',
+                  onPress: () => {
+                    console.log('确定');
+                  },
                 },
-              },
-            ],
-          });
-          console.log(confirm);
-        }}>
-          not mask
-        </Button>
-      </Space>
-    </Card>
+              ],
+            });
+            console.log(confirm);
+          }}>
+            not mask
+          </Button>
+        </Space>
+      </Card>
+    </View>
   );
 };
 
@@ -127,6 +129,7 @@ const Content = () => {
 export default function Root() {
 
   const screen = Dimensions.get('screen');
+  const [open, setOpen] = useState(false);
 
   const dataSource = [
     'Racing car sprays burning fuel into crowd.',
@@ -146,8 +149,6 @@ export default function Root() {
 
   return (
     <Configuration>
-      {/* <Watermark content={['@ask-design', 'react-native']}> */}
-      {/* <SafeArea position="top" /> */}
       <SafeAreaView style={{
         flex: 1,
       }}>
@@ -272,9 +273,18 @@ export default function Root() {
           </Ellipsis>
           <SeparationLine />
         </ScrollView>
+        <Button onPress={() => setOpen(true)}>
+          打开
+        </Button>
       </SafeAreaView>
-      {/* <SafeArea position="bottom" /> */}
-      {/* </Watermark> */}
+      <Drawer open={open} onClose={() => setOpen(false)} position="bottom">
+        <Result
+          title="标题"
+          description="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行"
+          status="success"
+        />
+        <Error />
+      </Drawer>
     </Configuration>
   );
 }

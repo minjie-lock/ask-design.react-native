@@ -56,6 +56,14 @@ export type ConfigurationProps = {
       Avatar: {
         round: number;
         background: string;
+      };
+      Drawer: {
+        background: string;
+        round: number;
+      };
+      Result: {
+        description: string;
+        title: string;
       }
     };
   };

@@ -20,7 +20,7 @@ export default function useDialog() {
   useEffect(() => {
     Object.assign(on, dialog?.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dialog]);
 
   return on as Required<DialogRef>;
 }

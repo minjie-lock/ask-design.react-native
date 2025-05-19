@@ -1,6 +1,17 @@
 import { useImperativeHandle } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+type DataSource = {
+  /**
+   * 标题
+  */
+  title: string;
+  /**
+   * 值
+  */
+  items: [];
+}
+
 type AnchorBarProps = {
   ref?: React.RefObject<{
     to: (index: number) => void;
@@ -13,6 +24,10 @@ type AnchorBarProps = {
    * 值回调
   */
   onChange?: (value: number) => void;
+  /**
+   * 数据源
+  */
+  dataSource: DataSource[];
 }
 
 export default function AnchorBar(props: AnchorBarProps){
@@ -21,6 +36,7 @@ export default function AnchorBar(props: AnchorBarProps){
     ref,
     sticky = true,
     onChange,
+    dataSource,
   } = props;
 
 

@@ -14,6 +14,9 @@ export { default as Toast } from './toast';
 export { default as Dialog } from './dialog';
 export { default as Avatar } from './avatar';
 export { default as Ellipsis } from './ellipsis';
+export { default as Drawer } from './drawer';
+export { default as Result } from './result';
+export { default as Error } from './error';
 
 
 export { default as useDialog } from './dialog/hook';

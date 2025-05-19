@@ -20,7 +20,7 @@ export default function useToast() {
   useEffect(() => {
     Object.assign(on, toast?.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [toast]);
 
   return on as Required<ToastRef>;
 }

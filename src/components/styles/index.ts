@@ -66,6 +66,14 @@ export const light: Color = {
       round: gloabl.round,
       background: GRAY.nine,
     },
+    Drawer: {
+      background: '#FFFFFF',
+      round: gloabl.round,
+    },
+    Result: {
+      description: GRAY.five,
+      title: GRAY.one,
+    },
   },
 };
 

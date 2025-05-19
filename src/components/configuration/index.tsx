@@ -39,7 +39,7 @@ export default function Configuration(
     scheme: {
       components: {
         ...light?.components,
-        ...rest,
+        ...rest.scheme?.components,
       },
     },
     hooks: {

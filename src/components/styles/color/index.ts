@@ -11,4 +11,4 @@ export { default as NAVY_BLUE } from './navy-blue';
 export { default as PURPLE } from './purple';
 export { default as PINK_PURPLE } from './pink-purple';
 export { default as MAGENTA } from './magenta';
-export { default as GRAY } from './gray'
+export { default as GRAY } from './gray';
