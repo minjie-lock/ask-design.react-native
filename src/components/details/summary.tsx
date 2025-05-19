@@ -83,6 +83,7 @@ export default function Summary(props: SummaryProps) {
     title: {
       fontSize: 17,
       fontWeight: 700,
+      color: details.text.title,
     },
     content: {
       height: 'auto',
@@ -138,7 +139,9 @@ export default function Summary(props: SummaryProps) {
       </Pressable>
       <Animated.View style={[heightStyle, borderStyle, styles.content]}>
         <View style={{ paddingVertical: 12 }}>
-          {content(children)}
+          {content(children, {
+            color: details.text.content,
+          })}
         </View>
       </Animated.View>
     </View>

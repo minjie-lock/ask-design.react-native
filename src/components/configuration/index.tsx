@@ -1,8 +1,9 @@
 import { createContext, useContext, useRef } from 'react';
 import type { ConfigurationProps } from './types';
-import { light } from '../styles';
+import { dark, light } from '../styles';
 import Toast, { ToastRef } from '../toast';
 import Dialog, { DialogRef } from '../dialog';
+import { useColorScheme } from 'react-native';
 
 type State = Required<Omit<ConfigurationProps, 'children' | 'hooks'>> &
 {
@@ -35,10 +36,12 @@ export default function Configuration(
   const toast = useRef<ToastRef | {}>({});
   const dialog = useRef<DialogRef | {}>({});
 
+  const scheme = useColorScheme();
+
   const value: State = {
     scheme: {
       components: {
-        ...light?.components,
+        ...(scheme === 'dark' ? dark?.components : light?.components),
         ...rest.scheme?.components,
       },
     },

@@ -37,6 +37,10 @@ export type ConfigurationProps = {
       };
       Details: {
         background: string;
+        text: {
+          title: string,
+          content: string,
+        },
         border: {
           type: ViewStyle['borderStyle'];
           color: string;

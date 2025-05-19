@@ -1,10 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
-import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, Result, SafeArea, SeparationLine, Space, Swiper, Tag } from './src/components';
+import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, Result, SeparationLine, Space, Swiper, Tag } from './src/components';
 import { useToast, useDialog } from './src/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from './src/utils';
-import { Text } from 'react-native-gesture-handler';
 
 const Content = () => {
 
