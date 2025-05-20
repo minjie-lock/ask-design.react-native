@@ -1,5 +1,6 @@
 import type { ViewStyle } from 'react-native';
 import type { ToastRef } from '../toast';
+import { DialogRef } from '../dialog';
 
 
 type ButtonColor = {
@@ -34,6 +35,11 @@ export type ConfigurationProps = {
       Card: {
         round?: number;
         background: string;
+        text: {
+          title: string;
+          content: string;
+          footer: string;
+        };
       };
       Details: {
         background: string;
@@ -68,6 +74,23 @@ export type ConfigurationProps = {
       Result: {
         description: string;
         title: string;
+      };
+      Selector: {
+        background: {
+          default: string;
+          active: string;
+        };
+        text: {
+          label: {
+            default: string;
+            active: string;
+          };
+          description: {
+            default: string;
+            active: string;
+          };
+        };
+        round: number;
       }
     };
   };

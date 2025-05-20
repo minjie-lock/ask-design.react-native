@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useConfiguration } from '../configuration';
 import { ToastRef } from '.';
 
@@ -15,12 +14,16 @@ export default function useToast() {
     configuration => configuration?.hooks?.toast
   );
 
-  const on = {};
+  class On {
+    static show = toast?.current?.show;
+    static hide = toast?.current.hide;
+  }
 
-  useEffect(() => {
-    Object.assign(on, toast?.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [toast]);
 
-  return on as Required<ToastRef>;
+  // useEffect(() => {
+  //   Object.assign(on, toast);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  return On as unknown as Required<ToastRef>;
 }

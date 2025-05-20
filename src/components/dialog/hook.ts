@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useConfiguration } from '../../components/configuration';
 import { DialogRef } from '../../components/dialog';
 
@@ -15,12 +14,12 @@ export default function useDialog() {
     configuration => configuration?.hooks?.dialog
   );
 
-  const on = {};
+  class On {
+    static show = dialog?.current.show;
+    static hide = dialog?.current.hide;
+    static alert = dialog?.current.alert;
+    static confirm = dialog?.current.confirm;
+  }
 
-  useEffect(() => {
-    Object.assign(on, dialog?.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dialog]);
-
-  return on as Required<DialogRef>;
+  return On as Required<DialogRef>;
 }

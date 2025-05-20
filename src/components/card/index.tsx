@@ -84,6 +84,7 @@ export default function Card(props: CardProps) {
                 content(title, {
                   fontWeight: '700',
                   fontSize: 15,
+                  color: card?.text?.title,
                 })
               }
             </View>
@@ -92,14 +93,18 @@ export default function Card(props: CardProps) {
         )
       }
       <View style={styles.content}>
-        {content(children)}
+        {content(children, {
+          color: card?.text?.content,
+        })}
       </View>
       {
         footer && (
           <Fragment>
             <SeparationLine style={styles.line} />
             <View style={styles.footer}>
-              {content(footer)}
+              {content(footer, {
+                color: card?.text?.footer,
+              })}
             </View>
           </Fragment>
         )

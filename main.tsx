@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
-import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, Result, SeparationLine, Space, Swiper, Tag } from './src/components';
+import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, Input, Result, Selector, SeparationLine, Space, Swiper, Tag } from './src/components';
 import { useToast, useDialog } from './src/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from './src/utils';
@@ -271,6 +271,14 @@ export default function Root() {
             蚂蚁的企业级产品是一个庞大且复杂的体系。这类产品不仅量级巨大且功能复杂，而且变动和并发频繁，常常需要设计与开发能够快速的做出响应。同时这类产品中有存在很多类似的页面以及组件，可以通过抽象得到一些稳定且高复用性的内容
           </Ellipsis>
           <SeparationLine />
+          <Input />
+          <Card>
+            <Selector value={[1,2,3]} mode="multiple" options={Array.from({ length: 10 }, (_, i) => ({
+              label: `选项${i + 1}`,
+              value: i + 1,
+              description: '米啊是',
+            }))} />
+          </Card>
         </ScrollView>
         <Button onPress={() => setOpen(true)}>
           打开

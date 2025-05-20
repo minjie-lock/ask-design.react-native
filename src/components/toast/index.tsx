@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { StyleSheet, Text, View } from 'react-native';
-import { useEffect, useImperativeHandle, useState } from 'react';
+import { useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import Animated, {
   cancelAnimation,
   runOnJS,
@@ -66,11 +66,11 @@ export default function Toast({ ref }: ToastProps) {
   const styles = StyleSheet.create({
     container: {
       position: 'absolute',
-      top: '-50%',
+      top: '40%',
       left: '30%',
     },
     background: {
-      maxWidth: '40%',
+      width: 147,
       height: 'auto',
       backgroundColor: 'rgba(0, 0, 0, 0.8)',
       paddingVertical: 30,
@@ -99,28 +99,27 @@ export default function Toast({ ref }: ToastProps) {
           duration: 500,
         },
         () => {
-          if (options.duration) {
+          if (options.duration !== 0) {
             shared.value = withDelay(
               options.duration ?? 2000,
-              withTiming(0, { duration: 500 })
+              withTiming(0, { duration: 500 }, () => {
+                runOnJS(setOpen)(false);
+                cancelAnimation(loading);
+              }),
             );
-            runOnJS(setOpen)(false);
-            cancelAnimation(loading);
           }
         }
       );
     },
     hide: () => {
-      if (shared.value) {
-        shared.value = withTiming(0,
-          {
-            duration: 500,
-          },
-          () => {
-            runOnJS(setOpen)(false);
-          }
-        );
-      }
+      shared.value = withTiming(0,
+        {
+          duration: 500,
+        },
+        () => {
+          runOnJS(setOpen)(false);
+        }
+      );
     },
   }));
 
@@ -149,19 +148,22 @@ export default function Toast({ ref }: ToastProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options?.icon]);
 
-  const icon = {
-    'success': <Icon name="check" size={40} color="white" />,
-    'fail': <Icon name="close" size={40} color="white" />,
-    'loading': (
-      <Animated.View style={[loadingStyle]}>
-        <Icon name="loading-3-quarters" size={40} color="white" />
-      </Animated.View>
-    ),
-  };
+  const icon = useMemo(() => {
+    return {
+      'success': <Icon name="check" size={40} color="white" />,
+      'fail': <Icon name="close" size={40} color="white" />,
+      'loading': (
+        <Animated.View style={[loadingStyle]}>
+          <Icon name="loading-3-quarters" size={40} color="white" />
+        </Animated.View>
+      ),
+    };
+  }, [loadingStyle]);
 
   if (!open) {
     return null;
   }
+
 
   return (
     <View style={styles.container}>

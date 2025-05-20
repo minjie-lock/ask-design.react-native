@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 
 import { useControllableValue } from '../../hooks';
 import { GestureResponderEvent, StyleSheet, View } from 'react-native';
 import Summary, { SummaryProps } from './summary';
 import { useConfiguration } from '../configuration';
-import React, { Children, cloneElement, createContext, JSX } from 'react';
+import React, { Children, cloneElement, createContext } from 'react';
 
 export const DetailsContext = createContext<{ current: (string | number)[] | void }>({
   current: [],
@@ -20,7 +21,7 @@ type DetailsProps<T extends boolean> = {
   /**
    * 展开时触发
   */
-  onChange?: (value: DetailsValue<T>) => void;
+  onChange?: (value?: DetailsValue<T>) => void;
   /**
    * 受控值
   */
@@ -35,16 +36,16 @@ type DetailsProps<T extends boolean> = {
  * @function Details
  * @description 折叠面板
  * @author Lock
- * @returns {JSX.Element}
+ * @returns {React.ReactNode}
 */
-export default function Details<T extends boolean>(props: DetailsProps<T>) {
+export default function Details<T extends boolean>(props: DetailsProps<T>): React.ReactNode {
 
   const {
     accordion = false,
     children,
   } = props;
 
-  const [value, setValue] = useControllableValue<DetailsProps<T>['value']>({
+  const [value, setValue] = useControllableValue<DetailsValue<T>>({
     defaultValue: props?.defaultValue,
     value: props?.value,
     onChange: props?.onChange,
@@ -62,22 +63,25 @@ export default function Details<T extends boolean>(props: DetailsProps<T>) {
     },
   });
 
-  const onPress = (current: Required<DetailsProps<T>>['value']) => {
+  const onPress = (current: DetailsValue<T>) => {
     if (!accordion) {
-      if (value?.includes?.(current as string | number)) {
-        setValue?.(
-          value?.filter((item) => item !== (current))
+      const content = value as DetailsValue<false>;
+      if (content?.includes?.(current as string | number)) {
+        setValue<DetailsValue<false>>?.(
+          content?.filter((item) => item !== (current)),
         );
       } else {
-        setValue([...(value ?? []), current]);
+        setValue([...(content ?? []), current]);
       }
       return;
     }
     setValue?.(current);
   };
 
+  const current = (accordion ? [value] : value) as DetailsValue<false>;
+
   return (
-    <DetailsContext.Provider value={{ current: accordion ? [value] : value }}>
+    <DetailsContext.Provider value={{ current }}>
       <View style={styles.main}>
         {
           children &&

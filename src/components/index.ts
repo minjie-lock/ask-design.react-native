@@ -17,6 +17,8 @@ export { default as Ellipsis } from './ellipsis';
 export { default as Drawer } from './drawer';
 export { default as Result } from './result';
 export { default as Error } from './error';
+export { default as Input } from './input';
+export { default as Selector } from './selector';
 
 
 export { default as useDialog } from './dialog/hook';

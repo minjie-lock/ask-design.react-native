@@ -43,12 +43,17 @@ export const light: Color = {
     Card: {
       round: gloabl.round,
       background: '#FFFFFF',
+      text: {
+        title: GRAY.one,
+        content: GRAY.three,
+        footer: GRAY.three,
+      },
     },
     Details: {
       background: '#FFFFFF',
       text: {
         title: GRAY.two,
-        content: GOLD.five,
+        content: GRAY.one,
       },
       border: {
         type: 'solid',
@@ -77,6 +82,23 @@ export const light: Color = {
     Result: {
       description: GRAY.five,
       title: GRAY.one,
+    },
+    Selector: {
+      background: {
+        default: GRAY.ten,
+        active: NAVY_BLUE.ten,
+      },
+      text: {
+        label: {
+          default: GRAY.one,
+          active: NAVY_BLUE.four,
+        },
+        description: {
+          default: GRAY.five,
+          active: NAVY_BLUE.five,
+        },
+      },
+      round: gloabl.round,
     },
   },
 };
@@ -115,6 +137,11 @@ export const dark: Color = {
     Card: {
       round: gloabl.round,
       background: GRAY.one,
+      text: {
+        title: GRAY.five,
+        content: GRAY.four,
+        footer: GRAY.four,
+      },
     },
     Details: {
       background: GRAY.one,
@@ -134,8 +161,8 @@ export const dark: Color = {
       },
     },
     Dialog: {
-      background: '#FFFFFF',
-      color: '#000000',
+      background: GRAY.one,
+      color: GRAY.five,
       round: gloabl.round,
     },
     Avatar: {
@@ -149,6 +176,23 @@ export const dark: Color = {
     Result: {
       description: GRAY.four,
       title: GRAY.five,
+    },
+    Selector: {
+      background: {
+        default: GRAY.three,
+        active: NAVY_BLUE.nine,
+      },
+      text: {
+        label: {
+          default: GRAY.nine,
+          active: NAVY_BLUE.four,
+        },
+        description: {
+          default: GRAY.seven,
+          active: GRAY.six,
+        },
+      },
+      round: gloabl.round,
     },
   },
 };

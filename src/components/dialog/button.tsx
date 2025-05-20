@@ -4,10 +4,6 @@ import Button, { ButtonProps } from '../button';
 import Space from '../space';
 import SeparationLine from '../separation-line';
 
-type ActionButtonOptions<T extends keyof DialogRef> =  T extends 'alert' ? DialogOptions.Alert :
-  T extends 'confirm' ? DialogOptions.Confirm : DialogOptions.Show;
-
-
 type Action = Omit<ButtonProps, 'childeren' | 'fill'> & {
   key: string;
   text: ButtonProps['children'];
@@ -47,14 +43,13 @@ export namespace DialogOptions {
     onCancel?: () => (void | Promise<void>);
   };
 }
-
+export type ActionButtonProps<T extends keyof DialogRef> = {
+  type: T;
+  onHide?: (result: boolean | 'alert') => void;
+  options?: DialogOptions.Alert & DialogOptions.Confirm;
+};
 export default function ActionButton<T extends keyof DialogRef>(
-  props:
-    {
-      type: T;
-      onHide?: (value: boolean | 'alert') => void;
-      options?: ActionButtonOptions<T>;
-    }
+  props: ActionButtonProps<T>
 ) {
   const {
     type,

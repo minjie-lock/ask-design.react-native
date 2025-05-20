@@ -171,15 +171,16 @@ export default function Dialog({ ref }: DialogProps) {
                 {
                   content((options?.content as React.ReactNode) ?? '', {
                     fontSize: 15,
+                    color: dialog.color,
                   })
                 }
               </View>
               <SeparationLine style={styles.line} />
               {
                 options?.actions?.length &&
-                  options?.actions?.map?.((item) => {
+                  options?.actions?.map?.(({key, ...item}) => {
                     return (
-                      <View key={item.key}>
+                      <View key={key}>
                         <Space align="center" justif="center" flex={1}>
                           <Button {...item} fill="text" block>
                             {item.text}

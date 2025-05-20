@@ -4,10 +4,11 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 interface Options<T> {
   defaultValue?: T;
   value?: T;
-  onChange?: (value?: T) => void;
+  onChange?: (value: T) => void;
 }
 
-export default  function useControllableValue<T>(options: Options<T> = {}): [T, (value: T) => void] {
+export default  function useControllableValue<T>(options: Options<T> = {}):
+ [T, <S>(value: S | T) => void] {
 
   const { defaultValue, value, onChange } = options;
 
@@ -21,14 +22,14 @@ export default  function useControllableValue<T>(options: Options<T> = {}): [T, 
   const mergedValue = controlledRef.current ? value as T : internalValue;
 
   // 更新值的函数
-  const setValue = useCallback((value: T) => {
+  const setValue = useCallback(<S>(value: T | S) => {
     // 如果是受控组件，只触发 onChange 回调
     if (controlledRef.current) {
-      onChange?.(value);
+      onChange?.(value as T);
     } else {
       // 如果是非受控组件，更新内部状态并触发 onChange 回调
-      setInternalValue(value);
-      onChange?.(value);
+      setInternalValue(value as T);
+      onChange?.(value as T);
     }
   }, [onChange]);
 
