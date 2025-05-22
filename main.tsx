@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
-import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, Input, Result, Selector, SeparationLine, Space, Swiper, Tag } from './src/components';
+import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, Input, Picker, Result, Segmented, Selector, SeparationLine, Space, Swiper, Tag } from './src/components';
 import { useToast, useDialog } from './src/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from './src/utils';
@@ -119,6 +119,17 @@ const Content = () => {
             not mask
           </Button>
         </Space>
+        <SeparationLine />
+        <Segmented
+          options={
+            Array.from({ length: 3 }, (_, i) => ({
+              label: `选项${i + 1}`,
+              value: i + 1,
+              description: '米啊是',
+            }))
+          }
+
+        />
       </Card>
     </View>
   );
@@ -273,7 +284,7 @@ export default function Root() {
           <SeparationLine />
           <Input />
           <Card>
-            <Selector value={[1,2,3]} mode="multiple" options={Array.from({ length: 10 }, (_, i) => ({
+            <Selector mode="multiple" options={Array.from({ length: 10 }, (_, i) => ({
               label: `选项${i + 1}`,
               value: i + 1,
               description: '米啊是',
@@ -284,14 +295,51 @@ export default function Root() {
           打开
         </Button>
       </SafeAreaView>
-      <Drawer open={open} onClose={() => setOpen(false)} position="bottom">
+      {/* <Drawer open={open} onClose={() => setOpen(false)} position="bottom">
         <Result
           title="标题"
           description="内容详情可折行，建议不超过两行建议不超过两行建议不超过两行"
           status="success"
         />
         <Error />
-      </Drawer>
+      </Drawer> */}
+      <Picker open={open} onClose={() => setOpen(false)}
+        items={[
+          [
+            {
+              label: '选项1',
+              value: '1',
+              key: '1',
+            },
+            {
+              label: '选项2',
+              value: '2',
+              key: '2',
+            },
+            {
+              label: '选项3',
+              value: '3',
+              key: '3',
+            },
+            {
+              label: '选项4',
+              value: '4',
+              key: '4',
+            },
+          ],
+          [
+            {
+              label: '选项1',
+              value: '1',
+              key: '1',
+            },
+            {
+              label: '选项2',
+              value: '2',
+              key: '2',
+            },
+          ],
+        ] as const} />
     </Configuration>
   );
 }

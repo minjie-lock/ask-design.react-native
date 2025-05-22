@@ -100,6 +100,21 @@ export const light: Color = {
       },
       round: gloabl.round,
     },
+    Segmented: {
+      background: {
+        default: GRAY.ten,
+        active: '#FFFFFF',
+      },
+      text: {
+        default: GRAY.five,
+        active: NAVY_BLUE.four,
+      },
+      round: gloabl.round,
+    },
+    Picker: {
+      background: '#FFFFFF',
+      color: GRAY.one,
+    },
   },
 };
 
@@ -193,6 +208,21 @@ export const dark: Color = {
         },
       },
       round: gloabl.round,
+    },
+    Segmented: {
+      background: {
+        default: GRAY.ten,
+        active: GRAY.nine,
+      },
+      text: {
+        default: GRAY.five,
+        active: NAVY_BLUE.four,
+      },
+      round: gloabl.round,
+    },
+    Picker: {
+      background: GRAY.one,
+      color: GRAY.five,
     },
   },
 };

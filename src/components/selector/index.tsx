@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { content } from '../../utils';
 import { useConfiguration } from '../configuration';
 import { useControllableValue } from '../../hooks';
@@ -12,19 +12,19 @@ type SelecorOpetions = {
   /**
    * 选项值
   */
-  value: string | number;
+  value?: string | number;
   /**
    * 描述
   */
-  description: React.ReactNode;
+  description?: React.ReactNode;
   /**
    * 标签
   */
-  label: React.ReactNode;
+  label?: React.ReactNode;
   /**
    * 是否禁用
    */
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 type SelectorValue<T> = T extends 'single' ? string | number : (string | number)[];
@@ -50,7 +50,7 @@ type SelectorProps<T> = {
    * 字段映射
   */
   fieldNames?: {
-    [key in keyof SelecorOpetions]: string;
+    [key in keyof Required<SelecorOpetions>]: string;
   };
   /**
    * 模式
@@ -175,10 +175,10 @@ export default function Selector<T extends SelectorMode>(props: SelectorProps<T>
       {
         options?.map((item: any) => {
           const includes = current?.includes(item?.[fieldNames?.value]);
-
           const itemsStyles = StyleSheet.create({
             container: {
               ...styles.item,
+              padding: 5,
               backgroundColor: includes ?
                 selector.background.active : selector.background.default,
               opacity: disabled ? 0.5 : item?.[fieldNames?.disabled] ? 0.5 : 1,
@@ -198,12 +198,17 @@ export default function Selector<T extends SelectorMode>(props: SelectorProps<T>
           });
 
           return (
-            <TouchableHighlight key={item?.[fieldNames?.value]}
-              onPress={() => onPress(item?.[fieldNames?.value])}
-              style={itemsStyles.container}
-              underlayColor={selector.background.active}
+            <TouchableWithoutFeedback key={item?.[fieldNames?.value]}
+              onPress={() => {
+                // 禁用禁止点击
+                if (disabled || item?.[fieldNames?.disabled]) {
+                  return null;
+                }
+                onPress(item?.[fieldNames?.value]);
+              }}
+            // underlayColor={selector.background.active}
             >
-              <View style={styles.items}>
+              <View style={[itemsStyles.container]}>
                 {content(item?.[fieldNames?.label], itemsStyles.label)}
                 {content(item?.[fieldNames?.description], itemsStyles.description)}
                 {includes && (
@@ -212,7 +217,7 @@ export default function Selector<T extends SelectorMode>(props: SelectorProps<T>
                   </Animated.View>
                 )}
               </View>
-            </TouchableHighlight>
+            </TouchableWithoutFeedback>
           );
         })
       }

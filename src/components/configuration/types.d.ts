@@ -91,6 +91,21 @@ export type ConfigurationProps = {
           };
         };
         round: number;
+      };
+      Segmented: {
+        background: {
+          default: string;
+          active: string;
+        };
+        text: {
+          default: string;
+          active: string;
+        };
+        round: number;
+      };
+      Picker: {
+        background: string;
+        color: string;
       }
     };
   };

@@ -1,6 +1,6 @@
 # @ASK-DESIGN/REACT-NAIVE
 
-_Ask Design React Native_ 是一个 React Native 设计系统，它提供了一组可用于构建原生应用的组件
+_Ask Design for React Native_ 是一个 React Native 设计系统，它提供了一组可用于构建原生应用的组件
 
 ## 安装
 ```bash

@@ -1,7 +1,7 @@
-import { SafeAreaView, StyleProp, StyleSheet, TouchableNativeFeedback, View, ViewStyle } from 'react-native';
+import { StyleSheet, TouchableNativeFeedback, View, ViewStyle } from 'react-native';
 import { useConfiguration } from '../configuration';
 import Animate, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { content } from '../../utils';
 import Icon from '../icon';
 
@@ -44,6 +44,10 @@ type DrawerProps = {
    * 遮罩样式
   */
   maskStyle?: ViewStyle;
+  /**
+   * 样式
+   */
+  style?: ViewStyle;
   /**
    * 位置
    */
@@ -147,11 +151,12 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
     content: {
       zIndex: 100,
       position: 'absolute',
-      ...postions?.[position],
+      ...(postions?.[position] as ViewStyle),
       padding: 20,
       borderTopLeftRadius: drawer.round,
       borderTopRightRadius: drawer.round,
       backgroundColor: drawer.background,
+      ...(props?.style ?? {}),
     },
   });
 
@@ -175,9 +180,7 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
   }, [open]);
 
   const containerStyle = useAnimatedStyle(() => {
-
     const translate = ['left', 'right'].includes(position) ? 'translateX' : 'translateY';
-
     return {
       transform: [
         {
@@ -214,7 +217,7 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
       <Animate.View style={[styles.content, containerStyle]}>
         <View style={styles.header}>
           {
-            closeIcon ? content(closeIcon) : <Icon name="close" size="md" onPress={() => {
+            closeIcon ? content(closeIcon) : showClose && <Icon name="close" size="md" onPress={() => {
               onHide();
             }} />
           }

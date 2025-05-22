@@ -54,6 +54,10 @@ export type ButtonProps = {
    * 内容
   */
   children?: React.ReactNode;
+  /**
+   * 按钮样式
+   */
+  style?: ViewStyle;
 };
 
 const height = {
@@ -134,6 +138,7 @@ export default function Button(props: ButtonProps) {
     justifyContent: 'center',
     paddingHorizontal: 20,
     ...background[fill],
+    ...props.style,
   };
 
   const onEnd = (event: GestureResponderEvent) => {
@@ -159,7 +164,7 @@ export default function Button(props: ButtonProps) {
     color: background?.[fill].color,
     fontSize: sizes?.[size],
     fontWeight: 700,
-    lineHeight: sizes?.[size],
+    lineHeight: height?.[size],
   };
 
   return (

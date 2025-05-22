@@ -19,6 +19,8 @@ export { default as Result } from './result';
 export { default as Error } from './error';
 export { default as Input } from './input';
 export { default as Selector } from './selector';
+export { default as Segmented } from './segmented';
+export { default as Picker } from './picker';
 
 
 export { default as useDialog } from './dialog/hook';
