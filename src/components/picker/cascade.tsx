@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { useEffect, useMemo, useState } from 'react';
-import Picker, { PickerItem } from '.';
+import Picker, { PickerItem, PickerProps } from '.';
 import { useControllableValue } from '../../hooks';
 
 
@@ -12,6 +12,11 @@ export type CascadeState<T extends readonly CascadeItem[]> =
   : [V] // 没有 `children` 时，仍然作为数组项存在
   : never
   : never;
+
+
+type CascadeItemId = {
+  id: number;
+} & CascadeItem;
 
 
 
@@ -48,7 +53,9 @@ type CascadeProps<T extends readonly CascadeItem[]> = {
    * 关闭
    */
   onClose?: () => void;
-}
+} & Omit<PickerProps<PickerItem[][]>,
+  'items' | 'value' | 'columns' | 'onSelect' | 'onChange' | 'defaultValue'
+>;
 
 /**
  * @function Cascade
@@ -72,44 +79,57 @@ export default function Cascade<T extends readonly CascadeItem[]>
     onChange: props.onChange,
   });
 
-  console.log(value);
-
   const [options, setOptions] = useState<PickerItem[][]>([]);
-  // const [selected, setSelected] = useState<PickerValue[]>([]);
+
+  const [idItems, flastIdItmes] = useMemo(() => {
+    let id = 0;
+    // 创建唯一索引
+    const createId = (items: readonly CascadeItemId[]) => {
+      return items?.map((item) => {
+        item.id = id++;
+        if (item.children) {
+          item.children = createId(item?.children as CascadeItemId[]);
+        }
+        return item;
+      });
+    };
+
+    const dataSource = createId((items ?? []) as CascadeItemId[]);
+    // 拍平多维数组方面查找
+    const flatten = (items: readonly CascadeItemId[]): readonly CascadeItemId[] => {
+      const result = [];
+      for (const item of items) {
+        result.push(item);
+        if (item.children?.length) {
+          result.push(...flatten(item.children as CascadeItemId[]));
+        }
+      }
+      return result;
+    };
+
+    return [dataSource, flatten(dataSource)];
+  }, [items]);
 
   // 初始化选项
   useEffect(() => {
-    if (items?.length) {
+    if (idItems?.length) {
       setOptions([
-        items as unknown as PickerItem[],
-        (items[0].children ?? []) as PickerItem[],
+        idItems as unknown as PickerItem[],
+        (idItems[0].children ?? []) as PickerItem[],
       ]);
     }
-  }, [items]);
+  }, [idItems]);
 
-
-  const flattenItems = useMemo(() => {
-    const deep = (items: CascadeItem[]) => {
-      const result: CascadeItem[] = [];
-      items?.forEach(item => {
-        result.push(item);
-        if (item.children) {
-          result.push(...deep(item.children as CascadeItem[]));
-        }
-      });
-      return result;
-    };
-    return deep((items ?? []) as CascadeItem[]);
-  }, [items]);
+  // const id = useRef(0);
 
   // 替换选项
-  const onSelect = (current: string | number) => {
+  const onSelect = (current: PickerItem) => {
     const latest: PickerItem[][] = [];
     // 寻找当前项
-    const one = flattenItems?.find((item) => {
-      return item.value === current;
+    const one = flastIdItmes?.find((item) => {
+      return item.value === current.key && item.id === (current as CascadeItemId).id;
     });
-    // 寻找寻找当前项
+    // 寻找当前项的前置元素
     const latestOptions = options.findIndex((items) => {
       return items?.find((item) => item.value === one?.value);
     });

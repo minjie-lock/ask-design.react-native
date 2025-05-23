@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 
 type PickerGestureProps = {
   items?: PickerItem[];
-  onChange?: (value: number | string) => void;
+  onChange?: (value: PickerItem) => void;
   value: number | string;
 }
 
@@ -27,6 +27,7 @@ export default function PickerGesture(props: PickerGestureProps) {
 
   const max = items?.map((item, index) => ({
     key: item.value,
+    ...item,
     value: -(index * 38),
   }));
 
@@ -52,7 +53,7 @@ export default function PickerGesture(props: PickerGestureProps) {
         translateY.value = withTiming(0, {
           duration: 500,
         }, () => {
-          onChange && runOnJS(onChange)(items?.[0]?.value as string);
+          onChange && runOnJS(onChange)(items?.[0] as PickerItem);
         });
         return;
       }
@@ -61,7 +62,7 @@ export default function PickerGesture(props: PickerGestureProps) {
       translateY.value = withTiming(min, {
         duration: 500,
       }, () => {
-        onChange && runOnJS(onChange)(find?.key as string);
+        onChange && runOnJS(onChange)(find as PickerItem);
       });
     });
     return gesture;

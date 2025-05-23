@@ -8,6 +8,7 @@ import PickerGesture from './gesture';
 import { useControllableValue } from '../../hooks';
 import { useConfiguration } from '../configuration';
 import { lazy } from 'react';
+import { content } from '../../utils';
 
 export type PickerValue = string | number;
 
@@ -24,7 +25,7 @@ export type PickerState<T extends readonly PickerItem[][]> = {
   [K in keyof T]: T[K][number]['value'];
 };
 
-type PickerProps<T extends PickerItem[][]> = {
+export type PickerProps<T extends PickerItem[][]> = {
   /**
    * 默认值
    */
@@ -40,7 +41,7 @@ type PickerProps<T extends PickerItem[][]> = {
   /**
    * 当前选择回调
    */
-  onSelect?: (value: PickerValue) => void;
+  onSelect?: (value: PickerItem) => void;
   /**
    * 项目
    */
@@ -57,6 +58,26 @@ type PickerProps<T extends PickerItem[][]> = {
    * 列数
    */
   columns?: number;
+  /**
+   * 取消按钮的文字
+   */
+  cancelText?: React.ReactNode;
+  /**
+   * 确定按钮的文字
+   */
+  confirmText?: React.ReactNode;
+  /**
+   * 取消时触发
+   */
+  onCancel?: () => void;
+  /**
+   * 确定时触发
+   */
+  onConfirm?: () => void;
+  /**
+   * 标题
+   */
+  title?: React.ReactNode;
 }
 
 
@@ -75,6 +96,11 @@ export default function Picker<T extends PickerItem[][]>
     onClose,
     columns,
     onSelect,
+    onCancel,
+    onConfirm,
+    cancelText = '取消',
+    confirmText = '确定',
+    title = '',
   } = props;
 
   const [
@@ -121,13 +147,20 @@ export default function Picker<T extends PickerItem[][]>
   });
 
   return (
-    <Drawer open={open} onClose={onClose} height={300} showClose={false} style={styles.drawer}>
+    <Drawer
+      open={open}
+      onClose={onClose}
+      height={300}
+      showClose={false}
+      style={styles.drawer}
+    >
       <View style={styles.header}>
-        <Button fill="text" style={styles.button}>
-          取消
+        <Button fill="text" style={styles.button} onPress={onCancel}>
+          {cancelText}
         </Button>
-        <Button fill="text" style={styles.button}>
-          确定
+        {content(title, {})}
+        <Button fill="text" style={styles.button} onPress={onConfirm}>
+          {confirmText}
         </Button>
       </View>
       <SeparationLine style={styles.line} />
@@ -145,9 +178,9 @@ export default function Picker<T extends PickerItem[][]>
             }}>
               {
                 items?.map((item, index) => {
-                  const onChange = (state: PickerValue) => {
+                  const onChange = (state: PickerItem) => {
                     const data = [...(value ?? [])];
-                    data?.splice(index, 1, state);
+                    data?.splice(index, 1, state?.value);
                     setValue(data);
                     onSelect?.(state);
                   };

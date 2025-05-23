@@ -4,7 +4,6 @@ import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, 
 import { useToast, useDialog } from './src/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from './src/utils';
-import { CascadeState, CascadeStateMaps, CascadeValue, Resulte } from './src/components/picker/cascade';
 
 const Content = () => {
 
@@ -396,7 +395,6 @@ export default function Root() {
         onChange={(value) => {
           console.log(value);
         }}
-
       />
     </Configuration>
   );
