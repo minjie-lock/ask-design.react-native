@@ -4,6 +4,7 @@ import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, 
 import { useToast, useDialog } from './src/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from './src/utils';
+import { CascadeState, CascadeStateMaps, CascadeValue, Resulte } from './src/components/picker/cascade';
 
 const Content = () => {
 
@@ -157,6 +158,85 @@ export default function Root() {
     });
   }, []);
 
+
+  const items = [
+    {
+      label: '浙江',
+      value: '浙江',
+      key: '浙江',
+      children: [
+        {
+          label: '杭州',
+          value: '杭州',
+          key: '杭州',
+        },
+        {
+          label: '宁波',
+          value: '宁波',
+          key: '宁波',
+          children: [
+            {
+              label: '街道',
+              value: '街道',
+              key: '街道',
+              children: [
+                {
+                  label: '小区1',
+                  value: '小区1',
+                  key: '小区1',
+                },
+              ],
+            },
+            {
+              label: '街道2',
+              value: '街道2',
+              key: '街道2',
+              children: [
+                {
+                  label: '小区2',
+                  value: '小区2',
+                  key: '小区2',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: '江苏',
+      value: '江苏',
+      key: '江苏',
+      children: [
+        {
+          label: '南京',
+          value: '南京',
+          key: '南京',
+        },
+        {
+          label: '苏州',
+          value: '苏州',
+          key: '苏州',
+          children: [
+            {
+              label: '街道',
+              value: '街道',
+              key: '街道',
+              children: [
+                {
+                  label: '小区2',
+                  value: '小区2',
+                  key: '小区2',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ] as const;
+
+
   return (
     <Configuration>
       <SafeAreaView style={{
@@ -303,43 +383,21 @@ export default function Root() {
         />
         <Error />
       </Drawer> */}
-      <Picker open={open} onClose={() => setOpen(false)}
-        items={[
-          [
-            {
-              label: '选项1',
-              value: '1',
-              key: '1',
-            },
-            {
-              label: '选项2',
-              value: '2',
-              key: '2',
-            },
-            {
-              label: '选项3',
-              value: '3',
-              key: '3',
-            },
-            {
-              label: '选项4',
-              value: '4',
-              key: '4',
-            },
-          ],
-          [
-            {
-              label: '选项1',
-              value: '1',
-              key: '1',
-            },
-            {
-              label: '选项2',
-              value: '2',
-              key: '2',
-            },
-          ],
-        ] as const} />
+      {/* <Picker items={[
+        [
+          {
+            label: '1',
+            value: '1',
+          }
+        ]
+      ] as const} /> */}
+      <Picker.Cascade defaultValue={['浙江', '宁波']} open={open} onClose={() => setOpen(false)}
+        items={items}
+        onChange={(value) => {
+          console.log(value);
+        }}
+
+      />
     </Configuration>
   );
 }

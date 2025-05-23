@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { StyleSheet, View } from 'react-native';
 import Drawer from '../drawer';
 import SeparationLine from '../separation-line';
@@ -6,8 +7,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import PickerGesture from './gesture';
 import { useControllableValue } from '../../hooks';
 import { useConfiguration } from '../configuration';
+import { lazy } from 'react';
 
-type PickerValue = string | number;
+export type PickerValue = string | number;
 
 export type PickerItem = {
   label: React.ReactNode
@@ -18,7 +20,7 @@ export type PickerItem = {
 /**
  * 提取列数据，对值类型做枚举提醒
  */
-type PickerState<T extends readonly PickerItem[][]> = {
+export type PickerState<T extends readonly PickerItem[][]> = {
   [K in keyof T]: T[K][number]['value'];
 };
 
@@ -36,6 +38,10 @@ type PickerProps<T extends PickerItem[][]> = {
    */
   onChange?: (value: PickerState<T>) => void;
   /**
+   * 当前选择回调
+   */
+  onSelect?: (value: PickerValue) => void;
+  /**
    * 项目
    */
   items?: T;
@@ -47,6 +53,10 @@ type PickerProps<T extends PickerItem[][]> = {
    * 关闭
    */
   onClose?: () => void;
+  /**
+   * 列数
+   */
+  columns?: number;
 }
 
 
@@ -63,6 +73,8 @@ export default function Picker<T extends PickerItem[][]>
     items,
     open,
     onClose,
+    columns,
+    onSelect,
   } = props;
 
   const [
@@ -98,30 +110,49 @@ export default function Picker<T extends PickerItem[][]>
       zIndex: 1,
       opacity: 0.6,
     },
+    items: {
+      ...(columns ? {
+        width: `${100 / columns}%`,
+      } : {
+        flex: 1,
+      }),
+      alignItems: 'center',
+    },
   });
 
   return (
     <Drawer open={open} onClose={onClose} height={300} showClose={false} style={styles.drawer}>
       <View style={styles.header}>
-        <Button fill="text" style={styles.button}>取消</Button>
-        <Button fill="text" style={styles.button}>确定</Button>
+        <Button fill="text" style={styles.button}>
+          取消
+        </Button>
+        <Button fill="text" style={styles.button}>
+          确定
+        </Button>
       </View>
       <SeparationLine style={styles.line} />
       <View style={styles.container}>
         <View style={mask.top} />
-        <View style={styles.main}>
+        <View style={{
+          ...styles.main,
+          alignItems: columns ? 'flex-start' : 'center',
+        }}>
           <SeparationLine style={styles.line} />
           <GestureHandlerRootView>
-            <View style={styles.content}>
+            <View style={{
+              ...styles.content,
+              justifyContent: columns ? 'flex-start' : 'space-between',
+            }}>
               {
                 items?.map((item, index) => {
                   const onChange = (state: PickerValue) => {
                     const data = [...(value ?? [])];
                     data?.splice(index, 1, state);
                     setValue(data);
+                    onSelect?.(state);
                   };
                   return (
-                    <View style={styles.items} key={index}>
+                    <View style={mask.items} key={index}>
                       <PickerGesture
                         onChange={onChange}
                         value={value?.[index]}
@@ -141,6 +172,8 @@ export default function Picker<T extends PickerItem[][]>
   );
 }
 
+Picker.Cascade = lazy(() => import('./cascade'));
+
 const styles = StyleSheet.create({
   container: {
     width: '100%',
@@ -158,16 +191,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 38,
     display: 'flex',
-    alignItems: 'center',
   },
   content: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  items: {
-    flex: 1,
-    alignItems: 'center',
   },
   header: {
     flexDirection: 'row',

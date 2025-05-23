@@ -4,8 +4,8 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { PickerItem } from '.';
 import { content } from '../../utils';
-import { memo } from 'react';
 import { useConfiguration } from '../configuration';
+import { useEffect } from 'react';
 
 type PickerGestureProps = {
   items?: PickerItem[];
@@ -13,7 +13,7 @@ type PickerGestureProps = {
   value: number | string;
 }
 
-function PickerGesture(props: PickerGestureProps) {
+export default function PickerGesture(props: PickerGestureProps) {
 
   const {
     items,
@@ -34,6 +34,14 @@ function PickerGesture(props: PickerGestureProps) {
 
   const translateY = useSharedValue(min?.value ?? 0);
 
+  // 项目变化重置 translateY 值
+  useEffect(() => {
+    translateY.value = withTiming(min?.value ?? 0, {
+      duration: 500,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
+
   const createGesture = () => {
     const gesture = Gesture.Pan().onUpdate((event) => {
       translateY.value = event.translationY;
@@ -44,7 +52,7 @@ function PickerGesture(props: PickerGestureProps) {
         translateY.value = withTiming(0, {
           duration: 500,
         }, () => {
-          onChange && runOnJS(onChange)(items?.at(-1)?.value as string);
+          onChange && runOnJS(onChange)(items?.[0]?.value as string);
         });
         return;
       }
@@ -98,6 +106,6 @@ function PickerGesture(props: PickerGestureProps) {
 }
 
 
-export default memo(PickerGesture, (oldest, latest) => {
-  return Object.is(oldest.value, latest.value);
-});
+// export default memo(PickerGesture, (oldest, latest) => {
+//   return Object.is(oldest.value, latest.value) || Object.is(oldest.items, latest.items);
+// });
