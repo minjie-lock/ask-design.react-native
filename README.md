@@ -1,5 +1,11 @@
 # @ASK-DESIGN/REACT-NAIVE
 
+<p align="center">
+<img src="./src/static/images/logo.png"  width="400" align="center" />
+</p>
+
+## 介绍
+
 _Ask Design for React Native_ 是一个 React Native 设计系统，它提供了一组可用于构建原生应用的组件
 
 ## 安装
