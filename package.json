@@ -9,8 +9,19 @@
     "start": "react-native start",
     "test": "jest"
   },
+  "main": "./src/inde.tsx",
+  "module": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "main": "./src/inde.tsx",
+      "module": "./src/index.ts",
+      "types": "./src/index.d.ts"
+    }
+  },
   "dependencies": {
     "@ant-design/icons-react-native": "^2.3.2",
+    "dayjs": "^1.11.13",
     "react": "19.0.0",
     "react-native": "0.79.1",
     "react-native-fast-image": "^8.6.3",

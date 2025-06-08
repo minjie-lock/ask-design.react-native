@@ -2,9 +2,9 @@
 
 import { useControllableValue } from '../../hooks';
 import { GestureResponderEvent, StyleSheet, View } from 'react-native';
-import Summary, { SummaryProps } from './summary';
+import type { SummaryProps } from './summary';
 import { useConfiguration } from '../configuration';
-import React, { Children, cloneElement, createContext } from 'react';
+import React, { Children, cloneElement, createContext, lazy } from 'react';
 
 export const DetailsContext = createContext<{ current: (string | number)[] | void }>({
   current: [],
@@ -101,5 +101,5 @@ export default function Details<T extends boolean>(props: DetailsProps<T>): Reac
   );
 }
 
-Details.Summary = Summary;
+Details.Summary = lazy(() => import('./summary'));
 

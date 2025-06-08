@@ -58,7 +58,7 @@ type CascadeProps<T extends readonly CascadeItem[]> = {
 >;
 
 /**
- * @function Cascade
+ * @function Picker.Cascade
  * @author Lock
  * @description 级联选择器
  * @param {CascadeProps} props

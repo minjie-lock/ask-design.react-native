@@ -155,11 +155,17 @@ export default function Picker<T extends PickerItem[][]>
       style={styles.drawer}
     >
       <View style={styles.header}>
-        <Button fill="text" style={styles.button} onPress={onCancel}>
+        <Button fill="text" style={styles.button} onPress={() => {
+          onClose?.();
+          onCancel?.();
+        }}>
           {cancelText}
         </Button>
         {content(title, {})}
-        <Button fill="text" style={styles.button} onPress={onConfirm}>
+        <Button fill="text" style={styles.button} onPress={() => {
+          onClose?.();
+          onConfirm?.();
+        }}>
           {confirmText}
         </Button>
       </View>
@@ -206,6 +212,7 @@ export default function Picker<T extends PickerItem[][]>
 }
 
 Picker.Cascade = lazy(() => import('./cascade'));
+Picker.Date  = lazy(() => import('./date'));
 
 const styles = StyleSheet.create({
   container: {
