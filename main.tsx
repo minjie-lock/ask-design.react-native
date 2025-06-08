@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
-import { Avatar, Button, Card, Configuration, Details, Ellipsis, Input, Picker, Segmented, Selector, SeparationLine, Space, Swiper, Tag } from './src/components';
+import { Avatar, Button, Card, Configuration, Details, Ellipsis, Input, Picker, Segmented, Selector, SeparationLine, Space, Swiper, Tag } from '@/components';
 import { useToast, useDialog } from './src/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from './src/utils';

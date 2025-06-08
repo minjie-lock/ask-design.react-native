@@ -1,6 +1,6 @@
 import { createContext, useContext, useRef } from 'react';
 import type { ConfigurationProps } from './types';
-import { dark, light } from '../styles';
+import { dark, light } from '../../styles';
 import Toast, { ToastRef } from '../toast';
 import Dialog, { DialogRef } from '../dialog';
 import { useColorScheme } from 'react-native';
