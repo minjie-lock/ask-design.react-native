@@ -1,4 +1,4 @@
-import type { ConfigurationProps } from '../configuration/types';
+import type { ConfigurationProps } from '../components/configuration/types';
 import { NAVY_BLUE, GREEN, GRAY, RED, GOLD } from './color';
 const gloabl = {
   round: 6,

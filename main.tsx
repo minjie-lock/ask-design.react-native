@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
-import { Avatar, Button, Card, Configuration, Details, Drawer, Ellipsis, Error, Input, Picker, Result, Segmented, Selector, SeparationLine, Space, Swiper, Tag } from './src/components';
+import { Avatar, Button, Card, Configuration, Details, Ellipsis, Input, Picker, Segmented, Selector, SeparationLine, Space, Swiper, Tag } from '@/components';
 import { useToast, useDialog } from './src/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from './src/utils';
@@ -390,8 +390,7 @@ export default function Root() {
           }
         ]
       ] as const} /> */}
-      <Picker.Cascade defaultValue={['浙江', '宁波']} open={open} onClose={() => setOpen(false)}
-        items={items}
+      <Picker.Date precision="day" open={open} onClose={() => setOpen(false)}
         onChange={(value) => {
           console.log(value);
         }}
