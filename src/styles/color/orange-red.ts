@@ -1,4 +1,4 @@
-const ORANGE_RED = {
+const ORANGE_RED = Object.freeze({
   one: '#4D0E00',
   two: '#771E05',
   three: '#A23714',
@@ -9,6 +9,6 @@ const ORANGE_RED = {
   eight: '#FCC6A1',
   nine: '#FDDEC5',
   ten: '#FFF4EB',
-} as const;
+} as const);
 
 export default ORANGE_RED;

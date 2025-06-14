@@ -1,4 +1,4 @@
-const PINK_PURPLE = {
+const PINK_PURPLE = Object.freeze({
   one: '#42004D',
   two: '#650370',
   three: '#8A0D93',
@@ -9,6 +9,6 @@ const PINK_PURPLE = {
   eight: '#F092E6',
   nine: '#F7C1F0',
   ten: '#FFF2FD',
-} as const;
+} as const);
 
 export default PINK_PURPLE;

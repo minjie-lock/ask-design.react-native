@@ -1,4 +1,4 @@
-const GOLD = {
+const GOLD = Object.freeze({
   one: '#4D1B00',
   two: '#793004',
   three: '#A64B0A',
@@ -9,6 +9,6 @@ const GOLD = {
   eight: '#FFCD87',
   nine: '#FFE3B8',
   ten: '#FFF7E8',
-} as const;
+} as const);
 
 export default GOLD;

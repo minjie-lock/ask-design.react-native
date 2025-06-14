@@ -115,6 +115,16 @@ export const light: Color = {
       background: '#FFFFFF',
       color: GRAY.one,
     },
+    Stepper: {
+      background: {
+        default: GRAY.ten,
+        active: GRAY.nine,
+      },
+      color: {
+        active: NAVY_BLUE.five,
+        inactive: GRAY.eight,
+      },
+    },
   },
 };
 
