@@ -1,6 +1,6 @@
 import { useControllableValue } from '@/hooks';
-import { ActivityIndicator, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
-import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import { StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { useConfiguration } from '../configuration';
 import { useEffect, useState } from 'react';
 import { content } from '@/utils';
