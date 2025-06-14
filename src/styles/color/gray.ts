@@ -1,4 +1,4 @@
-const GRAY = {
+const GRAY = Object.freeze({
   one: '#17171A',
   two: '#2E2E30',
   three: '#484849',
@@ -9,6 +9,6 @@ const GRAY = {
   eight: '#C5C5C5',
   nine: '#DFDFDF',
   ten: '#F6F6F6',
-} as const;
+} as const);
 
 export default GRAY;

@@ -1,4 +1,4 @@
-const LIME = {
+const LIME = Object.freeze({
   one: '#2A4D00',
   two: '#447006',
   three: '#629412',
@@ -9,6 +9,6 @@ const LIME = {
   eight: '#DEF198',
   nine: '#EEF8C2',
   ten: '#FDFFEE',
-} as const;
+} as const);
 
 export default LIME;

@@ -13,10 +13,10 @@ import Space from '../space';
 
 
 export type DialogRef = {
-  show: (options: DialogOptions.Show) => void;
-  hide: () => void;
-  alert: (options: DialogOptions.Alert) => Promise<void>;
-  confirm: (options: DialogOptions.Confirm) => Promise<boolean>;
+  show?: (options: DialogOptions.Show) => void;
+  hide?: () => void;
+  alert?: (options: DialogOptions.Alert) => Promise<void>;
+  confirm?: (options: DialogOptions.Confirm) => Promise<boolean>;
 }
 
 type DialogProps = {

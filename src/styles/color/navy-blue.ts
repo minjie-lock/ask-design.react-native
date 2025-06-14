@@ -1,4 +1,4 @@
-const NAVY_BLUE = {
+const NAVY_BLUE = Object.freeze({
   one: '#000D4D',
   two: '#041B79',
   three: '#0E32A6',
@@ -9,6 +9,6 @@ const NAVY_BLUE = {
   eight: '#93BEFF',
   nine: '#BEDAFF',
   ten: '#EAF4FF',
-} as const;
+} as const);
 
 export default NAVY_BLUE;

@@ -1,5 +1,7 @@
+/* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-shadow */
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useMemoizedFn } from 'ahooks';
+import { useState, useRef, useEffect } from 'react';
 
 interface Options<T> {
   defaultValue?: T;
@@ -13,7 +15,7 @@ export default  function useControllableValue<T>(options: Options<T> = {}):
   const { defaultValue, value, onChange } = options;
 
   // 使用 useRef 保存当前是否处于受控状态
-  const controlledRef = useRef(value !== undefined);
+  const controlledRef = useRef(value !== void 0);
 
   // 内部状态，用于非受控组件
   const [internalValue, setInternalValue] = useState<T>(defaultValue as T);
@@ -22,20 +24,19 @@ export default  function useControllableValue<T>(options: Options<T> = {}):
   const mergedValue = controlledRef.current ? value as T : internalValue;
 
   // 更新值的函数
-  const setValue = useCallback(<S>(value: T | S) => {
+  const setValue = useMemoizedFn(<S>(value: T | S) => {
     // 如果是受控组件，只触发 onChange 回调
     if (controlledRef.current) {
       onChange?.(value as T);
     } else {
       // 如果是非受控组件，更新内部状态并触发 onChange 回调
       setInternalValue(value as T);
-      onChange?.(value as T);
+      onChange?.(internalValue as T);
     }
-  }, [onChange]);
+  });
 
   // 监听 value prop 的变化，更新 controlledRef
   useEffect(() => {
-    // eslint-disable-next-line no-void
     controlledRef.current = value !== void 0;
   }, [value]);
 

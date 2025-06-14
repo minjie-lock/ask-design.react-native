@@ -106,6 +106,16 @@ export type ConfigurationProps = {
       Picker: {
         background: string;
         color: string;
+      },
+      Stepper: {
+        background: {
+          default: string;
+          active: string;
+        };
+        color: {
+          active: string;
+          inactive: string;
+        };
       }
     };
   };

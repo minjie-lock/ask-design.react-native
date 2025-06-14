@@ -1,4 +1,4 @@
-const MAGENTA = {
+const MAGENTA = Object.freeze({
   one: '#4D0034',
   two: '#770850',
   three: '#A1176C',
@@ -9,6 +9,6 @@ const MAGENTA = {
   eight: '#FB9EC8',
   nine: '#FDC3DB',
   ten: '#FFE8F1',
-} as const;
+} as const);
 
 export default MAGENTA;

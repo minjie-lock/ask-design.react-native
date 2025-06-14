@@ -18,7 +18,7 @@ type InputProps = {
   /**
    * 输入框的样式
   */
-  inputStyle?: ViewStyle;
+  style?: ViewStyle;
 } & Omit<TextInputProps, 'onChangeText' | 'onChagne' | 'value' | 'defaultValue'>;
 
 /**
@@ -30,7 +30,6 @@ export default function Input(props: InputProps): React.ReactNode {
 
   const {
     placeholder = 'Please enter...',
-    inputStyle,
   } = props;
 
   const styles = StyleSheet.create({
@@ -39,7 +38,7 @@ export default function Input(props: InputProps): React.ReactNode {
       height: 40,
     },
     input: {
-      ...(inputStyle),
+      ...(props?.style ?? {}),
     },
   });
 
@@ -56,7 +55,8 @@ export default function Input(props: InputProps): React.ReactNode {
 
   return (
     <View style={styles.main}>
-      <TextInput value={value}
+      <TextInput
+        value={value}
         placeholder={placeholder}
         onChangeText={onChange}
       />

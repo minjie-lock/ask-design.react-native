@@ -1,18 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
-import { StyleSheet, View, ViewStyle } from 'react-native';
-import Item from './item';
-import {
-  Children,
+import { LayoutChangeEvent, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
+import React, {
+  cloneElement,
   createContext,
-  useCallback,
+  isValidElement,
   useContext,
-  useEffect,
   useImperativeHandle,
   useRef,
+  useState,
 } from 'react';
-import { useControllableValue } from '../../hooks';
-import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useControllableValue } from '@/hooks';
+import {
+  GestureDetector,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+import Animated,
+{
+  useSharedValue,
+} from 'react-native-reanimated';
+import useGesture from './hook';
 
 const SwiperContext = createContext<number | null>(null);
 
@@ -33,7 +39,7 @@ export const useSwiperRef = () => {
   }>(null);
 };
 
-type SwiperProps = {
+type SwiperProps<T> = {
   ref?: React.RefObject<unknown>;
   /**
    * 是否允许手势滑动
@@ -50,7 +56,7 @@ type SwiperProps = {
   /**
    * 方向
   */
-  direction?: 'horizontal' | 'vertical';
+  direction?: T;
   /**
    * 自定义指示器
   */
@@ -75,10 +81,14 @@ type SwiperProps = {
    * 切换触发
   */
   onChange?: (current?: number) => void;
-  /**
-   * 子级
-  */
-  children?: React.ReactNode;
+  // /**
+  //  * 子级
+  // */
+  // children?: React.ReactNode;
+  items?: {
+    children?: React.ReactNode;
+    value?: number;
+  }[];
   /**
    * 样式
    */
@@ -98,10 +108,11 @@ type SwiperProps = {
  * @description 轮播
  * @author Lock
  * @param props;
- * @returns {JSX.Element}
+ * @returns {React.ReactNode}
  */
 
-export default function Swiper({ ref, ...props }: SwiperProps) {
+export default function Swiper<T extends 'horizontal' | 'vertical' = 'horizontal'>({ ref, ...props }: SwiperProps<T>):
+  React.ReactNode {
 
   const {
     allowTouchMove = true,
@@ -112,26 +123,24 @@ export default function Swiper({ ref, ...props }: SwiperProps) {
     loop = true,
     onChange,
     style,
-    children,
+    items,
     width = 100,
     height = 120,
-    ...rest
   } = props ?? {};
 
   const horizontal = direction === 'horizontal';
-  const count = Children.count(children) + 2;
-  const [value, setValue] = useControllableValue<Required<SwiperProps>['value']>({
+  const count = (items?.length ?? 0) + 2;
+
+  const [dimension, setDimension] = useState(0);
+
+  const [value, setValue] = useControllableValue<Required<SwiperProps<T>>['value']>({
     defaultValue: props?.defaultValue,
     value: props?.value,
     onChange,
   });
 
   const current = useSharedValue(1);
-  const interval = useRef(null);
-  const timeout = useRef(null);
-  const translate = useSharedValue(
-    horizontal ? -width : -height
-  );
+
   useImperativeHandle(ref, () => {
     return {
       next: () => {
@@ -149,135 +158,25 @@ export default function Swiper({ ref, ...props }: SwiperProps) {
     };
   });
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{
-        [
-          horizontal ?
-            'translateX'
-            : 'translateY'
-        ]: translate.value,
-      }],
-    };
-  });
+  const { styles: gestureStyles, gesture } = useGesture(
+    direction,
+    dimension,
+    count,
+    setValue
+  );
 
-  const onAutoplay = useCallback(() => {
-    if (autoplay) {
-      interval.current = setInterval(() => {
-        current.value++;
-        runOnJS(setValue)(current.value);
-        translate.value = withTiming(-current.value * (horizontal ? width : height), {
-          duration: 1000,
-        }, () => {
-          /**
-           * 值会滞前所以减一
-           */
-          if (current.value - 1 === count - 1) {
-            current.value = 1;
-            translate.value = -(horizontal ? width : height);
-          }
-        });
-        if (!loop) {
-          clearInterval(interval.current!);
-        }
-      }, autoplayInterval);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loop, autoplayInterval, autoplay]);
-
-  const clearTimer = () => {
-    if (autoplay) {
-      if (interval.current) {
-        clearInterval(interval.current);
-        interval.current = null;
-      }
-    }
-  };
-
-  /**
-   * 长按停止轮播
-  */
-  useEffect(() => {
-    onAutoplay();
-    return clearTimer;
-  }, [onAutoplay]);
-
-  const setTimer = () => {
-    clearTimeout(timeout.current!);
-    timeout.current = setTimeout(() => {
-      onAutoplay?.();
-    }, 1000);
-  };
-
-  const transform = (
-    translation: 'translationX' | 'translationY',
-    dimension: number
-  ) => {
-    if (!allowTouchMove) {
-      return Gesture.Pan();
-    }
-    return Gesture.Simultaneous(
-      Gesture.LongPress().onStart(() => {
-        runOnJS(clearTimer)();
-      }),
-      Gesture.Pan().onStart(() => {
-        runOnJS(clearTimer)();
-      }).onUpdate((event) => {
-        translate.value = -current.value * dimension + event[translation]; // ✅ 滑动时实时更新位置
-      }).onEnd((event) => {
-        if (event[translation] > 50 && current.value > 0) {
-          current.value -= 1; // 左滑
-        } else if (event[translation] < -50 && current.value < count - 1) {
-          current.value += 1;
-        }
-        runOnJS(setValue)(
-          current.value,
-        );
-        translate.value = withTiming(-current.value * dimension, {
-          duration: 500,
-        }, () => {
-          if (current.value === count - 1) {
-            current.value = 1;
-            translate.value = -dimension;
-            return;
-          }
-          if (current.value === 0) {
-            current.value = count - 2;
-            translate.value = -current.value * dimension;
-            return;
-          }
-          if (!interval.current) {
-            // runOnJS(setTimer)();
-          }
-        }); // ✅ 平滑切换
-      })
-    );
-  };
-
-  const gesture = {
-    horizontal: transform('translationX', width),
-    vertical: transform('translationY', height),
-  };
-
-  const styles = StyleSheet.create<{
-    main: ViewStyle;
-    content: ViewStyle;
-    indicators: ViewStyle;
-  }>({
+  const styles = StyleSheet.create({
     main: {
-      width,
+      width: '100%',
       height,
       overflow: 'hidden',
       position: 'relative',
     },
     content: {
-      width,
-      height,
+      width: '100%',
+      height: '100%',
       display: 'flex',
       flexDirection: horizontal ? 'row' : 'column',
-      // transform: [
-      //   transform[direction]?.().style,
-      // ],
       ...style,
     },
     indicators: {
@@ -293,46 +192,68 @@ export default function Swiper({ ref, ...props }: SwiperProps) {
     },
   });
 
+  const onLayout = (event: LayoutChangeEvent) => {
+    const { width, height } = event.nativeEvent?.layout;
+    setDimension(direction === 'horizontal' ? width : height);
+  };
+
+  const children = [
+    items?.at(-1),
+    ...(items ?? []),
+    items?.at(0),
+  ];
 
   return (
-    <SwiperContext.Provider value={value}>
-      <View style={styles.main}>
-        <GestureHandlerRootView>
-          <GestureDetector gesture={gesture[direction]}>
-            <Animated.View style={[
-              styles.content,
-              animatedStyle,
-            ]}>
-              {Children.toArray(children)?.at(-1)}
-              {children}
-              {Children.toArray(children)?.at(0)}
-            </Animated.View>
-          </GestureDetector>
-        </GestureHandlerRootView>
-        <View style={styles.indicators}>
-          {
-            typeof indicator === 'function' ? indicator(Children.count(children), value) :
-              (
-                Array.from({
-                  length: Children.count(children),
-                })?.map((...[, index]) => {
-                  const total = Children.count(children) + 2;
-                  const content = (value - 1) === index || (index === 0 && total - 1 === value) || (index === total - 3 && value === 0);
-                  return (
-                    <Animated.View key={index} style={{
-                      width: horizontal ? content ? 15 : 4 : 4,
-                      height: horizontal ? 4 : content ? 15 : 4,
-                      backgroundColor: content ? 'blue' : '#CCC',
-                    }} />
-                  );
-                })
-              )
-          }
-        </View>
-      </View>
-    </SwiperContext.Provider>
+    <View style={styles.main}>
+      <GestureHandlerRootView>
+        <GestureDetector gesture={gesture}>
+          <Animated.View onLayout={onLayout} style={[
+            styles.content,
+            gestureStyles.main,
+          ]}>
+            {
+              children?.map((item, key) => {
+                const style = isValidElement<ViewProps>(item?.children)
+                  ? item?.children?.props?.style ?? {}
+                  : {};
+                return cloneElement(
+                  item?.children as React.ReactElement<ViewProps>,
+                  {
+                    key: key,
+                    style: {
+                      ...(style as ViewStyle),
+                      width: '100%',
+                      height: '100%',
+                    },
+                  }
+                );
+              })
+            }
+          </Animated.View>
+        </GestureDetector>
+      </GestureHandlerRootView>
+      {/* <View style={styles.indicators}>
+        {
+          typeof indicator === 'function' ? indicator(items?.length, value) :
+            (
+              Array.from({
+                length: items?.length,
+              })?.map((...[, index]) => {
+                const total = count + 2;
+                const content = (value - 1) === index || (index === 0 && total - 1 === value) || (index === total - 3 && value === 0);
+                return (
+                  <Animated.View key={index} style={{
+                    width: horizontal ? content ? 15 : 4 : 4,
+                    height: horizontal ? 4 : content ? 15 : 4,
+                    backgroundColor: content ? 'blue' : '#CCC',
+                  }} />
+                );
+              })
+            )
+        }
+      </View> */}
+    </View>
   );
-};
+}
 
-Swiper.Item = Item;
 

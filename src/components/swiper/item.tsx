@@ -1,5 +1,5 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { content } from '../../utils';
+import { content } from '@/utils';
 
 export type SwiperItemProps = {
   /**
