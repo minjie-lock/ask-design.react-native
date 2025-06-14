@@ -411,10 +411,30 @@ export default function Root() {
     //   </Form.Field>
     // </Form>
     <Configuration>
-      <Stepper max={20} min={0} onChange={(value) => {
+      <Stepper onChange={(value) => {
         console.log(value);
-        
-      }} />
+
+      }}
+        // formatter={(value) =>  '$' + value}
+        // digits={2}
+        max="0.000000000000021"
+        min="0.000000000000001"
+        mode="string"
+        defaultValue="0.000000000000002"
+        step="0.000000000000001"
+      />
+      <Stepper onChange={(value) => {
+        console.log(value);
+
+      }}
+        // formatter={(value) =>  '$' + value}
+        // digits={2}
+        max={20}
+        min={0}
+        mode="number"
+        // defaultValue={0}
+        step={2}
+      />
     </Configuration>
   );
 }

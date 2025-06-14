@@ -29,6 +29,7 @@
     "@ant-design/icons-react-native": "^2.3.2",
     "ahooks": "^3.8.5",
     "babel-plugin-module-resolver": "^5.0.2",
+    "bignumber.js": "^9.3.0",
     "dayjs": "^1.11.13",
     "rc-field-form": "^2.7.0",
     "react": "19.0.0",
