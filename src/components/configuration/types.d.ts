@@ -116,7 +116,18 @@ export type ConfigurationProps = {
           active: string;
           inactive: string;
         };
-      }
+      };
+      Switch: {
+        background: {
+          default: string;
+          active: string;
+        };
+        text: {
+          default: string;
+          active: string;
+        };
+        border: string;
+      };
     };
   };
   hooks?: {

@@ -125,6 +125,17 @@ export const light: Color = {
         inactive: GRAY.eight,
       },
     },
+    Switch: {
+      background: {
+        default: 'white',
+        active: NAVY_BLUE.five,
+      },
+      text: {
+        default: GRAY.eight,
+        active: 'white',
+      },
+      border: GRAY.ten,
+    },
   },
 };
 
