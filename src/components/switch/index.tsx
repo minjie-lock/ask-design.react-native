@@ -1,5 +1,5 @@
 import { useControllableValue } from '@/hooks';
-import { StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, TouchableWithoutFeedback, ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { useConfiguration } from '../configuration';
 import { useEffect, useState } from 'react';
@@ -40,14 +40,42 @@ type SwitchProps = {
    * 类名
   */
   className?: string;
+  /**
+   * 样式
+  */
+  style?: ViewStyle;
+  /**
+   * 激活颜色
+  */
+  color?: string;
+  /**
+   * 尺寸
+  */
+  size?: 'small' | 'medium' | 'large';
+  /**
+   * 类型
+   * @enum circle 圆角
+   * @enum square 方形
+  */
+  shape?: 'circle' | 'square';
 }
 
-export default function Switch(porps: SwitchProps) {
+/**
+ * @function Switch
+ * @description 开关
+ * @author Lock
+ * @param {SwitchProps} porps
+ * @returns {React.ReactNode}
+ */
+export default function Switch(porps: SwitchProps): React.ReactNode {
 
   const {
     text,
     disabled = false,
     className,
+    style,
+    color,
+    shape = 'circle',
   } = porps;
 
   const [value, setValue] = useControllableValue({
@@ -66,6 +94,7 @@ export default function Switch(porps: SwitchProps) {
   const container = useSharedValue(scheme.background.default);
   const contents = useSharedValue(98);
   const load = useSharedValue(0);
+  const border = useSharedValue(scheme.border);
 
   const activeStyle = useAnimatedStyle(() => ({
     transform: [
@@ -77,10 +106,7 @@ export default function Switch(porps: SwitchProps) {
 
   const containerStyle = useAnimatedStyle(() => ({
     backgroundColor: container.value,
-    ...(value ? {} : {
-      borderColor: scheme.border,
-      borderWidth: 2,
-    }),
+    borderColor: border.value,
   }));
 
   const contentStyle = useAnimatedStyle(() => ({
@@ -113,7 +139,7 @@ export default function Switch(porps: SwitchProps) {
 
   useEffect(() => {
     active.value = withTiming(
-      value ? 80 : 0,
+      value ? 70 : 0,
       {
         duration: 500,
       }
@@ -125,8 +151,15 @@ export default function Switch(porps: SwitchProps) {
       }
     );
     container.value = withTiming(
-      value ? scheme.background.active :
+      value ? color ?? scheme.background.active :
         scheme.background.default,
+      {
+        duration: 500,
+      }
+    );
+    border.value = withTiming(
+      value ? color ?? scheme.background.active :
+        scheme.border,
       {
         duration: 500,
       }
@@ -137,9 +170,10 @@ export default function Switch(porps: SwitchProps) {
   // 开启加载动画
   useDebounceEffect(() => {
     if (loading) {
-      load.value = withRepeat(withTiming(360, {
-        duration: 1000,
-      }), -1);
+      load.value = withRepeat(
+        withTiming(360, {
+          duration: 1000,
+        }), -1);
     } else {
       load.value = 0;
     }
@@ -158,12 +192,15 @@ export default function Switch(porps: SwitchProps) {
   const styles = StyleSheet.create({
     container: {
       width: 51,
-      height: 31,
-      borderRadius: 30,
+      height: 32,
+      borderRadius: shape === 'square' ? 5 : 30,
       position: 'relative',
       flexDirection: 'row',
       alignItems: 'center',
       opacity: disabled || loading ? 0.5 : 1,
+      borderWidth: 2,
+      // borderColor: value ? 'transparent' : scheme.border,
+      ...style,
     },
     active: {
       width: 27,
@@ -173,7 +210,7 @@ export default function Switch(porps: SwitchProps) {
       shadowOffset: { width: 0, height: 5 },
       shadowOpacity: 0.1,
       shadowRadius: 10,
-      borderRadius: '50%',
+      borderRadius: shape === 'square' ? 5 : '50%',
       elevation: 10, // 仅适用于 Android
       position: 'absolute',
       alignItems: 'center',

@@ -419,7 +419,7 @@ export default function Root() {
           });
         }} />
         <SeparationLine />
-        <Switch disabled value={false} loading />
+        <Switch   shape="square" />
       </View>
   );
 }
