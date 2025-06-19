@@ -27,11 +27,11 @@ export default  function useControllableValue<T>(options: Options<T> = {}):
   const setValue = useMemoizedFn(<S>(value: T | S) => {
     // 如果是受控组件，只触发 onChange 回调
     if (controlledRef.current) {
-      onChange?.(value as T);
+      return onChange?.(value as T);
     } else {
       // 如果是非受控组件，更新内部状态并触发 onChange 回调
       setInternalValue(value as T);
-      onChange?.(internalValue as T);
+      return onChange?.(internalValue as T);
     }
   });
 

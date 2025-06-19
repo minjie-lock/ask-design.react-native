@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Dimensions, SafeAreaView, ScrollView, Text, View } from 'react-native';
-import { Avatar, Button, Card, Configuration, Details, Ellipsis, Form, Input, Picker, Segmented, Selector, SeparationLine, Space, Stepper, Swiper, Tag } from '@/components';
+import { Dimensions, SafeAreaView, View } from 'react-native';
+import { Button, Card, Configuration, Segmented, SeparationLine, Space, Switch } from '@/components';
 import { useToast, useDialog } from '@/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from '@/utils';
@@ -410,32 +410,17 @@ export default function Root() {
 
     //   </Form.Field>
     // </Form>
-    <Configuration>
-      <Stepper onChange={(value) => {
-        console.log(value);
-
-      }}
-        // formatter={(value) =>  '$' + value}
-        // digits={2}
-        max="0.000000000000021"
-        min="0.000000000000001"
-        mode="string"
-        defaultValue="0.000000000000002"
-        step="0.000000000000001"
-      />
-      <Stepper onChange={(value) => {
-        console.log(value);
-
-      }}
-        // formatter={(value) =>  '$' + value}
-        // digits={2}
-        max={20}
-        min={0}
-        mode="number"
-        // defaultValue={0}
-        step={2}
-      />
-    </Configuration>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Switch onChange={(value) => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+            }, 3000);
+          });
+        }} />
+        <SeparationLine />
+        <Switch   shape="square" />
+      </View>
   );
 }
 
