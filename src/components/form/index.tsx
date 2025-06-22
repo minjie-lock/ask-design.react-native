@@ -1,8 +1,12 @@
 // import { createContext } from 'react';
 // import type { FormProps } from './type';
-import IForm, { FormProps } from 'rc-field-form';
+import { useMount } from 'ahooks';
+import IForm, { FormProps as IFromProps, useForm } from 'rc-field-form';
+import { lazy } from 'react';
+import { FormProps } from './type';
 
-// const FormContext = createContext();
+// export const FormContext = createContext();
+
 
 /**
  * @function Form
@@ -15,16 +19,24 @@ export default function Form<T>(props: FormProps<T>): React.ReactNode {
   const {
     children,
     form: iform,
+    ref,
     ...rest
   } = props;
 
-  const [form] = IForm.useForm<T>();
+  const [form] = useForm<T>();
+
+  // 判断是否传入 form 属性
+  // useMount(() => {
+  //   form = iform || form;
+  // });
 
   return (
-    <IForm {...rest} form={form}>
+    <IForm ref={ref} form={form}>
       {children}
     </IForm>
   );
 }
 
-Form.Field = IForm.Field;
+
+Form.Field = lazy(() => import('./field'));
+// Form.useForm = IForm.useForm;

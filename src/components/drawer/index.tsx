@@ -4,6 +4,7 @@ import Animate, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from '
 import { useEffect, useState } from 'react';
 import { content } from '../../utils';
 import Icon from '../icon';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 
@@ -12,6 +13,10 @@ type DrawerProps = {
    * 显示
   */
   open?: boolean;
+  /**
+   * 是否可以拖动关闭
+   */
+  move?: boolean;
   /**
    * 内容
    */
@@ -85,7 +90,10 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
     mask = true,
     maskStyle,
     onMaskPress,
+    afterClose,
+    afterOpen,
     showClose = true,
+    move = true,
     closeIcon,
   } = props;
 
@@ -122,15 +130,18 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
       left: 0,
       top: 0,
       bottom: 0,
+      width,
       height: '100%',
     },
     right: {
       right: 0,
       top: 0,
       bottom: 0,
+      width,
       height: '100%',
     },
   };
+
 
   const styles = StyleSheet.create({
     container: {
@@ -146,7 +157,7 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
       ...maskStyle,
     },
     header: {
-      alignItems: 'flex-end',
+      alignItems: position === 'right' ? 'flex-start' : 'flex-end',
     },
     content: {
       zIndex: 100,
@@ -165,6 +176,9 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
       setShow(open);
       maskValue.value = withTiming(1, { duration: 300 });
       transform.value = withTiming(0, { duration: 500 });
+      if (afterOpen) {
+        runOnJS?.(afterOpen)?.();
+      }
     } else {
       maskValue.value = withTiming(0,
         { duration: 300 },
@@ -173,6 +187,9 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
         { duration: 500 },
         () => {
           runOnJS(setShow)(false);
+          if (afterClose) {
+            runOnJS?.(afterClose)?.();
+          }
         }
       );
     }
@@ -180,14 +197,15 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
   }, [open]);
 
   const containerStyle = useAnimatedStyle(() => {
-    const translate = ['left', 'right'].includes(position) ? 'translateX' : 'translateY';
+    const translate = ['left', 'right'].includes(position) ?
+      'translateX' : 'translateY';
     return {
       transform: [
         {
           [translate]: transform.value,
         },
       ],
-    };
+    } as unknown as ViewStyle;
   });
 
   const createMaskStyle = useAnimatedStyle(() => ({
@@ -202,6 +220,53 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
     onClose?.();
   };
 
+
+  // 添加滑动关闭
+  const gesture = Gesture.Pan().onChange((event) => {
+
+    if (!move) {
+      return false;
+    }
+
+    const size = ['left', 'right'].includes(position) ?
+      'translationX' : 'translationY';
+
+    switch (position) {
+      case 'left': case 'top':
+        if (event?.[size] <= 0) {
+          transform.value = event?.[size];
+        }
+        break;
+      case 'right': case 'bottom':
+        if (event?.[size] >= 0) {
+          transform.value = event?.[size];
+        }
+        break;
+    }
+
+
+  }).onEnd(() => {
+    if (!move) {
+      return false;
+    }
+    switch (position) {
+      case 'left': case 'top':
+        if (+transform.value < -50) {
+          runOnJS(onHide)();
+          return;
+        }
+        break;
+      case 'right': case 'bottom':
+        if (+transform.value > 50) {
+          runOnJS(onHide)();
+          return;
+        }
+        break;
+
+    }
+    transform.value = withTiming(0, { duration: 500 });
+  });
+
   return (
     <View style={[styles.container]}>
       {
@@ -214,16 +279,21 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
           </TouchableNativeFeedback>
         )
       }
-      <Animate.View style={[styles.content, containerStyle]}>
-        <View style={styles.header}>
-          {
-            closeIcon ? content(closeIcon) : showClose && <Icon name="close" size="md" onPress={() => {
-              onHide();
-            }} />
-          }
-        </View>
-        {content(children)}
-      </Animate.View>
+      <GestureHandlerRootView>
+        <GestureDetector gesture={gesture}>
+          <Animate.View style={[styles.content, containerStyle]}>
+            <View style={styles.header}>
+              {
+                closeIcon ? content(closeIcon) : showClose &&
+                  <Icon name="close" size="md" onPress={() => {
+                    onHide();
+                  }} />
+              }
+            </View>
+            {content(children)}
+          </Animate.View>
+        </GestureDetector>
+      </GestureHandlerRootView>
     </View>
   );
 }

@@ -29,6 +29,14 @@ type SpaceProps = {
    * 填充
   */
   flex?: number;
+  /**
+   * 样式
+   */
+  style?: ViewStyle;
+  /**
+   * 类名
+   */
+  className?: string;
 }
 
 /**
@@ -48,6 +56,8 @@ export default function Space(props: SpaceProps){
     wrap = false,
     flex,
     gap,
+    style,
+    className,
   } = props;
 
   return (
@@ -61,7 +71,9 @@ export default function Space(props: SpaceProps){
         flexDirection: vertical ? 'column' : 'row',
         flex,
         gap,
+        ...style,
       }}
+      className={className}
     >
       {children}
     </View>

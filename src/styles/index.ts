@@ -136,6 +136,27 @@ export const light: Color = {
       },
       border: GRAY.ten,
     },
+    Wait: {
+      color: {
+        one: NAVY_BLUE.eight,
+        two: NAVY_BLUE.seven,
+        three: NAVY_BLUE.three,
+        four: NAVY_BLUE.two,
+      },
+    },
+    SideBar: {
+      background: {
+        side: {
+          default: GRAY.ten,
+          active: 'white',
+        },
+        children: 'white',
+      },
+      color: {
+        default: GRAY.two,
+        active: NAVY_BLUE.five,
+      },
+    },
   },
 };
 

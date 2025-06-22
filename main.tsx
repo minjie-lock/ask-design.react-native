@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Dimensions, SafeAreaView, View } from 'react-native';
-import { Button, Card, Configuration, Segmented, SeparationLine, Space, Switch } from '@/components';
+import { Dimensions, Text, View } from 'react-native';
+import { Button, Card, Dialog, Drawer, Form, Image, Segmented, SeparationLine, SideBar, Space, Switch, Wait } from '@/components';
 import { useToast, useDialog } from '@/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from '@/utils';
@@ -149,13 +149,15 @@ export default function Root() {
     'Los Angeles battles huge wildfires.',
   ];
 
-  console.log(screen.height);
+  const [position, setPosition] = useState('left')
   const [height, setHeight] = useState(screen.height);
   useEffect(() => {
     AskStatusBar.height.then((resolve) => {
       setHeight(resolve);
     });
   }, []);
+
+  // const [form] = Form.useForm();
 
 
   const items = [
@@ -410,17 +412,105 @@ export default function Root() {
 
     //   </Form.Field>
     // </Form>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Switch onChange={(value) => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-            }, 3000);
-          });
-        }} />
-        <SeparationLine />
-        <Switch   shape="square" />
-      </View>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Switch onChange={(value) => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 3000);
+        });
+      }} />
+      <SeparationLine />
+      <Switch shape="square" />
+      {/* <Segmented
+        items={[
+          ...Array.from({ length: 3 }, (_, i) => ({
+            label: `选项${i + 1}`,
+            value: i + 1,
+            description: '米啊是',
+          })),
+        ]}
+
+      /> */}
+      <SeparationLine />
+      {/* <Wait size="large">
+        <Text>
+          常常需要设计与开发能够快速的做出响应。同时这类产品中有存在很多类似的页面以及组件
+          蚂蚁的企业级产品是一个庞大且复杂的体系。这类产品不仅量级巨大且功能复杂，而且变动和并发频繁，常常需要设计与开发能够快速的做出响应。同时这类产品中有存在很多类似的页面以及组件，可以通过抽象得到一些稳定且高复用性的内容
+        </Text>
+      </Wait> */}
+      {/* <Image
+        source={{
+          uri: 'https://images.unsplash.com/photo-1620476214170-1d8080f65cdb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3150&q=80',
+        }}
+      /> */}
+      {/* <Form> */}
+      {/* <Form.Field name={['dfined']}>
+          <Switch shape="square" />
+        </Form.Field> */}
+      {/* </Form> */}
+      {/* <SideBar
+        items={[
+          {
+            title: '选择一',
+            badge: 1,
+            key: 'one',
+            children: (
+              <View>
+                <Text>
+                  olore aliqua duis do quis cillum incididunt fugiat nostrud irure ullamco ullamco elit culpa sunt. Reprehenderit nostrud tempor aliqua nisi aute nisi incididunt dolore Lorem Lorem ipsum magna culpa aliqua. Cupidatat proident Lorem ea sunt excepteur qui exercitation. Laboris in anim consequat. Officia ullamco nulla ea. Laboris magna consectetur velit adipisicing ad ut nisi ipsum ex quis veniam voluptate. Do quis Lorem elit. Do ipsum tempor sunt tempor nulla consectetur. Sint voluptate cupidatat proident fugiat ipsum amet culpa aliquip nisi. Esse deserunt id adipisicing eiusmod proident ullamco commodo. Cupidatat aliqua proident qui ad quis ipsum ipsum culpa veniam cupidatat in ex. Fugiat in eu occaecat quis et reprehenderit. Reprehenderit et ex nostrud ad incididunt ea est aliquip incididunt commodo irure deserunt officia. Fugiat amet ad quis aliqua irure tempor. Eiusmod amet elit minim irure velit dolor minim tempor. Sint consequat tempor duis ex elit est cupidatat. Ad sit minim id duis nostrud minim et. Proident culpa consequat duis officia sint minim incididunt ipsum commodo ipsum sint proident in. Eu tempor occaecat officia mollit esse do. Culpa culpa ea est cupidatat pariatur adipisicing Lorem eiusmod magna culpa. Laborum mollit veniam exercitation minim quis veniam officia sit minim reprehenderit dolor. Lorem reprehenderit velit elit elit nulla adipisicing fugiat. Eu labore cillum consectetur ea aliquip adipisicing non nostrud aute amet dolor dolor magna culpa. Proident culpa voluptate nisi est cillum culpa proident non consequat sit aute qui in consequat est. Irure duis duis Lorem cillum dolor consectetur nisi minim cillum cillum qui qui minim officia. Reprehenderit laboris magna elit nisi ex. Et dolor do officia officia deserunt deserunt irure exercitation occaecat id. Sunt consequat ipsum non occaecat id enim qui. Lorem quis exercitation adipisicing cillum in aliqua sunt commodo excepteur eiusmod et magna pariatur do. Anim do dolor culpa do. Eiusmod cillum incididunt consectetur aliquip aliqua do irure. Consectetur in irure deserunt proident duis sint mollit qui consectetur enim Lorem est do. In tempor enim consectetur irure reprehenderit tempor aliqua. In est nostrud amet non esse. Anim aliqua adipisicing officia do aute aliquip ipsum et qui amet do et eiusmod. Qui laboris dolore proident labore laborum magna duis mollit sit quis. Ut id labore sunt reprehenderit eu eu eu in cupidatat tempor pariatur qui tempor. Adipisicing culpa minim nisi. Eiusmod esse ipsum duis in. Anim excepteur sunt enim officia enim. Duis do non cupidatat amet id magna esse. Non consequat ad do voluptate sunt consequat do Lorem consequat tempor consequat consequat minim nulla dolore. Voluptate eu sint duis quis adipisicing laboris dolor sit cupidatat anim exercitation pariatur excepteur deserunt. Cillum veniam Lorem officia consectetur sunt eu irure tempor. Reprehenderit in ad magna minim ex duis velit non sunt reprehenderit proident. Consectetur commodo ea irure adipisicing commodo occaecat in dolore ullamco ex cupidatat id culpa. Ipsum quis adipisicing deserunt sit. Pariatur excepteur culpa adipisicing sunt mollit ex pariatur. Ad incididunt est est aute. Culpa dolore amet aliqua anim duis esse aliqua laboris veniam ut aliqua aliquip. Consectetur amet voluptate enim id eu cupidatat irure Lorem excepteur deserunt velit Lorem do. Aliqua pariatur dolore ut cupidatat. Irure aute mollit elit ut ea tempor anim elit occaecat dolor esse nisi dolor proident.
+                </Text>
+              </View>
+            )
+          },
+          {
+            title: '选择二111',
+            badge: 2,
+            key: 'two',
+            disabled: true,
+            children: (
+              <View>
+                <Text>
+                  olore aliqua duis do quis cillum incididunt fugiat nostrud irure ullamco ullamco elit culpa sunt. Reprehenderit nostrud tempor aliqua nisi aute nisi incididunt dolore Lorem Lorem ipsum magna culpa aliqua. Cupidatat proident Lorem ea sunt excepteur qui exercitation. Laboris in anim consequat. Officia ullamco nulla ea. Laboris magna consectetur velit adipisicing ad ut nisi ipsum ex quis veniam voluptate. Do quis Lorem elit. Do ipsum tempor sunt tempor nulla consectetur. Sint voluptate cupidatat proident fugiat ipsum amet culpa aliquip nisi. Esse deserunt id adipisicing eiusmod proident ullamco commodo. Cupidatat aliqua proident qui ad quis ipsum ipsum culpa veniam cupidatat in ex. Fugiat in eu occaecat quis et reprehenderit. Reprehenderit et ex nostrud ad incididunt ea est aliquip incididunt commodo irure deserunt officia. Fugiat amet ad quis aliqua irure tempor. Eiusmod amet elit minim irure velit dolor minim tempor. Sint consequat tempor duis ex elit est cupidatat. Ad sit minim id duis nostrud minim et. Proident culpa consequat duis officia sint minim incididunt ipsum commodo ipsum sint proident in. Eu tempor occaecat officia mollit esse do. Culpa culpa ea est cupidatat pariatur adipisicing Lorem eiusmod magna culpa. Laborum mollit veniam exercitation minim quis veniam officia sit minim reprehenderit dolor. Lorem reprehenderit velit elit elit nulla adipisicing fugiat. Eu labore cillum consectetur ea aliquip adipisicing non nostrud aute amet dolor dolor magna culpa. Proident culpa voluptate nisi est cillum culpa proident non consequat sit aute qui in consequat est. Irure duis duis Lorem cillum dolor consectetur nisi minim cillum cillum qui qui minim officia. Reprehenderit laboris magna elit nisi ex. Et dolor do officia officia deserunt deserunt irure exercitation occaecat id. Sunt consequat ipsum non occaecat id enim qui. Lorem quis exercitation adipisicing cillum in aliqua sunt commodo excepteur eiusmod et magna pariatur do. Anim do dolor culpa do. Eiusmod cillum incididunt consectetur aliquip aliqua do irure. Consectetur in irure deserunt proident duis sint mollit qui consectetur enim Lorem est do. In tempor enim consectetur irure reprehenderit tempor aliqua. In est nostrud amet non esse. Anim aliqua adipisicing officia do aute aliquip ipsum et qui amet do et eiusmod. Qui laboris dolore proident labore laborum magna duis mollit sit quis. Ut id labore sunt reprehenderit eu eu eu in cupidatat tempor pariatur qui tempor. Adipisicing culpa minim nisi. Eiusmod esse ipsum duis in. Anim excepteur sunt enim officia enim. Duis do non cupidatat amet id magna esse. Non consequat ad do voluptate sunt consequat do Lorem consequat tempor consequat consequat minim nulla dolore. Voluptate eu sint duis quis adipisicing laboris dolor sit cupidatat anim exercitation pariatur excepteur deserunt. Cillum veniam Lorem officia consectetur sunt eu irure tempor. Reprehenderit in ad magna minim ex duis velit non sunt reprehenderit proident. Consectetur commodo ea irure adipisicing commodo occaecat in dolore ullamco ex cupidatat id culpa. Ipsum quis adipisicing deserunt sit. Pariatur excepteur culpa adipisicing sunt mollit ex pariatur. Ad incididunt est est aute. Culpa dolore amet aliqua anim duis esse aliqua laboris veniam ut aliqua aliquip. Consectetur amet voluptate enim id eu cupidatat irure Lorem excepteur deserunt velit Lorem do. Aliqua pariatur dolore ut cupidatat. Irure aute mollit elit ut ea tempor anim elit occaecat dolor esse nisi dolor proident.
+                </Text>
+              </View>
+            ),
+          },
+          {
+            title: '选择三',
+            key: 'three',
+            children: (
+              <View>
+                <Text>
+                  olore aliqua duis do quis cillum incididunt fugiat nostrud irure ullamco ullamco elit culpa sunt. Reprehenderit nostrud tempor aliqua nisi aute nisi incididunt dolore Lorem Lorem ipsum magna culpa aliqua. Cupidatat proident Lorem ea sunt excepteur qui exercitation. Laboris in anim consequat. Officia ullamco nulla ea. Laboris magna consectetur velit adipisicing ad ut nisi ipsum ex quis veniam voluptate. Do quis Lorem elit. Do ipsum tempor sunt tempor nulla consectetur. Sint voluptate cupidatat proident fugiat ipsum amet culpa aliquip nisi. Esse deserunt id adipisicing eiusmod proident ullamco commodo. Cupidatat aliqua proident qui ad quis ipsum ipsum culpa veniam cupidatat in ex. Fugiat in eu occaecat quis et reprehenderit. Reprehenderit et ex nostrud ad incididunt ea est aliquip incididunt commodo irure deserunt officia. Fugiat amet ad quis aliqua irure tempor. Eiusmod amet elit minim irure velit dolor minim tempor. Sint consequat tempor duis ex elit est cupidatat. Ad sit minim id duis nostrud minim et. Proident culpa consequat duis officia sint minim incididunt ipsum commodo ipsum sint proident in. Eu tempor occaecat officia mollit esse do. Culpa culpa ea est cupidatat pariatur adipisicing Lorem eiusmod magna culpa. Laborum mollit veniam exercitation minim quis veniam officia sit minim reprehenderit dolor. Lorem reprehenderit velit elit elit nulla adipisicing fugiat. Eu labore cillum consectetur ea aliquip adipisicing non nostrud aute amet dolor dolor magna culpa. Proident culpa voluptate nisi est cillum culpa proident non consequat sit aute qui in consequat est. Irure duis duis Lorem cillum dolor consectetur nisi minim cillum cillum qui qui minim officia. Reprehenderit laboris magna elit nisi ex. Et dolor do officia officia deserunt deserunt irure exercitation occaecat id. Sunt consequat ipsum non occaecat id enim qui. Lorem quis exercitation adipisicing cillum in aliqua sunt commodo excepteur eiusmod et magna pariatur do. Anim do dolor culpa do. Eiusmod cillum incididunt consectetur aliquip aliqua do irure. Consectetur in irure deserunt proident duis sint mollit qui consectetur enim Lorem est do. In tempor enim consectetur irure reprehenderit tempor aliqua. In est nostrud amet non esse. Anim aliqua adipisicing officia do aute aliquip ipsum et qui amet do et eiusmod. Qui laboris dolore proident labore laborum magna duis mollit sit quis. Ut id labore sunt reprehenderit eu eu eu in cupidatat tempor pariatur qui tempor. Adipisicing culpa minim nisi. Eiusmod esse ipsum duis in. Anim excepteur sunt enim officia enim. Duis do non cupidatat amet id magna esse. Non consequat ad do voluptate sunt consequat do Lorem consequat tempor consequat consequat minim nulla dolore. Voluptate eu sint duis quis adipisicing laboris dolor sit cupidatat anim exercitation pariatur excepteur deserunt. Cillum veniam Lorem officia consectetur sunt eu irure tempor. Reprehenderit in ad magna minim ex duis velit non sunt reprehenderit proident. Consectetur commodo ea irure adipisicing commodo occaecat in dolore ullamco ex cupidatat id culpa. Ipsum quis adipisicing deserunt sit. Pariatur excepteur culpa adipisicing sunt mollit ex pariatur. Ad incididunt est est aute. Culpa dolore amet aliqua anim duis esse aliqua laboris veniam ut aliqua aliquip. Consectetur amet voluptate enim id eu cupidatat irure Lorem excepteur deserunt velit Lorem do. Aliqua pariatur dolore ut cupidatat. Irure aute mollit elit ut ea tempor anim elit occaecat dolor esse nisi dolor proident.
+                </Text>
+              </View>
+            ),
+          },
+        ] as const}
+        scroll
+        // value="one"
+      /> */}
+      <Drawer
+        position="bottom"
+        open={open}
+        width={200}
+        move={false}
+        onClose={() => setOpen(false)}
+      />
+      <Button onPress={() => {
+        setOpen(true);
+        setPosition('left');
+      }}>
+        left
+      </Button>
+      <Button onPress={() => {
+        setOpen(true);
+        setPosition('right');
+      }}>
+        right
+      </Button>
+    </View>
   );
 }
 
