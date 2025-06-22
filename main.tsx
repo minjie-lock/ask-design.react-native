@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Dimensions, Text, View } from 'react-native';
-import { Button, Card, Form, Image, Segmented, SeparationLine, SideBar, Space, Switch, Wait } from '@/components';
+import { Button, Card, Dialog, Drawer, Form, Image, Segmented, SeparationLine, SideBar, Space, Switch, Wait } from '@/components';
 import { useToast, useDialog } from '@/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from '@/utils';
@@ -149,7 +149,7 @@ export default function Root() {
     'Los Angeles battles huge wildfires.',
   ];
 
-  console.log(screen.height);
+  const [position, setPosition] = useState('left')
   const [height, setHeight] = useState(screen.height);
   useEffect(() => {
     AskStatusBar.height.then((resolve) => {
@@ -449,7 +449,7 @@ export default function Root() {
           <Switch shape="square" />
         </Form.Field> */}
       {/* </Form> */}
-      <SideBar
+      {/* <SideBar
         items={[
           {
             title: '选择一',
@@ -490,7 +490,26 @@ export default function Root() {
         ] as const}
         scroll
         // value="one"
+      /> */}
+      <Drawer
+        position="bottom"
+        open={open}
+        width={200}
+        move={false}
+        onClose={() => setOpen(false)}
       />
+      <Button onPress={() => {
+        setOpen(true);
+        setPosition('left');
+      }}>
+        left
+      </Button>
+      <Button onPress={() => {
+        setOpen(true);
+        setPosition('right');
+      }}>
+        right
+      </Button>
     </View>
   );
 }
