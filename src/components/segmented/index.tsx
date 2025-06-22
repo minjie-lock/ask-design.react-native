@@ -19,7 +19,7 @@ type SegmentedProps = {
   /**
    * @description 选项
    */
-  options: Array<{
+  items: Array<{
     label: React.ReactNode;
     value: string | number;
   }>;
@@ -47,11 +47,11 @@ export default function Segmented(props: SegmentedProps): React.ReactNode {
 
   const {
     disabled = false,
-    options,
+    items,
   } = props;
 
   const [value, setValue] = useControllableValue({
-    defaultValue: props.defaultValue ?? options?.at(0)?.value,
+    defaultValue: props.defaultValue ?? items?.at(0)?.value,
     onChange: props.onChange,
     value: props.value,
   });
@@ -76,31 +76,33 @@ export default function Segmented(props: SegmentedProps): React.ReactNode {
       paddingHorizontal: 11,
       backgroundColor: 'transparent',
       zIndex: 2,
-      width: `${100 / options?.length}%`,
+      width: `${100 / items?.length}%`,
     },
     active: {
       position: 'absolute',
-      // width: 'white',
       zIndex: 1,
       inset: 0,
       margin: 3,
-      width: `${100 / options?.length}%`,
+      width: `${100 / items?.length}%`,
       borderRadius: segmented.round,
       backgroundColor: segmented.background.active,
     },
   });
 
-  const activeStyles = useAnimatedStyle(() => ({
-    transform: [{
-      translateX: `${active?.value}%`,
-    }],
-  }));
+  const activeStyles = useAnimatedStyle(() => {
+    return {
+      transform: [{
+        translateX: active?.value,
+      }],
+    };
+  });
 
   useEffect(() => {
     if (value) {
-      const index = options.findIndex(item => item.value === value);
+      const index = items.findIndex(item => item.value === value);
+      const size = (100 / items?.length);
       active.value = withTiming(
-        (100 / options?.length) * index,
+        Math.round(size * index),
         {
           duration: 200,
         }
@@ -119,15 +121,19 @@ export default function Segmented(props: SegmentedProps): React.ReactNode {
   return (
     <View style={styles.container}>
       {
-        options.map((item) => {
+        items.map((item) => {
           return (
-            <TouchableWithoutFeedback onPress={() => onPress(item.value)} key={item.value}>
+            <TouchableWithoutFeedback
+              onPress={() => onPress(item.value)}
+              key={item.value}
+            >
               <View style={styles.item}>
                 {content(item.label, {
                   fontSize: 12,
                   textAlign: 'center',
                   color: value === item.value ?
-                    segmented.text.active : segmented.text.default,
+                    segmented.text.active :
+                    segmented.text.default,
                 })}
               </View>
             </TouchableWithoutFeedback>

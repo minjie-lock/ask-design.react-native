@@ -128,6 +128,27 @@ export type ConfigurationProps = {
         };
         border: string;
       };
+      Wait: {
+        color: {
+          one: string;
+          two: string;
+          three: string;
+          four: string;
+        };
+      };
+      SideBar: {
+        background: {
+          side: {
+            default: string;
+            active: string;
+          };
+          children: string
+        };
+        color: {
+          active: string;
+          default: string;
+        }
+      }
     };
   };
   hooks?: {

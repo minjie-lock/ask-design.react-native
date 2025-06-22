@@ -24,6 +24,9 @@ export { default as Picker } from './picker';
 export { default as Form } from './form';
 export { default as Stepper } from './stepper';
 export { default as Switch } from './switch';
+export { default as Wait } from './wait';
+export { default as Image } from './image';
+export { default as SideBar } from './side-bar';
 
 export { default as useDialog } from './dialog/hook';
 export { default as useToast } from './toast/hook';
