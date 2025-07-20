@@ -1,7 +1,7 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import SeparationLine from '../separation-line';
 import { Fragment } from 'react';
-import { content } from '../../utils';
+import { content } from '@/utils';
 import { useConfiguration } from '../configuration';
 
 type CardProps = {

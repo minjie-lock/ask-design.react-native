@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
-import { useControllableValue } from '../../hooks';
-import { content } from '../../utils';
+import { useControllableValue } from '@/hooks';
+import { content } from '@//utils';
 import { useConfiguration } from '../configuration';
 import Animate, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useEffect } from 'react';

@@ -2,9 +2,10 @@ import { StyleSheet, TouchableNativeFeedback, View, ViewStyle } from 'react-nati
 import { useConfiguration } from '../configuration';
 import Animate, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useEffect, useState } from 'react';
-import { content } from '../../utils';
+import { content } from '@/utils';
 import Icon from '../icon';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import Fixed from '../fixed';
 
 
 
@@ -69,6 +70,10 @@ type DrawerProps = {
    * 宽度
   */
   width?: number | string;
+  /**
+   * 类名
+  */
+  className?: string;
 }
 
 /**
@@ -95,6 +100,7 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
     showClose = true,
     move = true,
     closeIcon,
+    className,
   } = props;
 
   const include = {
@@ -267,34 +273,38 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
     transform.value = withTiming(0, { duration: 500 });
   });
 
+  const onFeedback = () => {
+    onHide();
+    onMaskPress?.();
+  };
+
   return (
-    <View style={[styles.container]}>
-      {
-        mask && (
-          <TouchableNativeFeedback onPress={() => {
-            onHide();
-            onMaskPress?.();
-          }}>
-            <Animate.View style={[styles.mask, createMaskStyle]} />
-          </TouchableNativeFeedback>
-        )
-      }
-      <GestureHandlerRootView>
-        <GestureDetector gesture={gesture}>
-          <Animate.View style={[styles.content, containerStyle]}>
-            <View style={styles.header}>
-              {
-                closeIcon ? content(closeIcon) : showClose &&
-                  <Icon name="close" size="md" onPress={() => {
-                    onHide();
-                  }} />
-              }
-            </View>
-            {content(children)}
-          </Animate.View>
-        </GestureDetector>
-      </GestureHandlerRootView>
-    </View>
+    <Fixed>
+      <View style={[styles.container]} className={className}>
+        {
+          mask && (
+            <TouchableNativeFeedback onPress={onFeedback}>
+              <Animate.View style={[styles.mask, createMaskStyle]} />
+            </TouchableNativeFeedback>
+          )
+        }
+        <GestureHandlerRootView>
+          <GestureDetector gesture={gesture}>
+            <Animate.View style={[styles.content, containerStyle]}>
+              <View style={styles.header}>
+                {
+                  closeIcon ? content(closeIcon) : showClose &&
+                    <Icon name="close" size="md" onPress={() => {
+                      onHide();
+                    }} />
+                }
+              </View>
+              {content(children)}
+            </Animate.View>
+          </GestureDetector>
+        </GestureHandlerRootView>
+      </View>
+    </Fixed>
   );
 }
 

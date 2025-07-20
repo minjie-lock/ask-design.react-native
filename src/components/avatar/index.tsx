@@ -3,7 +3,7 @@ import FastImage, { ResizeMode } from 'react-native-fast-image';
 import { useConfiguration } from '../configuration';
 import { useState } from 'react';
 import Icon from '../icon';
-import { GREEN } from '../../styles/color';
+import { GREEN } from '@/styles/color';
 
 type Props<T> = {
   /**

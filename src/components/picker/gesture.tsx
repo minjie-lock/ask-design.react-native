@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { PickerItem } from '.';
-import { content } from '../../utils';
+import { content } from '@/utils';
 import { useConfiguration } from '../configuration';
 import { useEffect } from 'react';
 

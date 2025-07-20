@@ -80,10 +80,9 @@ export default function Date<T extends keyof typeof precisions>
       };
     },
     day() {
-
       const years = this.year()?.items?.at(0) ?? [];
       const months = this.month()?.items?.at(1) ?? [];
-      const days = [];
+      const days: [] = [];
       return {
         items: [
           years,

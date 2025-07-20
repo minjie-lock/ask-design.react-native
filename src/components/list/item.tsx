@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { content } from '../../utils';
+import { content } from '@/utils';
 import SeparationLine from '../separation-line';
 
 type ListItemProps = {

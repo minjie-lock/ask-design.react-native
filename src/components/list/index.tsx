@@ -1,7 +1,5 @@
 import { lazy } from 'react';
-import Card from '../card';
-import { ListRenderItem, StyleSheet, View, VirtualizedList } from 'react-native';
-import { content } from '../../utils';
+import { ListRenderItem, StyleSheet, VirtualizedList } from 'react-native';
 import { useConfiguration } from '../configuration';
 type ListProps<T> = {
   /**

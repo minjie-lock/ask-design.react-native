@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useConfiguration } from '../configuration';
-import { content } from '../../utils';
+import { content } from '@/utils';
 import { useContext, useEffect } from 'react';
 import { DetailsContext } from '.';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';

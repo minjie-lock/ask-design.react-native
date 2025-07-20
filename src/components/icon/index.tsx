@@ -3,7 +3,7 @@ import {
   OutlineGlyphMapType,
 } from '@ant-design/icons-react-native';
 import { TextProps } from 'react-native';
-import { GRAY } from '../../styles/color';
+import { GRAY } from '@/styles/color';
 export type IconNames = OutlineGlyphMapType
 
 export interface IconProps extends TextProps {

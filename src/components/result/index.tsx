@@ -1,6 +1,6 @@
 
 import { View, StyleSheet, Image } from 'react-native';
-import { content } from '../../utils';
+import { content } from '@/utils';
 import { useConfiguration } from '../configuration';
 
 type ResultProps = {
@@ -60,11 +60,11 @@ export default function Result(props: ResultProps): React.ReactNode {
   });
 
   const source = {
-    success: require('../../static/images/result-info.png'),
-    error: require('../../static/images/result-error.png'),
-    ifno: require('../../static/images/result-info.png'),
-    waiting: require('../../static/images/result-waiting.png'),
-    warning: require('../../static/images/result-warning.png'),
+    success: require('@/static/images/result-info.png'),
+    error: require('@/static/images/result-error.png'),
+    ifno: require('@/static/images/result-info.png'),
+    waiting: require('@/static/images/result-waiting.png'),
+    warning: require('@/static/images/result-warning.png'),
   };
 
   type Key = Exclude<keyof typeof status, React.ReactNode>;
