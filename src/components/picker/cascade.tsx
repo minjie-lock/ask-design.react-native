@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { useEffect, useMemo, useState } from 'react';
 import Picker, { PickerItem, PickerProps } from '.';
-import { useControllableValue } from '../../hooks';
+import { useControllableValue } from '@/hooks';
 
 
 export type CascadeState<T extends readonly CascadeItem[]> =

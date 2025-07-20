@@ -1,9 +1,10 @@
 import { createContext, useContext, useRef } from 'react';
 import type { ConfigurationProps } from './types';
-import { dark, light } from '../../styles';
+import { dark, light } from '@/styles';
 import Toast, { ToastRef } from '../toast';
 import Dialog, { DialogRef } from '../dialog';
 import { useColorScheme } from 'react-native';
+import { Host } from 'react-native-portalize';
 
 type State = Required<Omit<ConfigurationProps, 'children' | 'hooks'>> &
 {
@@ -54,9 +55,11 @@ export default function Configuration(
 
   return (
     <Arrangement.Provider value={value}>
-      {children}
-      <Toast ref={toast as React.RefObject<ToastRef>} />
-      <Dialog ref={dialog as React.RefObject<DialogRef>} />
+      <Host>
+        {children}
+        <Toast ref={toast as React.RefObject<ToastRef>} />
+        <Dialog ref={dialog as React.RefObject<DialogRef>} />
+      </Host>
     </Arrangement.Provider>
   );
 }

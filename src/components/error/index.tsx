@@ -37,22 +37,22 @@ export default function Error(props: ErrorProps): React.ReactNode {
 
       title: '错误',
       description: '请稍后再试',
-      image: require('../../static/images/error-default.png'),
+      image: require('@/static/images/error-default.png'),
     },
     disconnected: {
       title: '网络错误',
       description: '请检查网络设置',
-      image: require('../../static/images/error-disconnected.png'),
+      image: require('@/static/images/error-disconnected.png'),
     },
     empty: {
       title: '没有内容',
       description: '请稍后再试',
-      image: require('../../static/images/error-empty.png'),
+      image: require('@/static/images/error-empty.png'),
     },
     busy: {
       title: '正在处理中',
       description: '请稍后再试',
-      image: require('../../static/images/error-busy.png'),
+      image: require('@/static/images/error-busy.png'),
     },
   };
 

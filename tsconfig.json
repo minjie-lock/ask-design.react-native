@@ -8,8 +8,8 @@
     "jsx": "react-native",
     "outDir": "dist",
     "allowSyntheticDefaultImports": true,
-    "isolatedModules": true, // Rollup 需要这个来确保每个文件是独立的模块
-    "noEmit": true, // <-- 重要！告诉 TypeScript 不生成 JS 文件，由 Rollup 处理
+    "isolatedModules": true,
+    "noEmit": true,
     "baseUrl": "./",
     "paths": {
       "@/*": [
@@ -20,6 +20,5 @@
   "include": [
     "src/**/*.ts",
     "main.tsx",
-    "rollup.config.ts"
   ]
 }

@@ -1,11 +1,11 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-shadow */
-import { useGetResetSetState, useWithResolvers } from '../../hooks';
+import { useGetResetSetState, useWithResolvers } from '@/hooks';
 import React, { Fragment, useImperativeHandle, useState } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 import { useConfiguration } from '../configuration';
-import { content } from '../../utils';
+import { content } from '@/utils';
 import SeparationLine from '../separation-line';
 import ActionButton, { DialogOptions } from './button';
 import Button from '../button';

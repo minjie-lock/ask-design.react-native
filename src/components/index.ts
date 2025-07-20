@@ -27,6 +27,7 @@ export { default as Switch } from './switch';
 export { default as Wait } from './wait';
 export { default as Image } from './image';
 export { default as SideBar } from './side-bar';
+export { default as Fixed } from './fixed';
 
 export { default as useDialog } from './dialog/hook';
 export { default as useToast } from './toast/hook';

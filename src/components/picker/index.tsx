@@ -5,10 +5,10 @@ import SeparationLine from '../separation-line';
 import Button from '../button';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import PickerGesture from './gesture';
-import { useControllableValue } from '../../hooks';
+import { useControllableValue } from '@/hooks';
 import { useConfiguration } from '../configuration';
 import { lazy } from 'react';
-import { content } from '../../utils';
+import { content } from '@/utils';
 
 export type PickerValue = string | number;
 
@@ -78,6 +78,10 @@ export type PickerProps<T extends PickerItem[][]> = {
    * 标题
    */
   title?: React.ReactNode;
+  /**
+   * 类名
+  */
+  className?: string;
 }
 
 
@@ -101,6 +105,7 @@ export default function Picker<T extends PickerItem[][]>
     cancelText = '取消',
     confirmText = '确定',
     title = '',
+    className
   } = props;
 
   const [
@@ -153,6 +158,7 @@ export default function Picker<T extends PickerItem[][]>
       height={300}
       showClose={false}
       style={styles.drawer}
+      className={className}
     >
       <View style={styles.header}>
         <Button fill="text" style={styles.button} onPress={() => {

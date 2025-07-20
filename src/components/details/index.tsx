@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 
-import { useControllableValue } from '../../hooks';
+import { useControllableValue } from '@/hooks';
 import { GestureResponderEvent, StyleSheet, View } from 'react-native';
 import type { SummaryProps } from './summary';
 import { useConfiguration } from '../configuration';

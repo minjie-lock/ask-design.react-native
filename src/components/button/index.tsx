@@ -7,7 +7,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { useConfiguration } from '../configuration';
-import { content } from '../../utils';
+import { content } from '@/utils';
 
 export type ButtonProps = {
   /**
@@ -27,7 +27,7 @@ export type ButtonProps = {
   */
   fill?: 'solid' | 'outline' | 'none' | 'text';
   /**
-   * 是否处于加载状态，'auto' 模式会监听 onClick 的 Promise 状态自动更新 loading
+   * 是否处于加载状态，会监听 onPress 的 Promise 状态自动更新 loading
   */
   loading?: boolean;
   /**
@@ -81,9 +81,9 @@ const sizes = {
  * @description 按钮
  * @author Lock
  * @param props
- * @returns
+ * @returns {React.ReactNode}
  */
-export default function Button(props: ButtonProps) {
+export default function Button(props: ButtonProps): React.ReactNode {
 
   const {
     children,

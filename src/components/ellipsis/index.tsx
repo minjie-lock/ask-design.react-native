@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-
-import { LayoutChangeEvent, StyleSheet, TextProps, TouchableOpacity, useWindowDimensions, ViewStyle } from 'react-native';
-import { Text } from 'react-native-gesture-handler';
-import { View } from 'react-native';
+import { LayoutChangeEvent, StyleSheet, TextProps, TouchableOpacity, ViewStyle } from 'react-native';
+import { View, Text } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-import { useGetState, usePrevious, useSetState } from '../../hooks';
+import { useGetState, usePrevious } from '@/hooks';
 
 
 type Props<T> = {

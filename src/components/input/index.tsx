@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { StyleSheet, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
-import { useControllableValue } from '../../hooks';
+import { useControllableValue } from '@/hooks';
 
 type InputProps = {
   /**

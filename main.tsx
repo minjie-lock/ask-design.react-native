@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Dimensions, Text, View } from 'react-native';
-import { Button, Card, Dialog, Drawer, Form, Image, Segmented, SeparationLine, SideBar, Space, Switch, Wait } from '@/components';
+import { Dimensions, View } from 'react-native';
+import { Button, Card, Drawer, Segmented, SeparationLine, Space, Switch } from '@/components';
 import { useToast, useDialog } from '@/components';
 import { useEffect, useState } from 'react';
 import { AskStatusBar } from '@/utils';

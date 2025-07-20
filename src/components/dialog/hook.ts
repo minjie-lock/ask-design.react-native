@@ -1,5 +1,5 @@
-import { useConfiguration } from '../../components/configuration';
-import { DialogRef } from '../../components/dialog';
+import { useConfiguration } from '@/components/configuration';
+import { DialogRef } from '@/components/dialog';
 
 
 /**
