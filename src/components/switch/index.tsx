@@ -3,7 +3,6 @@ import { StyleSheet, Text, TouchableWithoutFeedback, ViewStyle } from 'react-nat
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { useConfiguration } from '../configuration';
 import { useEffect, useState } from 'react';
-import { content } from '@/utils';
 import Icon from '../icon';
 import { NAVY_BLUE } from '@/styles/color';
 import { useDebounceEffect } from 'ahooks';
@@ -90,11 +89,11 @@ export default function Switch(porps: SwitchProps): React.ReactNode {
     configuration => configuration.scheme.components.Switch
   );
 
-  const active = useSharedValue(0);
+  const active = useSharedValue(15);
   const container = useSharedValue(scheme.background.default);
-  const contents = useSharedValue(98);
+  const contents = useSharedValue(65);
   const load = useSharedValue(0);
-  const border = useSharedValue(scheme.border);
+  // const border = useSharedValue(scheme.border);
 
   const activeStyle = useAnimatedStyle(() => ({
     transform: [
@@ -106,7 +105,7 @@ export default function Switch(porps: SwitchProps): React.ReactNode {
 
   const containerStyle = useAnimatedStyle(() => ({
     backgroundColor: container.value,
-    borderColor: border.value,
+    // borderColor: border.value,
   }));
 
   const contentStyle = useAnimatedStyle(() => ({
@@ -139,13 +138,13 @@ export default function Switch(porps: SwitchProps): React.ReactNode {
 
   useEffect(() => {
     active.value = withTiming(
-      value ? 70 : 0,
+      value ? 100 : 15,
       {
         duration: 500,
       }
     );
     contents.value = withTiming(
-      value ? 40 : 100,
+      value ? 55 : 65,
       {
         duration: 500,
       }
@@ -157,13 +156,13 @@ export default function Switch(porps: SwitchProps): React.ReactNode {
         duration: 500,
       }
     );
-    border.value = withTiming(
-      value ? color ?? scheme.background.active :
-        scheme.border,
-      {
-        duration: 500,
-      }
-    );
+    // border.value = withTiming(
+    //   value ? color ?? scheme.background.active :
+    //     scheme.border,
+    //   {
+    //     duration: 500,
+    //   }
+    // );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
@@ -191,20 +190,20 @@ export default function Switch(porps: SwitchProps): React.ReactNode {
 
   const styles = StyleSheet.create({
     container: {
-      width: 51,
+      width: 57,
       height: 32,
       borderRadius: shape === 'square' ? 5 : 30,
       position: 'relative',
       flexDirection: 'row',
       alignItems: 'center',
       opacity: disabled || loading ? 0.5 : 1,
-      borderWidth: 2,
+      // borderWidth: 2,
       // borderColor: value ? 'transparent' : scheme.border,
       ...style,
     },
     active: {
-      width: 27,
-      height: 27,
+      width: 25.5,
+      height: 25.5,
       backgroundColor: 'white',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 5 },
@@ -257,12 +256,12 @@ export default function Switch(porps: SwitchProps): React.ReactNode {
         <Text style={styles?.content}>
           {value ? text?.checked : text?.unchecked}
         </Text>
-        {
+        {/* {
           content(
             value ? text?.checked : text?.unchecked,
             styles.text,
           )
-        }
+        } */}
       </Animated.View>
     </Animated.View>
   );

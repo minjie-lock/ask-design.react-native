@@ -186,12 +186,13 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
         runOnJS?.(afterOpen)?.();
       }
     } else {
-      maskValue.value = withTiming(0,
-        { duration: 300 },
-      );
       transform.value = withTiming(include?.[position],
         { duration: 500 },
         () => {
+          // 弹窗关闭再关闭遮罩
+          maskValue.value = withTiming(0,
+            { duration: 300 },
+          );
           runOnJS(setShow)(false);
           if (afterClose) {
             runOnJS?.(afterClose)?.();

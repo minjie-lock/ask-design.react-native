@@ -148,6 +148,25 @@ export type ConfigurationProps = {
           active: string;
           default: string;
         }
+      },
+      Steps: {
+        border: {
+          active: string;
+          default: string;
+        };
+        status: {
+          wait?: string;
+          process?: string;
+          finish?: finish;
+          error?: string;
+        },
+        color: {
+          description: string;
+          title: {
+            default?: string;
+            active?: string;
+          };
+        };
       }
     };
   };

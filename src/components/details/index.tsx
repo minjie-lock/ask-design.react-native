@@ -5,6 +5,7 @@ import { GestureResponderEvent, StyleSheet, View } from 'react-native';
 import type { SummaryProps } from './summary';
 import { useConfiguration } from '../configuration';
 import React, { Children, cloneElement, createContext, lazy } from 'react';
+import Summary from './summary';
 
 export const DetailsContext = createContext<{ current: (string | number)[] | void }>({
   current: [],
@@ -12,8 +13,7 @@ export const DetailsContext = createContext<{ current: (string | number)[] | voi
 
 type DetailsValue<T> = T extends true ? string | number : (string | number)[];
 
-type DetailsProps<T extends boolean> = {
-  children?: React.ReactNode;
+type BaseDetailsProps<T extends boolean> = {
   /**
    * 手风琴模式-只能展开一个
   */
@@ -32,18 +32,36 @@ type DetailsProps<T extends boolean> = {
   defaultValue?: DetailsValue<T>;
 }
 
+// 两者只能其一
+type DetailsProps<T extends boolean, C extends React.ReactNode | void> =
+  C extends React.ReactNode ?
+  BaseDetailsProps<T> & {
+    /**
+   * 值
+  */
+    children?: C;
+  } : BaseDetailsProps<T> & {
+    /**
+   * 内容
+   */
+    items: SummaryProps[];
+  };
+
 /**
  * @function Details
  * @description 折叠面板
  * @author Lock
+ * @param {DetailsProps<T>} props
  * @returns {React.ReactNode}
 */
-export default function Details<T extends boolean>(props: DetailsProps<T>): React.ReactNode {
+export default function Details<T extends boolean,
+  C extends React.ReactNode | void = void>(props: DetailsProps<T, C>): React.ReactNode {
 
   const {
     accordion = false,
     children,
-  } = props;
+    items,
+  } = props as DetailsProps<T, React.ReactNode> & DetailsProps<T, void>;
 
   const [value, setValue] = useControllableValue<DetailsValue<T>>({
     defaultValue: props?.defaultValue,
@@ -84,17 +102,36 @@ export default function Details<T extends boolean>(props: DetailsProps<T>): Reac
     <DetailsContext.Provider value={{ current }}>
       <View style={styles.main}>
         {
-          children &&
-          Children.map(children as React.ReactElement<SummaryProps>, (children) => {
-            const props = children?.props;
-            return cloneElement(children, props?.disabled ? props : {
-              ...props,
-              onPress: (event: GestureResponderEvent) => {
-                props?.onPress?.(event);
-                onPress?.(props?.value as DetailsValue<T>);
-              },
-            });
-          })
+          items?.length ?
+            items?.map(
+              item => {
+                return (
+                  <Summary
+                    key={item.value}
+                    title={item.title}
+                    arrowIcon={item.arrowIcon}
+                    onPress={(event: GestureResponderEvent) => {
+                      item?.onPress?.(event);
+                      onPress?.(props?.value as DetailsValue<T>);
+                    }}
+                    value={item.value}
+                    disabled={item.disabled}
+                  >
+                    {item.children}
+                  </Summary>
+                );
+              }
+            ) : children &&
+            Children.map(children as React.ReactElement<SummaryProps>, (children) => {
+              const props = children?.props;
+              return cloneElement(children, props?.disabled ? props : {
+                ...props,
+                onPress: (event: GestureResponderEvent) => {
+                  props?.onPress?.(event);
+                  onPress?.(props?.value as DetailsValue<T>);
+                },
+              });
+            })
         }
       </View>
     </DetailsContext.Provider>

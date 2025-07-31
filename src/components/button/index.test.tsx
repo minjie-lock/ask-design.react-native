@@ -1,15 +1,15 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import Button from './index';
 
-describe('Button Component', () => {
-  it('renders correctly with default props', () => {
+import { render, fireEvent } from '@testing-library/react-native';
+import Button from '.';
+
+describe('Button', () => {
+  it('是否正确渲染', () => {
     const { getByText } = render(<Button>Test Button</Button>);
-    const buttonElement = getByText('Test Button');
-    expect(buttonElement).toBeTruthy();
+    const children = getByText('Test Button');
+    expect(children).toBeTruthy();
   });
 
-  it('applies correct styles when props are provided', () => {
+  it('外部传递并且正确应用样式', () => {
     const { getByText } = render(
       <Button
         size="large"
@@ -22,12 +22,12 @@ describe('Button Component', () => {
       </Button>
     );
 
-    const buttonElement = getByText('Test Button');
-    expect(buttonElement).toBeTruthy();
+    const children = getByText('Test Button');
+    expect(children).toBeTruthy();
     // Add more specific style assertions based on your component's styling
   });
 
-  it('handles press event correctly', () => {
+  it('处理事件', () => {
     const onPressMock = jest.fn();
     const { getByText } = render(
       <Button onPress={onPressMock}>Test Button</Button>
@@ -38,7 +38,7 @@ describe('Button Component', () => {
     expect(onPressMock).toHaveBeenCalled();
   });
 
-  it('disables button when disabled prop is true', () => {
+  it('处理禁用状态', () => {
     const { getByText } = render(
       <Button disabled>Test Button</Button>
     );
