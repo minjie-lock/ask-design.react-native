@@ -148,7 +148,10 @@ export type ConfigurationProps = {
           active: string;
           default: string;
         }
-      },
+      };
+      /**
+       * 步骤条
+      */
       Steps: {
         border: {
           active: string;
@@ -167,7 +170,17 @@ export type ConfigurationProps = {
             active?: string;
           };
         };
-      }
+      };
+      /**
+       * 进度器
+       */
+      Progress: {
+        background: {
+          active: string;
+          default: string;
+        };
+        text: string;
+      };
     };
   };
   hooks?: {

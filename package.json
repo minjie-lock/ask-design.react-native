@@ -65,6 +65,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "bignumber.js": "^9.3.1",
     "dayjs": "^1.11.13",
+    "p": "^0.2.0",
     "rc-field-form": "^2.7.0",
     "react-native-fast-image": "^8.6.3"
   },
@@ -73,7 +74,8 @@
     "react-native": "0.79.1",
     "react-native-gesture-handler": "^2.25.0",
     "react-native-portalize": "^1.0.7",
-    "react-native-reanimated": "^3.18.0"
+    "react-native-reanimated": "^3.18.0",
+    "react-native-svg": "^15.12.1"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",

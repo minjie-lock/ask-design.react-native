@@ -173,6 +173,13 @@ export const light: Color = {
         },
       },
     },
+    Progress: {
+      background: {
+        default: GRAY.ten,
+        active: NAVY_BLUE.five,
+      },
+      text: GRAY.eight,
+    },
   },
 };
 
