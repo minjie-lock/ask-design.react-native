@@ -1,12 +1,18 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { AskStatusBar } from '@/utils';
+import { Platform, SafeAreaView, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
 
 type SafeAreaProps = {
   /**
-   * @description 显示位置
+   * @description 内容
   */
-  position?: 'top' | 'bottom';
+  children?: React.ReactNode;
+  /**
+   * 样式
+  */
+  style?: ViewStyle;
+  /**
+   * 类名
+  */
+  className?: string;
 }
 
 /**
@@ -18,32 +24,46 @@ type SafeAreaProps = {
 export default function SafeArea(props: SafeAreaProps): React.ReactNode {
 
   const {
-    position = 'bottom',
+    // position = 'bottom',
+    children,
+    style,
+    ...rest
   } = props;
 
-  const [status, setStatus] = useState(0);
-
+  // const [status, setStatus] = useState(0);
+  const type = Platform.OS;
+  const currentHeight = StatusBar?.currentHeight;
   const styles = StyleSheet.create({
-    top: {
-      marginTop: status + 10,
+    ios: {
+      ...style,
     },
-    bottom: {
-      paddingBottom: status,
+    android: {
+      paddingTop: currentHeight,
+      ...style,
     },
   });
 
-  useEffect(() => {
-    AskStatusBar.height.then((resolve) => {
-      setStatus(resolve);
-    });
-  }, []);
+  // useAsyncEffect(async () => {
+  //   const height = await AskStatusBar.height;
+  //   setStatus(height);
+  // }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-  }, []);
+  // }, []);
+
+  if (type === 'ios') {
+    return (
+      <SafeAreaView style={styles.ios} {...rest}>
+        {children}
+      </SafeAreaView>
+    );
+  }
 
   return (
-    <View style={styles?.[position]} />
+    <View style={styles.android} {...rest}>
+      {children}
+    </View>
   );
 }
 

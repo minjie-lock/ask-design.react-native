@@ -160,7 +160,7 @@ export const light: Color = {
     Steps: {
       border: {
         active: NAVY_BLUE.five,
-        default: GRAY.seven,
+        default: GRAY.nine,
       },
       status: {
         error: RED.five,
@@ -179,6 +179,12 @@ export const light: Color = {
         active: NAVY_BLUE.five,
       },
       text: GRAY.eight,
+    },
+    Skeleton: {
+      background: {
+        default: GRAY.nine,
+        active: GRAY.ten,
+      },
     },
   },
 };

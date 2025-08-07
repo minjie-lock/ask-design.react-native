@@ -181,6 +181,15 @@ export type ConfigurationProps = {
         };
         text: string;
       };
+      /**
+       * 骨架
+       */
+      Skeleton: {
+        background: {
+          active: string;
+          default: string;
+        }
+      }
     };
   };
   hooks?: {

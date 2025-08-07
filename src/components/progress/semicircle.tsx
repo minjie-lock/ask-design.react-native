@@ -27,7 +27,7 @@ export type ProgressSemicircleProps = {
   /**
    * 样式
   */
-  style: ViewStyle;
+  style?: ViewStyle;
   /**
    * 类
   */
@@ -113,6 +113,7 @@ export default function ProgressSemicircle(props: ProgressSemicircleProps): Reac
           stroke={progress?.background?.default}
           strokeWidth={width}
           fill="none"
+          strokeLinecap="round"
         />
         <AnimatedPath
           d={path}
