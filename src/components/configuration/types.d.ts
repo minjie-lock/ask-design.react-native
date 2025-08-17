@@ -189,7 +189,17 @@ export type ConfigurationProps = {
           active: string;
           default: string;
         }
-      }
+      };
+      /**
+       * @component Tabs
+       * @description 标签
+       */
+      Tabs: {
+        line: {
+          active: string;
+          default: string;
+        };
+      };
     };
   };
   hooks?: {

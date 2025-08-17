@@ -186,6 +186,12 @@ export const light: Color = {
         active: GRAY.ten,
       },
     },
+    Tabs: {
+      line: {
+        active: NAVY_BLUE.five,
+        default: GRAY.ten,
+      },
+    },
   },
 };
 

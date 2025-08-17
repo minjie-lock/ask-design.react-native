@@ -1,4 +1,3 @@
-/* eslint-disable no-void */
 import { StyleSheet, View } from 'react-native';
 import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { useConfiguration } from '../configuration';

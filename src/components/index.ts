@@ -32,6 +32,8 @@ export { default as Steps } from './steps';
 export { default as Progress } from './progress';
 export { default as Swipeable } from './swipeable';
 export { default as Skeleton } from './skeleton';
+export { default as Grid } from './grid';
+export { default as Tabs } from './tabs';
 
 export { default as useDialog } from './dialog/hook';
 export { default as useToast } from './toast/hook';

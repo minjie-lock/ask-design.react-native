@@ -106,7 +106,3 @@ export default function PickerGesture(props: PickerGestureProps) {
   );
 }
 
-
-// export default memo(PickerGesture, (oldest, latest) => {
-//   return Object.is(oldest.value, latest.value) || Object.is(oldest.items, latest.items);
-// });
