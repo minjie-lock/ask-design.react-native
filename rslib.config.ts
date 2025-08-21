@@ -6,7 +6,7 @@ export default defineConfig({
     entry: {
       index: [
         './src/**/*',
-        '!./src/**/*.test.{ts,tsx}'
+        '!./src/**/*.test.{ts,tsx}',
       ],
     },
   },

@@ -105,7 +105,7 @@ export default function Picker<T extends PickerItem[][]>
     cancelText = '取消',
     confirmText = '确定',
     title = '',
-    className
+    className,
   } = props;
 
   const [
@@ -157,6 +157,7 @@ export default function Picker<T extends PickerItem[][]>
       onClose={onClose}
       height={300}
       showClose={false}
+      move={false}
       style={styles.drawer}
       className={className}
     >
@@ -176,6 +177,7 @@ export default function Picker<T extends PickerItem[][]>
         </Button>
       </View>
       <SeparationLine style={styles.line} />
+
       <View style={styles.container}>
         <View style={mask.top} />
         <View style={{
@@ -218,7 +220,7 @@ export default function Picker<T extends PickerItem[][]>
 }
 
 Picker.Cascade = lazy(() => import('./cascade'));
-Picker.Date  = lazy(() => import('./date'));
+Picker.Date = lazy(() => import('./date'));
 
 const styles = StyleSheet.create({
   container: {

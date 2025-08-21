@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { useConfiguration } from '../configuration';
+import { content } from '@/utils';
 
-type SeparationLine = {
+type SeparationLineProps = {
   /**
    * 方向
   */
@@ -9,7 +10,7 @@ type SeparationLine = {
   /**
    * 文字
   */
-  children?: string;
+  children?: React.ReactNode;
   /**
    * 样式
   */
@@ -23,10 +24,11 @@ type SeparationLine = {
 /**
  * @function SeparationLine
  * @description 分割线
+ * @param {SeparationLineProps} props
  * @author Lock
  * @returns {JSX.Element}
 */
-export default function SeparationLine(props: SeparationLine) {
+export default function SeparationLine(props: SeparationLineProps): React.ReactNode {
 
   const {
     children,
@@ -86,7 +88,7 @@ export default function SeparationLine(props: SeparationLine) {
           }[position],
         }} />
         <View style={styles.text}>
-          <Text style={styles.content}>{children}</Text>
+          {content(children, styles.content)}
         </View>
         <View style={{
           ...styles.solid,

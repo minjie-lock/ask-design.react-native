@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { ListRenderItem, StyleSheet, VirtualizedList } from 'react-native';
+import { FlatList, ListRenderItem, StyleSheet, VirtualizedList } from 'react-native';
 import { useConfiguration } from '../configuration';
 type ListProps<T> = {
   /**
@@ -9,7 +9,7 @@ type ListProps<T> = {
   /**
    * 列表数据
   */
-  dataSource?: T[];
+  items?: T[];
   /**
    * 列表头部
   */
@@ -34,7 +34,7 @@ type ListProps<T> = {
 export default function List<T>(props: ListProps<T>) {
 
   const {
-    dataSource,
+    items,
     header,
     render,
   } = props;
@@ -76,8 +76,8 @@ export default function List<T>(props: ListProps<T>) {
     //     }
     //   </Card>
     // </View>
-    <VirtualizedList
-      data={dataSource}
+    <FlatList
+      data={items}
       renderItem={render}
       initialNumToRender={10}
       keyExtractor={(item, index) => index.toString()}

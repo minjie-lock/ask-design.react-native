@@ -127,7 +127,7 @@ export const light: Color = {
     },
     Switch: {
       background: {
-        default: 'white',
+        default: GRAY.ten,
         active: NAVY_BLUE.five,
       },
       text: {
@@ -155,6 +155,41 @@ export const light: Color = {
       color: {
         default: GRAY.two,
         active: NAVY_BLUE.five,
+      },
+    },
+    Steps: {
+      border: {
+        active: NAVY_BLUE.five,
+        default: GRAY.nine,
+      },
+      status: {
+        error: RED.five,
+      },
+      color: {
+        description: GRAY.seven,
+        title: {
+          default: GRAY.one,
+          active: NAVY_BLUE.five,
+        },
+      },
+    },
+    Progress: {
+      background: {
+        default: GRAY.ten,
+        active: NAVY_BLUE.five,
+      },
+      text: GRAY.eight,
+    },
+    Skeleton: {
+      background: {
+        default: GRAY.nine,
+        active: GRAY.ten,
+      },
+    },
+    Tabs: {
+      line: {
+        active: NAVY_BLUE.five,
+        default: GRAY.ten,
       },
     },
   },

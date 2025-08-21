@@ -148,7 +148,58 @@ export type ConfigurationProps = {
           active: string;
           default: string;
         }
-      }
+      };
+      /**
+       * 步骤条
+      */
+      Steps: {
+        border: {
+          active: string;
+          default: string;
+        };
+        status: {
+          wait?: string;
+          process?: string;
+          finish?: finish;
+          error?: string;
+        },
+        color: {
+          description: string;
+          title: {
+            default?: string;
+            active?: string;
+          };
+        };
+      };
+      /**
+       * 进度器
+       */
+      Progress: {
+        background: {
+          active: string;
+          default: string;
+        };
+        text: string;
+      };
+      /**
+       * 骨架
+       */
+      Skeleton: {
+        background: {
+          active: string;
+          default: string;
+        }
+      };
+      /**
+       * @component Tabs
+       * @description 标签
+       */
+      Tabs: {
+        line: {
+          active: string;
+          default: string;
+        };
+      };
     };
   };
   hooks?: {
