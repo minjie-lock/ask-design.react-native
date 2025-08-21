@@ -5,6 +5,7 @@ import {
   ViewStyle,
   TouchableHighlight,
   TextStyle,
+  StyleSheet,
 } from 'react-native';
 import { useConfiguration } from '../configuration';
 import { content } from '@/utils';
@@ -30,14 +31,6 @@ export type ButtonProps = {
    * 是否处于加载状态，会监听 onPress 的 Promise 状态自动更新 loading
   */
   loading?: boolean;
-  /**
-   * 加载状态下的 icon 图标
-  */
-  loadingIcon?: React.ReactNode;
-  /**
-   * 加载状态下额外展示的文字
-  */
-  loadingText?: string;
   /**
    * 触摸事件
   */
@@ -94,6 +87,7 @@ export default function Button(props: ButtonProps): React.ReactNode {
     fill = 'solid',
     disabled = false,
     onPress,
+    style,
   } = props;
 
   const button = useConfiguration(configuration => {
@@ -129,17 +123,19 @@ export default function Button(props: ButtonProps): React.ReactNode {
     },
   };
 
-  const style: ViewStyle = {
-    width: block ? '100%' : 'auto',
-    height: height[size],
-    borderRadius: radius[shape],
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    ...background[fill],
-    ...props.style,
-  };
+  const styles = StyleSheet?.create({
+    content: {
+      width: block ? '100%' : 'auto',
+      height: height?.[size],
+      borderRadius: radius[shape],
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 20,
+      ...background?.[fill],
+      ...style,
+    }
+  });
 
   const onEnd = (event: GestureResponderEvent) => {
     onPress?.(event);
@@ -171,7 +167,7 @@ export default function Button(props: ButtonProps): React.ReactNode {
     <TouchableHighlight
       onPress={onEnd}
       disabled={disabled}
-      style={style}
+      style={styles.content}
       underlayColor={obvious[fill].color}
     >
       {content(children, text)}
