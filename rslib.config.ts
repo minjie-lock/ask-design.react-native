@@ -55,5 +55,7 @@ export default defineConfig({
     target: 'node',
   },
 
-  plugins: [pluginReact()],
+  plugins: [
+    pluginReact(),
+  ],
 });

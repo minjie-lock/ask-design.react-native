@@ -1,6 +1,10 @@
 
 export type FormProps<T> = {
   /**
+   * 句柄 - 获取内部方法
+  */
+  ref: React.Ref<FormInstance>;
+  /**
    * 是否禁用
   */
   disabled?: boolean;
@@ -48,6 +52,9 @@ export type FormProps<T> = {
    * 当字段被删除时保留字段值
    */
   preserve?: boolean;
+  /**
+   * 内容
+  */
   children?: React.ReactNode;
 }
 
@@ -103,16 +110,16 @@ export type FormInstance<T extends Record<string, unknown>> = {
   setFieldValue?: (name: NamePath, value: any) => void;
   /**
    * @description 设置表单的值（该值将直接传入 form store 中。如果你不希望传入对象被修改，请克隆后传入）
-   * @param value 
-   * @returns 
+   * @param value
+   * @returns {void}
    */
   setFieldsValue?: (value) => void;
   /**
    * @description 获取字段值
-   * @param name 
-   * @returns 
+   * @param name
+   * @returns {Promise<unknown>}
    */
-  validateFields?: (name?: NamePath) => Promise<any>;
+  validateFields?: (name?: NamePath) => Promise<unknown>;
 }
 
 
