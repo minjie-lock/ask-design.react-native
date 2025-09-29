@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import Animated, {
   cancelAnimation,
@@ -11,6 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Icon from '../icon';
+import Fixed from '../fixed';
 
 export type ToastOptions = {
   onClose?: () => void;
@@ -62,33 +63,6 @@ export default function Toast({ ref }: ToastProps) {
   const [open, setOpen] = useState(false);
   const shared = useSharedValue(0);
   const loading = useSharedValue(0);
-
-  const styles = StyleSheet.create({
-    container: {
-      position: 'absolute',
-      top: '40%',
-      left: '30%',
-    },
-    background: {
-      width: 147,
-      height: 'auto',
-      backgroundColor: 'rgba(0, 0, 0, 0.8)',
-      paddingVertical: 30,
-      borderRadius: 5,
-    },
-    content: {
-      color: 'white',
-      textAlign: 'center',
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    icon: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: 20,
-    },
-  });
 
   useImperativeHandle(ref, () => ({
     show: (options: ToastOptions) => {
@@ -154,7 +128,7 @@ export default function Toast({ ref }: ToastProps) {
       'fail': <Icon name="close" size={40} color="white" />,
       'loading': (
         <Animated.View style={[loadingStyle]}>
-          <Icon name="loading-3-quarters" size={40} color="white" />
+          <ActivityIndicator />
         </Animated.View>
       ),
     };
@@ -166,19 +140,49 @@ export default function Toast({ ref }: ToastProps) {
 
 
   return (
-    <View style={styles.container}>
-      <Animated.View style={[styles.background, opacityStyle]}>
-        <View style={styles.icon}>
-          {
-            typeof options?.icon === 'string' ?
-              icon?.[options.icon as keyof typeof icon] :
-              options?.icon
-          }
-        </View>
-        <Text style={styles.content}>
-          {options?.content}
-        </Text>
-      </Animated.View>
-    </View>
+    <Fixed>
+      <View style={styles.container}>
+        <Animated.View style={[styles.background, opacityStyle]}>
+          <View style={styles.icon}>
+            {
+              typeof options?.icon === 'string' ?
+                icon?.[options.icon as keyof typeof icon] :
+                options?.icon
+            }
+          </View>
+          <Text style={styles.content}>
+            {options?.content}
+          </Text>
+        </Animated.View>
+      </View>
+    </Fixed>
   );
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    top: '40%',
+    left: '30%',
+  },
+  background: {
+    width: 147,
+    height: 'auto',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    paddingVertical: 30,
+    borderRadius: 5,
+  },
+  content: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  icon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+});

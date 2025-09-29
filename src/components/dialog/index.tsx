@@ -10,16 +10,41 @@ import SeparationLine from '../separation-line';
 import ActionButton, { DialogOptions } from './button';
 import Button from '../button';
 import Space from '../space';
+import Fixed from '../fixed';
 
 
 export type DialogRef = {
+  /**
+   * @function show
+   * @param options
+   * @description 显示对话
+   * @returns {void}
+  */
   show?: (options: DialogOptions.Show) => void;
+  /**
+   * @function hide
+   * @description 隐藏对话
+   * @returns {void}
+   */
   hide?: () => void;
+  /**
+   * @function alert
+   * @param options
+   * @description 唤起警告对话
+   * @returns {Promise<void>}
+   */
   alert?: (options: DialogOptions.Alert) => Promise<void>;
+  /**
+   * @function confirm
+   * @param options
+   * @description 唤起确认对话
+   * @returns {Promise<boolean>}
+   */
   confirm?: (options: DialogOptions.Confirm) => Promise<boolean>;
 }
 
 type DialogProps = {
+
   ref?: React.RefObject<DialogRef>;
   open?: boolean;
 }
@@ -30,9 +55,9 @@ type DialogProps = {
  * @description 对话
  * @author Lock
  * @param props
- * @returns
+ * @returns {React.ReactNode}
  */
-export default function Dialog({ ref }: DialogProps) {
+export default function Dialog({ ref }: DialogProps): React.ReactNode {
 
   const [options, , , resetOptions, setOptions] = useGetResetSetState<DialogOptions.Show |
     DialogOptions.Alert | DialogOptions.Confirm>({
@@ -152,33 +177,34 @@ export default function Dialog({ ref }: DialogProps) {
   }));
 
   return (
-    <View style={styles.container}>
-      {
-        open && (
-          <Fragment>
-            {
-              /**动态渲染模态框 */
-              options?.mask && (
-                <TouchableWithoutFeedback onPress={() => {
-                  options?.maskClose && onHide();
-                }}>
-                  <Animated.View style={[styles.mask, maskStyle]} />
-                </TouchableWithoutFeedback>
-              )
-            }
-            <Animated.View style={[styles.content, containerStyle]}>
-              <View style={styles.title}>
-                {
-                  content((options?.content as React.ReactNode) ?? '', {
-                    fontSize: 15,
-                    color: dialog.color,
-                  })
-                }
-              </View>
-              <SeparationLine style={styles.line} />
+    <Fixed>
+      <View style={styles.container}>
+        {
+          open && (
+            <Fragment>
               {
-                options?.actions?.length &&
-                  options?.actions?.map?.(({key, ...item}) => {
+                /**动态渲染模态框 */
+                options?.mask && (
+                  <TouchableWithoutFeedback onPress={() => {
+                    options?.maskClose && onHide();
+                  }}>
+                    <Animated.View style={[styles.mask, maskStyle]} />
+                  </TouchableWithoutFeedback>
+                )
+              }
+              <Animated.View style={[styles.content, containerStyle]}>
+                <View style={styles.title}>
+                  {
+                    content((options?.content as React.ReactNode) ?? '', {
+                      fontSize: 15,
+                      color: dialog.color,
+                    })
+                  }
+                </View>
+                <SeparationLine style={styles.line} />
+                {
+                  options?.actions?.length &&
+                  options?.actions?.map?.(({ key, ...item }) => {
                     return (
                       <View key={key}>
                         <Space align="center" justif="center" flex={1}>
@@ -190,16 +216,17 @@ export default function Dialog({ ref }: DialogProps) {
                       </View>
                     );
                   })
-              }
-              <ActionButton
-                type={type}
-                onHide={onHide}
-                options={options}
-              />
-            </Animated.View>
-          </Fragment>
-        )
-      }
-    </View>
+                }
+                <ActionButton
+                  type={type}
+                  onHide={onHide}
+                  options={options}
+                />
+              </Animated.View>
+            </Fragment>
+          )
+        }
+      </View>
+    </Fixed>
   );
 }

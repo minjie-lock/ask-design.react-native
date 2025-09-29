@@ -6,9 +6,7 @@ import { FormInstance, FormProps } from './type';
 import { useFormInstance } from './hooks';
 
 
-
 export const FormProvider = createContext<FormInstance<never>>({});
-
 
 /**
  * @function Form
@@ -48,4 +46,3 @@ Form.Field = lazy(() => import('./field'));
 Form.useForm = useForm;
 Form.useWatch = useWatch;
 Form.useFormInstance = useFormInstance;
-

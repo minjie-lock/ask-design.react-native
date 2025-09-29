@@ -57,18 +57,6 @@ export default function ActionButton<T extends keyof DialogRef>(
     options,
   } = props;
 
-
-  const styles = StyleSheet.create({
-    line: {
-      marginHorizontal: 0,
-    },
-    button: {
-      display: 'flex',
-      alignItems: 'center',
-      width: '50%',
-    },
-  });
-
   switch (type) {
     case 'show':
       return null;
@@ -111,3 +99,14 @@ export default function ActionButton<T extends keyof DialogRef>(
       return null;
   }
 }
+
+const styles = StyleSheet.create({
+  line: {
+    marginHorizontal: 0,
+  },
+  button: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '50%',
+  },
+});
