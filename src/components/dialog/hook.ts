@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useConfiguration } from '@/components/configuration';
 import { DialogRef } from '@/components/dialog';
+import { useEffect, useRef } from 'react';
 
 
 /**
@@ -8,18 +10,18 @@ import { DialogRef } from '@/components/dialog';
  * @author Lock
  * @returns
  */
-export default function useDialog() {
+export default function useDialog(): DialogRef {
 
   const dialog = useConfiguration(
     configuration => configuration?.hooks?.dialog
   );
 
-  class On {
-    static show = dialog?.current.show;
-    static hide = dialog?.current.hide;
-    static alert = dialog?.current.alert;
-    static confirm = dialog?.current.confirm;
-  }
+  const on = useRef({});
 
-  return On as Required<DialogRef>;
+  useEffect(() => {
+
+    Object.assign(on.current, dialog?.current);
+  }, []);
+
+  return on.current;
 }

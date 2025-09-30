@@ -3,6 +3,7 @@ import { DialogRef } from '.';
 import Button, { ButtonProps } from '../button';
 import Space from '../space';
 import SeparationLine from '../separation-line';
+import { useConfiguration } from '../configuration';
 
 type Action = Omit<ButtonProps, 'childeren' | 'fill'> & {
   key: string;
@@ -57,6 +58,10 @@ export default function ActionButton<T extends keyof DialogRef>(
     options,
   } = props;
 
+  const dialog = useConfiguration(
+    (configuration) => configuration.locales?.components?.Dialog
+  );
+
   switch (type) {
     case 'show':
       return null;
@@ -67,7 +72,7 @@ export default function ActionButton<T extends keyof DialogRef>(
       };
       return (
         <Button fill="text" onPress={onPress}>
-          {options?.confirmText ?? '我知道了'}
+          {options?.confirmText ?? dialog?.confirm}
         </Button>
       );
     case 'confirm':
@@ -78,7 +83,9 @@ export default function ActionButton<T extends keyof DialogRef>(
               await options?.onCancel?.();
               onHide?.(false);
             }}>
-              取消
+              {
+                options?.cancelText ?? dialog?.cancel
+              }
             </Button>
           </View>
           <SeparationLine
@@ -90,7 +97,7 @@ export default function ActionButton<T extends keyof DialogRef>(
               await options?.onConfirm?.();
               onHide?.(true);
             }}>
-              确定
+              {options?.confirmText ?? dialog?.confirm}
             </Button>
           </View>
         </Space>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useConfiguration } from '../configuration';
 import { ToastRef } from '.';
 import { useEffect, useRef } from 'react';
@@ -19,8 +20,8 @@ export default function useToast(): Required<ToastRef> {
 
 
   useEffect(() => {
-    Object.assign(on.current, toast);
-  }, [toast]);
+    Object.assign(on.current, toast?.current);
+  }, []);
 
   return on.current as Required<ToastRef>;
 }

@@ -66,34 +66,38 @@ export default function Toast({ ref }: ToastProps) {
 
   useImperativeHandle(ref, () => ({
     show: (options: ToastOptions) => {
-      setOpen(true);
-      setOptions(options);
-      shared.value = withTiming(1,
-        {
-          duration: 500,
-        },
-        () => {
-          if (options.duration !== 0) {
-            shared.value = withDelay(
-              options.duration ?? 2000,
-              withTiming(0, { duration: 500 }, () => {
-                runOnJS(setOpen)(false);
-                cancelAnimation(loading);
-              }),
-            );
+      if (!open) {
+        setOpen(true);
+        setOptions(options);
+        shared.value = withTiming(1,
+          {
+            duration: 500,
+          },
+          () => {
+            if (options.duration !== 0) {
+              shared.value = withDelay(
+                options.duration ?? 2000,
+                withTiming(0, { duration: 500 }, () => {
+                  runOnJS(setOpen)(false);
+                  cancelAnimation(loading);
+                }),
+              );
+            }
           }
-        }
-      );
+        );
+      }
     },
     hide: () => {
-      shared.value = withTiming(0,
-        {
-          duration: 500,
-        },
-        () => {
-          runOnJS(setOpen)(false);
-        }
-      );
+      if (open) {
+        shared.value = withTiming(0,
+          {
+            duration: 500,
+          },
+          () => {
+            runOnJS(setOpen)(false);
+          }
+        );
+      }
     },
   }));
 

@@ -5,6 +5,7 @@ import Toast, { ToastRef } from '../toast';
 import Dialog, { DialogRef } from '../dialog';
 import { useColorScheme } from 'react-native';
 import { Host } from 'react-native-portalize';
+import cn from '@/i18n/zh-cn';
 
 type State = Required<Omit<ConfigurationProps, 'children' | 'hooks'>> &
 {
@@ -15,6 +16,7 @@ const Arrangement = createContext<State>({
   scheme: {
     components: light?.components,
   },
+  locales: cn,
 });
 
 
@@ -34,8 +36,8 @@ export default function Configuration(
     ...rest
   } = props;
 
-  const toast = useRef<ToastRef | {}>({});
-  const dialog = useRef<DialogRef | {}>({});
+  const toast = useRef<ToastRef>({});
+  const dialog = useRef<DialogRef>({});
 
   const scheme = useColorScheme();
 
@@ -50,6 +52,7 @@ export default function Configuration(
       toast,
       dialog,
     },
+    locales: rest.locales || cn,
     ...rest,
   };
 

@@ -205,5 +205,13 @@ export type ConfigurationProps = {
   hooks?: {
     toast?: React.RefObject<ToastRef>;
     dialog?: React.RefObject<DialogRef>;
+  };
+  locales?: {
+    components?: {
+      Dialog?: {
+        cancel: string;
+        confirm: string;
+      };
+    }
   }
 }

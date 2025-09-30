@@ -3,7 +3,7 @@
 import { useGetResetSetState, useWithResolvers } from '@/hooks';
 import React, { Fragment, useImperativeHandle, useState } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useConfiguration } from '../configuration';
 import { content } from '@/utils';
 import SeparationLine from '../separation-line';
@@ -118,10 +118,9 @@ export default function Dialog({ ref }: DialogProps): React.ReactNode {
         duration: 500,
       }
     );
-    container.value = withSpring(1,
+    container.value = withTiming(1,
       {
-        damping: 10, // 阻尼
-        stiffness: 100, // 刚度
+        duration: 500,
       }
     );
   };
@@ -136,9 +135,8 @@ export default function Dialog({ ref }: DialogProps): React.ReactNode {
     mask.value = withTiming(0, {
       duration: 500,
     });
-    container.value = withSpring(0, {
-      damping: 10, // 阻尼
-      stiffness: 100, // 刚度
+    container.value = withTiming(0, {
+      duration: 500,
     }, () => {
       if (['boolean', 'string'].includes(typeof value)) {
         runOnJS(onResolve)?.(value);
@@ -178,55 +176,53 @@ export default function Dialog({ ref }: DialogProps): React.ReactNode {
 
   return (
     <Fixed>
-      <View style={styles.container}>
-        {
-          open && (
-            <Fragment>
-              {
-                /**动态渲染模态框 */
-                options?.mask && (
-                  <TouchableWithoutFeedback onPress={() => {
-                    options?.maskClose && onHide();
-                  }}>
-                    <Animated.View style={[styles.mask, maskStyle]} />
-                  </TouchableWithoutFeedback>
-                )
-              }
-              <Animated.View style={[styles.content, containerStyle]}>
-                <View style={styles.title}>
-                  {
-                    content((options?.content as React.ReactNode) ?? '', {
-                      fontSize: 15,
-                      color: dialog.color,
-                    })
-                  }
-                </View>
-                <SeparationLine style={styles.line} />
+      {
+        open && <View style={styles.container}>
+          <Fragment>
+            {
+              /**动态渲染模态框 */
+              options?.mask && (
+                <TouchableWithoutFeedback onPress={() => {
+                  options?.maskClose && onHide();
+                }}>
+                  <Animated.View style={[styles.mask, maskStyle]} />
+                </TouchableWithoutFeedback>
+              )
+            }
+            <Animated.View style={[styles.content, containerStyle]}>
+              <View style={styles.title}>
                 {
-                  options?.actions?.length &&
-                  options?.actions?.map?.(({ key, ...item }) => {
-                    return (
-                      <View key={key}>
-                        <Space align="center" justif="center" flex={1}>
-                          <Button {...item} fill="text" block>
-                            {item.text}
-                          </Button>
-                        </Space>
-                        <SeparationLine style={styles.line} />
-                      </View>
-                    );
+                  content((options?.content as React.ReactNode) ?? '', {
+                    fontSize: 15,
+                    color: dialog.color,
                   })
                 }
-                <ActionButton
-                  type={type}
-                  onHide={onHide}
-                  options={options}
-                />
-              </Animated.View>
-            </Fragment>
-          )
-        }
-      </View>
+              </View>
+              <SeparationLine style={styles.line} />
+              {
+                options?.actions?.length &&
+                options?.actions?.map?.(({ key, ...item }) => {
+                  return (
+                    <View key={key}>
+                      <Space align="center" justif="center" flex={1}>
+                        <Button {...item} fill="text" block>
+                          {item.text}
+                        </Button>
+                      </Space>
+                      <SeparationLine style={styles.line} />
+                    </View>
+                  );
+                })
+              }
+              <ActionButton
+                type={type}
+                onHide={onHide}
+                options={options}
+              />
+            </Animated.View>
+          </Fragment>
+        </View>
+      }
     </Fixed>
   );
 }
