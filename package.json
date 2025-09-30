@@ -49,6 +49,24 @@
       "require": "./dist/metro/index.cjs",
       "types": "./dist/src/metro/index.d.ts",
       "import": "./dist/metro/metro.js"
+    },
+    "./locales/zh-cn": {
+      "default": "./dist/i18n/zh-cn.cjs",
+      "require": "./dist/i18n/zh-cn.cjs",
+      "types": "./dist/src/i18n/zh-cn.d.ts",
+      "import": "./dist/i18n/zh-cn.js"
+    },
+    "./locales/en-us": {
+      "default": "./dist/i18n/en-us.cjs",
+      "require": "./dist/i18n/en-us.cjs",
+      "types": "./dist/src/i18n/en-us.d.ts",
+      "import": "./dist/i18n/en-us.js"
+    },
+    "./locales/zh-tw": {
+      "default": "./dist/i18n/zh-tw.cjs",
+      "require": "./dist/i18n/zh-tw.cjs",
+      "types": "./dist/src/i18n/zh-tw.d.ts",
+      "import": "./dist/i18n/zh-tw.js"
     }
   },
   "files": [
