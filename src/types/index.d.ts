@@ -4,9 +4,9 @@ import {
   ScrollViewPropsIOS,
   Touchable,
   VirtualizedListProps,
-} from "react-native";
+} from 'react-native';
 
-declare module "@react-native/virtualized-lists" {
+declare module '@react-native/virtualized-lists' {
   export interface VirtualizedListWithoutRenderItemProps<ItemT>
     extends ScrollViewProps {
     ListFooterComponentClassName?: string;
@@ -14,7 +14,7 @@ declare module "@react-native/virtualized-lists" {
   }
 }
 
-declare module "react-native" {
+declare module 'react-native' {
   interface ScrollViewProps
     extends ViewProps,
       ScrollViewPropsIOS,

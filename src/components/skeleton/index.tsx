@@ -44,7 +44,7 @@ export default function Skeleton(props: SkeletonProps): React.ReactNode {
   const progress = useSharedValue(0);
 
   const skeleton = useConfiguration(
-    (configuration) => configuration.scheme?.components?.Skeleton
+    (configuration) => configuration?.scheme?.components?.Skeleton
   );
 
 

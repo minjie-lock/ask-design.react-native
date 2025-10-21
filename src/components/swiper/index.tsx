@@ -81,10 +81,9 @@ type SwiperProps<T> = {
    * 切换触发
   */
   onChange?: (current?: number) => void;
-  // /**
-  //  * 子级
-  // */
-  // children?: React.ReactNode;
+  /**
+   * 子项
+  */
   items?: {
     children?: React.ReactNode;
     value?: number;
@@ -212,7 +211,7 @@ export default function Swiper<T extends 'horizontal' | 'vertical' = 'horizontal
             gestureStyles.main,
           ]}>
             {
-              children?.map((item, key) => {
+              items?.map((item, key) => {
                 const style = isValidElement<ViewProps>(item?.children)
                   ? item?.children?.props?.style ?? {}
                   : {};

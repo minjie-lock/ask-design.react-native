@@ -17,6 +17,9 @@ type ButtonColor = {
 export type ConfigurationProps = {
   children: React.ReactNode;
   scheme?: {
+    token: {
+      round: number;
+    };
     components: {
       Button?: {
         round: number;
@@ -200,6 +203,20 @@ export type ConfigurationProps = {
           default: string;
         };
       };
+      /**
+       * @component Slider
+       * @description 滑块
+       */
+      Slider: {
+        background: {
+          active: string;
+          default: string;
+        };
+        icon: {
+          background: string;
+          color: string;
+        }
+      }
     };
   };
   hooks?: {
@@ -211,6 +228,7 @@ export type ConfigurationProps = {
       Dialog?: {
         cancel: string;
         confirm: string;
+        know: string;
       };
     }
   }

@@ -2,14 +2,14 @@ import type { ConfigurationProps } from '../components/configuration/types';
 import { NAVY_BLUE, GREEN, GRAY, RED, GOLD } from './color';
 const gloabl = {
   round: 6,
-  Button: {
-
-  },
 };
 
 type Color = Required<Omit<ConfigurationProps, 'children'>>['scheme']
 
 export const light: Color = {
+  token: {
+    round: gloabl.round,
+  },
   components: {
     Button: {
       round: gloabl.round,
@@ -190,6 +190,16 @@ export const light: Color = {
       line: {
         active: NAVY_BLUE.five,
         default: GRAY.ten,
+      },
+    },
+    Slider: {
+      background: {
+        default: GRAY.ten,
+        active: NAVY_BLUE.five,
+      },
+      icon: {
+        background: 'white',
+        color:  NAVY_BLUE.five,
       },
     },
   },

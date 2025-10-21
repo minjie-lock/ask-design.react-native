@@ -72,7 +72,7 @@ export default function ActionButton<T extends keyof DialogRef>(
       };
       return (
         <Button fill="text" onPress={onPress}>
-          {options?.confirmText ?? dialog?.confirm}
+          {options?.confirmText ?? dialog?.know}
         </Button>
       );
     case 'confirm':
