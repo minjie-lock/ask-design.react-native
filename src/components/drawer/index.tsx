@@ -118,6 +118,7 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
 
   const transform = useSharedValue(include?.[position]);
   const maskValue = useSharedValue(0);
+  // const start = useSharedValue(0);
 
   const postions = {
     bottom: {
@@ -165,8 +166,13 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
     header: {
       alignItems: position === 'right' ? 'flex-start' : 'flex-end',
     },
+    gesture: {
+      position: 'absolute',
+      zIndex: 120,
+      inset: 0,
+    },
     content: {
-      zIndex: 100,
+      zIndex: 110,
       position: 'absolute',
       ...(postions?.[position] as ViewStyle),
       padding: 20,
@@ -227,6 +233,11 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
     onClose?.();
   };
 
+  // const onStart = (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
+  //   const size = ['left', 'right'].includes(position) ?
+  //     'translationX' : 'translationY';
+  //   start.value = event?.[size];
+  // };
 
   // 添加滑动关闭
   const gesture = Gesture.Pan().onChange((event) => {
@@ -289,7 +300,7 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
             </TouchableNativeFeedback>
           )
         }
-        <GestureHandlerRootView>
+        <GestureHandlerRootView style={styles?.gesture}>
           <GestureDetector gesture={gesture}>
             <Animate.View style={[styles.content, containerStyle]}>
               <View style={styles.header}>

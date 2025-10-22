@@ -1,10 +1,12 @@
 import { View, ViewStyle, StyleSheet, TouchableNativeFeedback } from 'react-native';
-import Animated,
+import
+Animated,
 {
-  cancelAnimation,
-  runOnJS, useAnimatedStyle, useSharedValue, withSpring,
-}
-  from 'react-native-reanimated';
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 import { content } from '../../utils';
 import { useConfiguration } from '../configuration';
 import { useBoolean, useMemoizedFn } from 'ahooks';
@@ -12,7 +14,7 @@ import Icon from '../icon';
 import { lazy, useEffect, useImperativeHandle } from 'react';
 import { useControllableValue } from '@/hooks';
 
-type CheckboxRef = {
+export type CheckboxRef = {
   /**
    * @function check
    * @description 触发选中
@@ -147,8 +149,6 @@ export default function Checkbox(props: CheckboxProps): React.ReactNode {
   }, [indeterminate]);
 
   useEffect(() => {
-    cancelAnimation(background);
-    cancelAnimation(icon);
     if (value) {
       runOnJS(set)(value);
       background.value = 1;

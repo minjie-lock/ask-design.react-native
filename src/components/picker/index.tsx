@@ -177,7 +177,6 @@ export default function Picker<T extends PickerItem[][]>
         </Button>
       </View>
       <SeparationLine style={styles.line} />
-
       <View style={styles.container}>
         <View style={mask.top} />
         <View style={{

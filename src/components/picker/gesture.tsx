@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { StyleSheet, View } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, GestureStateChangeEvent, GestureUpdateEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { PickerItem } from '.';
 import { content } from '@/utils';
@@ -34,6 +34,7 @@ export default function PickerGesture(props: PickerGestureProps) {
   const min = max?.find((item) => item.key === value);
 
   const translateY = useSharedValue(min?.value ?? 0);
+  const start = useSharedValue(0);
 
   // 项目变化重置 translateY 值
   useEffect(() => {
@@ -44,9 +45,16 @@ export default function PickerGesture(props: PickerGestureProps) {
   }, [items]);
 
   const createGesture = () => {
-    const gesture = Gesture.Pan().onUpdate((event) => {
-      translateY.value = event.translationY;
-    }).onEnd((event) => {
+
+    const onStart = (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
+      start.value = event?.translationY;
+    };
+
+    const onUpdate = (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+      translateY.value = event?.translationY + start?.value;
+    };
+
+    const onEnd = (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
       const all = max?.filter((item) => item.value > (event.translationY - 19));
       // 为空时，重置最后一个
       if (!all?.length) {
@@ -64,7 +72,11 @@ export default function PickerGesture(props: PickerGestureProps) {
       }, () => {
         onChange && runOnJS(onChange)(find as PickerItem);
       });
-    });
+    };
+    const gesture = Gesture.Pan()
+      ?.onStart(onStart)
+      ?.onUpdate(onUpdate)
+      ?.onEnd(onEnd);
     return gesture;
   };
 
