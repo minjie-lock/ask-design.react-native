@@ -8,10 +8,17 @@ import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { useEffect, useRef } from 'react';
+import Animated,
+{
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+}
+  from 'react-native-reanimated';
+import { useRef } from 'react';
 import { useControllableValue } from '@/hooks';
-import { useBoolean } from 'ahooks';
+import { useBoolean, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { content } from '@/utils';
 
 type Value<T> = T extends true ? number : [number, number];
@@ -93,13 +100,12 @@ export default function Slider<T extends boolean>
     className,
     classNames,
     style,
-    step,
+    // step,
     disabled,
     max = 100,
     min = 0,
   } = props;
 
-  const progress = useSharedValue(props?.value ?? defaultValue ?? 0);
   const translationX = useSharedValue(0);
   const start = useSharedValue(0);
   const smooth = useSharedValue(0);
@@ -134,7 +140,9 @@ export default function Slider<T extends boolean>
       top: 0,
       height: 10,
       borderRadius: 30,
+      width: `${value as number}%`,
       backgroundColor: slider?.background?.active,
+      zIndex: 10,
       ...props?.styles?.active,
     },
     icon: {
@@ -165,7 +173,7 @@ export default function Slider<T extends boolean>
     gesture: { zIndex: 20, inset: 0, position: 'absolute' },
     trackContainer: {
       zIndex: 10,
-      position: 'absolute',
+      position: 'relative',
       inset: 0,
     },
   });
@@ -188,14 +196,20 @@ export default function Slider<T extends boolean>
       return;
     }
     if (range) {
-
-    } else {
+      return;
+    }
+    if (typeof value === 'number') {
+      if (value >= max) {
+        return;
+      }
+      if (value <= min) {
+        return;
+      }
       const maxTranslate = width.current - 19;
       const latest = start.value + event.translationX;
       const clamped = Math.min(Math.max(latest, 0), maxTranslate);
       const percent = (clamped / maxTranslate) * 100;
       translationX.value = clamped;
-      // progress.value = percent;
       runOnJS(setValue)?.(percent);
     }
   };
@@ -217,34 +231,6 @@ export default function Slider<T extends boolean>
     .onStart(onStart).onChange(onChange)
     .onEnd(onEnd);
 
-
-  useEffect(() => {
-    if (Array.isArray(value)) {
-
-    } else {
-      if (value) {
-        progress.value = value;
-        const clampedPercent = Math.min(Math.max(value, 0), 100);
-        translationX.value = (clampedPercent / 100) * (width.current - 19);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-
-  // useEffect(() => {
-  //   if (range) {
-  //     const [start, end] = value;
-  //   } else {
-  //     progress.value = withTiming(
-  //       value,
-  //       {
-  //         duration: 500,
-  //       }
-  //     );
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [value, range]);
-
   const iconStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -253,37 +239,55 @@ export default function Slider<T extends boolean>
     };
   });
 
-  const trackStyle = useAnimatedStyle(() => {
-    return {
-      width: `${progress.value as number}%`,
-    };
+  // const trackStyle = useAnimatedStyle(() => {
+  //   return {
+  //     width: `${progress.value as number}%`,
+  //   };
+  // });
+
+  // const smoothStyle = useAnimatedStyle(() => {
+  //   return {
+  //     opacity: smooth?.value,
+  //   };
+  // });
+
+  const onValue = (width: number) => {
+    if (Array.isArray(value)) {
+      return;
+    }
+    if (typeof value === 'number') {
+      const clampedPercent = Math.min(Math.max(value, 0), 100);
+      translationX.value = (clampedPercent / 100) *
+        (width - 19);
+    }
+  };
+
+  const onLayout = useMemoizedFn(({ nativeEvent }) => {
+    width.current = nativeEvent?.layout?.width;
+    onValue(nativeEvent?.layout?.width);
   });
 
-  const smoothStyle = useAnimatedStyle(() => {
-    return {
-      opacity: smooth?.value,
-    };
-  });
+  useUpdateEffect(() => {
+    onValue(width.current);
+  }, [value]);
 
   return (
     <View
       style={styles.container}
       className={className}
-      onLayout={(value) => {
-        width.current = value?.nativeEvent?.layout?.width;
-      }}
+      onLayout={onLayout}
     >
       <View style={styles.trackContainer}>
         <Animated.View
-          style={[styles.track, trackStyle]}
+          style={[styles.track]}
           className={classNames?.active}
         />
       </View>
-      {
+      {/* {
         active && <Animated.View
           style={[styles.smooth, smoothStyle]}
         />
-      }
+      } */}
       <GestureHandlerRootView style={styles?.gesture}>
         <GestureDetector gesture={gesture}>
           <Animated.View

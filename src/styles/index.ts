@@ -202,6 +202,14 @@ export const light: Color = {
         color:  NAVY_BLUE.five,
       },
     },
+    Checkbox: {
+      round: 4,
+      background: {
+        active: NAVY_BLUE.five,
+        default: '#FFFFFF',
+      },
+      border: GRAY.nine,
+    },
   },
 };
 

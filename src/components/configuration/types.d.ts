@@ -216,7 +216,19 @@ export type ConfigurationProps = {
           background: string;
           color: string;
         }
-      }
+      };
+      /**
+       * @component Checkbox
+       * @description 复选框
+       */
+      Checkbox: {
+        border: string;
+        round: number;
+        background: {
+          default: string;
+          active: string;
+        };
+      };
     };
   };
   hooks?: {

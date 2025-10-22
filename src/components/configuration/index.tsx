@@ -14,6 +14,7 @@ type State = Required<Omit<ConfigurationProps, 'children' | 'hooks'>> &
 
 const Arrangement = createContext<State>({
   scheme: {
+    token: light.token,
     components: light?.components,
   },
   locales: cn,
@@ -43,6 +44,7 @@ export default function Configuration(
 
   const value: State = {
     scheme: {
+      token: light.token,
       components: {
         ...(scheme === 'dark' ? dark?.components : light?.components),
         ...rest.scheme?.components,

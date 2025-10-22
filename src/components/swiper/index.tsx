@@ -110,8 +110,8 @@ type SwiperProps<T> = {
  * @returns {React.ReactNode}
  */
 
-export default function Swiper<T extends 'horizontal' | 'vertical' = 'horizontal'>({ ref, ...props }: SwiperProps<T>):
-  React.ReactNode {
+export default function Swiper<T extends 'horizontal' | 'vertical' = 'horizontal'>
+  ({ ref, ...props }: SwiperProps<T>): React.ReactNode {
 
   const {
     allowTouchMove = true,

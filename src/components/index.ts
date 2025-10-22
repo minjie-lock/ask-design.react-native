@@ -35,6 +35,7 @@ export { default as Skeleton } from './skeleton';
 export { default as Grid } from './grid';
 export { default as Tabs } from './tabs';
 export { default as Slider } from './slider';
+export { default as Checkbox } from './checkbox';
 
 export { default as useDialog } from './dialog/hook';
 export { default as useToast } from './toast/hook';

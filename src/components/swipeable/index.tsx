@@ -170,7 +170,6 @@ export default function Swipeable(props: SwipeableProps): React.ReactNode {
       const rightOpenPos = -size.right;
       const closeThreshold = rightOpenPos * 0.3; // 关闭阈值：需要滑动超过30%才关闭
       const switchThreshold = rightOpenPos - threshold * 2; // 切换阈值：需要更大的滑动距离才能直接切换到左侧
-      
       if (translationX > 0) {
         // 向右滑动
         if (currentTranslation > -switchThreshold) {
