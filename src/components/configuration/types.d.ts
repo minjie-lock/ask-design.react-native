@@ -229,6 +229,18 @@ export type ConfigurationProps = {
           active: string;
         };
       };
+      /**
+       * @component Checkbox
+       * @description 单选框
+       */
+      Radio:{
+        border: string;
+        round: number;
+        background: {
+          default: string;
+          active: string;
+        };
+      };
     };
   };
   hooks?: {
