@@ -1,6 +1,5 @@
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import Star from './star';
-// import { useState } from 'react';
 import { useControllableValue } from '@/hooks';
 
 type RateProps = {
