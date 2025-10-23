@@ -1,5 +1,5 @@
 
-import { StyleSheet, TouchableNativeFeedback, View, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useBoolean } from 'ahooks';
 import Icon from '../icon';
@@ -157,7 +157,7 @@ export default function Radio(props: RadioProps): React.ReactNode {
 
   return (
     <View style={styles?.radio} className={className}>
-      <TouchableNativeFeedback onPress={onPress}>
+      <Pressable onPress={onPress}>
         <Animated.View style={[styles?.container]}>
           {
             show && (
@@ -171,7 +171,7 @@ export default function Radio(props: RadioProps): React.ReactNode {
             )
           }
         </Animated.View>
-      </TouchableNativeFeedback>
+      </Pressable>
       {
         content(
           children,

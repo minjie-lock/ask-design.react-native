@@ -37,6 +37,7 @@ export { default as Tabs } from './tabs';
 export { default as Slider } from './slider';
 export { default as Checkbox } from './checkbox';
 export { default as Radio } from './radio';
+export { default as Rate } from './rate';
 
 export { default as useDialog } from './dialog/hook';
 export { default as useToast } from './toast/hook';

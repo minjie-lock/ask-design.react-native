@@ -1,4 +1,4 @@
-import { View, ViewStyle, StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { View, ViewStyle, StyleSheet, Pressable } from 'react-native';
 import
 Animated,
 {
@@ -254,7 +254,7 @@ export default function Checkbox(props: CheckboxProps): React.ReactNode {
 
   return (
     <View style={styles.container} className={className}>
-      <TouchableNativeFeedback onPress={onPress} disabled={disabled}>
+      <Pressable onPress={onPress} disabled={disabled}>
         <Animated.View style={[styles?.checkbox]}>
           {
             hide && (
@@ -275,7 +275,7 @@ export default function Checkbox(props: CheckboxProps): React.ReactNode {
             )
           }
         </Animated.View>
-      </TouchableNativeFeedback>
+      </Pressable>
       <View>
         {content(children)}
       </View>

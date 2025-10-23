@@ -218,6 +218,12 @@ export const light: Color = {
       },
       border: GRAY.nine,
     },
+    Rate: {
+      background: {
+        default: GRAY.nine,
+        active: GOLD.five,
+      },
+    },
   },
 };
 

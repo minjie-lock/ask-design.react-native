@@ -233,7 +233,7 @@ export type ConfigurationProps = {
        * @component Checkbox
        * @description 单选框
        */
-      Radio:{
+      Radio: {
         border: string;
         round: number;
         background: {
@@ -241,6 +241,16 @@ export type ConfigurationProps = {
           active: string;
         };
       };
+      /**
+      * @component Checkbox
+      * @description 单选框
+      */
+      Rate: {
+        background: {
+          default: string;
+          active: string;
+        }
+      }
     };
   };
   hooks?: {
