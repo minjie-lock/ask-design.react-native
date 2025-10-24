@@ -1,4 +1,5 @@
 
+import { useMemoizedFn } from 'ahooks';
 import { useEffect, useRef } from 'react';
 import { Gesture, GestureStateChangeEvent, GestureUpdateEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -12,51 +13,60 @@ export default function useGesture(
   type: 'horizontal' | 'vertical',
   dimension: number,
   count: number,
-  onChange: (index: number) => void
+  allowTouchMove: boolean,
+  autoplayInterval: number,
+  autoplay: boolean,
+  onChange: (index: number) => void,
 ) {
 
   const position = positions[type];
 
   const current = useSharedValue(1);
   const translate = useSharedValue(0);
-  const interval = useRef(0);
+  const interval = useRef<NodeJS.Timeout>(null);
   const size = useRef(0);
 
-  const onStart = (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
+  const onStart = () => {
+    if (allowTouchMove) {
+      clearInterval(interval.current);
+    }
     // translate.value = withTiming(translate.value, { duration: 100 });
-    clearInterval(interval.current);
   };
 
   const onUpdate = (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
-    translate.value = -current.value * dimension + event[position]; // ✅ 滑动时实时更新位置
+    if (allowTouchMove) {
+      translate.value = -current.value * dimension + event[position]; // ✅ 滑动时实时更新位置
+    }
   };
 
   const onEnd = (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
-    if (event[position] > 50 && current.value > 0) {
-      current.value -= 1; // 左滑
-    } else if (event[position] < -50 && current.value < count - 1) {
-      current.value += 1;
+    if (allowTouchMove) {
+      if (event[position] > 50 && current.value > 0) {
+        current.value -= 1; // 左滑
+      } else if (event[position] < -50 && current.value < count - 1) {
+        current.value += 1;
+      }
+      runOnJS(onChange)(
+        current.value,
+      );
+      translate.value = withTiming(-current.value * dimension, {
+        duration: 500,
+      }, () => {
+        if (current.value === count - 1) {
+          current.value = 1;
+          translate.value = -dimension;
+          return;
+        }
+        if (current.value === 0) {
+          current.value = count - 2;
+          translate.value = -current.value * dimension;
+          return;
+        }
+        // if (!interval.current) {
+        // runOnJS(setTimer)();
+        // }
+      });
     }
-    runOnJS(onChange)(
-      current.value,
-    );
-    translate.value = withTiming(-current.value * dimension, {
-      duration: 500,
-    }, () => {
-      if (current.value === count - 1) {
-        current.value = 1;
-        translate.value = -dimension;
-        return;
-      }
-      if (current.value === 0) {
-        current.value = count - 2;
-        translate.value = -current.value * dimension;
-        return;
-      }
-      // if (!interval.current) {
-      // runOnJS(setTimer)();
-      // }
-    }); // ✅ 平滑切换
   };
 
   const gesture = Gesture.Simultaneous(
@@ -87,22 +97,26 @@ export default function useGesture(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dimension]);
 
-  const createSwiper = () => {
-    interval.current = setInterval(() => {
-      current.value++;
-      runOnJS(onChange)(current.value);
-      translate.value = withTiming(
-        -current?.value * size.current,
-        { duration: 500 },
-        () => {
-          if (current.value - 1 === count - 1) {
-            current.value = 1;
-            translate.value = -dimension;
+  const createSwiper = useMemoizedFn(() => {
+    if (autoplay) {
+      interval.current = setInterval(() => {
+        current.value++;
+        runOnJS(onChange)(current.value);
+        translate.value = withTiming(
+          -current?.value * size.current,
+          { duration: 500 },
+          () => {
+            if (current.value - 1 === count - 1) {
+              current.value = 1;
+              translate.value = -dimension;
+            }
           }
-        }
-      );
-    }, 2000);
-  };
+        );
+      }, autoplayInterval);
+    } else {
+      clearInterval(interval.current);
+    }
+  });
 
   useEffect(() => {
     createSwiper();
@@ -110,7 +124,7 @@ export default function useGesture(
       clearInterval(interval.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [autoplay]);
 
   // const createAutoplay = () => {
   //   // if (autoplay) {

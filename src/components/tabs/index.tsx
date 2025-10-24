@@ -5,7 +5,7 @@ import { content } from '@/utils';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useControllableValue } from '@/hooks';
 import { useConfiguration } from '../configuration';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, GestureStateChangeEvent, GestureUpdateEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import { useUpdateEffect } from 'ahooks';
 
 /**
@@ -140,17 +140,20 @@ export default function Tabs<T extends Tab[]>(props: TabsProps<T>): React.ReactN
     };
   });
 
-  const gesture = Gesture.Pan()?.onChange((event) => {
+  const onUpdate = (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
     if (event?.translationX) {
       translate.value = event?.translationX;
     }
-  })?.onEnd((event) => {
+  };
 
-    // const current = items?.findIndex(item => item.key === value) ?? 0;
+  const onEnd = (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
     translate.value = withTiming(
       event?.translationX,
     );
-  });
+  };
+
+  const gesture = Gesture.Pan()?.onChange(onUpdate)
+  ?.onEnd(onEnd);
 
   const sectionStyle = useAnimatedStyle(() => {
     return {

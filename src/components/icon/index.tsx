@@ -7,12 +7,28 @@ import { GRAY } from '@/styles/color';
 export type IconNames = OutlineGlyphMapType
 
 export interface IconProps extends TextProps {
-  size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | number
-  color?: string
-  name: IconNames
+  /**
+   * @description 尺寸
+   */
+  size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | number;
+  /**
+   * @description 色彩
+   */
+  color?: string;
+  /**
+   * @description 名字
+   */
+  name: IconNames;
 }
 
-export default function Icon(props: IconProps) {
+/**
+ * @function Icon
+ * @description 图标
+ * @author Lock
+ * @param {IconProps} props
+ * @returns {React.ReactNode}
+ */
+export default function Icon(props: IconProps): React.ReactNode {
 
   const {
     size,

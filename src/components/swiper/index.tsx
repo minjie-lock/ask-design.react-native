@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import { LayoutChangeEvent, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import React, {
   cloneElement,
@@ -160,7 +159,10 @@ export default function Swiper<T extends 'horizontal' | 'vertical' = 'horizontal
     direction,
     dimension,
     count,
-    setValue
+    allowTouchMove,
+    autoplayInterval,
+    autoplay,
+    setValue,
   );
 
   const styles = StyleSheet.create({
@@ -209,14 +211,14 @@ export default function Swiper<T extends 'horizontal' | 'vertical' = 'horizontal
           gestureStyles.main,
         ]}>
           {
-            items?.map((item, key) => {
+            children?.map((item, key) => {
               const style = isValidElement<ViewProps>(item?.children)
                 ? item?.children?.props?.style ?? {}
                 : {};
               return cloneElement(
                 item?.children as React.ReactElement<ViewProps>,
                 {
-                  key: key,
+                  key,
                   style: {
                     ...(style as ViewStyle),
                     width: '100%',
@@ -228,26 +230,20 @@ export default function Swiper<T extends 'horizontal' | 'vertical' = 'horizontal
           }
         </Animated.View>
       </GestureDetector>
-      {/* <View style={styles.indicators}>
+      <View style={styles?.indicators}>
         {
-          typeof indicator === 'function' ? indicator(items?.length, value) :
-            (
-              Array.from({
-                length: items?.length,
-              })?.map((...[, index]) => {
-                const total = count + 2;
-                const content = (value - 1) === index || (index === 0 && total - 1 === value) || (index === total - 3 && value === 0);
-                return (
-                  <Animated.View key={index} style={{
-                    width: horizontal ? content ? 15 : 4 : 4,
-                    height: horizontal ? 4 : content ? 15 : 4,
-                    backgroundColor: content ? 'blue' : '#CCC',
-                  }} />
-                );
-              })
-            )
+          indicator ? indicator?.() :
+          items?.map(
+            (item) => {
+              return (
+                <Animated.View style={[]}>
+
+                </Animated.View>
+              );
+            }
+          )
         }
-      </View> */}
+      </View>
     </View>
   );
 }
