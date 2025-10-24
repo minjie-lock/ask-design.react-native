@@ -6,6 +6,7 @@ import Dialog, { DialogRef } from '../dialog';
 import { useColorScheme } from 'react-native';
 import { Host } from 'react-native-portalize';
 import cn from '@/i18n/zh-cn';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 type State = Required<Omit<ConfigurationProps, 'children' | 'hooks'>> &
 {
@@ -61,9 +62,11 @@ export default function Configuration(
   return (
     <Arrangement.Provider value={value}>
       <Host>
-        {children}
-        <Toast ref={toast as React.RefObject<ToastRef>} />
-        <Dialog ref={dialog as React.RefObject<DialogRef>} />
+        <GestureHandlerRootView>
+          {children}
+          <Toast ref={toast as React.RefObject<ToastRef>} />
+          <Dialog ref={dialog as React.RefObject<DialogRef>} />
+        </GestureHandlerRootView>
       </Host>
     </Arrangement.Provider>
   );

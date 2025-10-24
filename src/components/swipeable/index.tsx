@@ -2,7 +2,6 @@
 
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import {
-  GestureHandlerRootView,
   GestureDetector,
   Gesture,
   type GestureUpdateEvent,
@@ -267,28 +266,26 @@ export default function Swipeable(props: SwipeableProps): React.ReactNode {
 
 
   return (
-    <GestureHandlerRootView>
-      <GestureDetector gesture={gesture}>
-        <View style={styles?.block}>
-          <Animated.View style={[styles?.section, translationStyle]}>
-            {
-              typeof actions?.left === 'function' &&
-              <View style={styles?.left} onLayout={onLeft}>
-                {actions?.left?.()}
-              </View>
-            }
-            <View style={styles?.content} onLayout={onCenter}>
-              {content(children)}
+    <GestureDetector gesture={gesture}>
+      <View style={styles?.block}>
+        <Animated.View style={[styles?.section, translationStyle]}>
+          {
+            typeof actions?.left === 'function' &&
+            <View style={styles?.left} onLayout={onLeft}>
+              {actions?.left?.()}
             </View>
-            {
-              typeof actions?.right === 'function' &&
-              <View style={styles?.right} onLayout={onRight}>
-                {actions?.right?.()}
-              </View>
-            }
-          </Animated.View>
-        </View>
-      </GestureDetector>
-    </GestureHandlerRootView>
+          }
+          <View style={styles?.content} onLayout={onCenter}>
+            {content(children)}
+          </View>
+          {
+            typeof actions?.right === 'function' &&
+            <View style={styles?.right} onLayout={onRight}>
+              {actions?.right?.()}
+            </View>
+          }
+        </Animated.View>
+      </View>
+    </GestureDetector>
   );
 }

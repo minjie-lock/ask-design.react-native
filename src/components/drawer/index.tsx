@@ -4,7 +4,7 @@ import Animate, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from '
 import { useEffect, useState } from 'react';
 import { content } from '@/utils';
 import Icon from '../icon';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Fixed from '../fixed';
 
 
@@ -300,21 +300,19 @@ export default function Drawer(props: DrawerProps): React.ReactNode {
             </TouchableNativeFeedback>
           )
         }
-        <GestureHandlerRootView style={styles?.gesture}>
-          <GestureDetector gesture={gesture}>
-            <Animate.View style={[styles.content, containerStyle]}>
-              <View style={styles.header}>
-                {
-                  closeIcon ? content(closeIcon) : showClose &&
-                    <Icon name="close" size="md" onPress={() => {
-                      onHide();
-                    }} />
-                }
-              </View>
-              {content(children)}
-            </Animate.View>
-          </GestureDetector>
-        </GestureHandlerRootView>
+        <GestureDetector gesture={gesture}>
+          <Animate.View style={[styles.content, containerStyle]}>
+            <View style={styles.header}>
+              {
+                closeIcon ? content(closeIcon) : showClose &&
+                  <Icon name="close" size="md" onPress={() => {
+                    onHide();
+                  }} />
+              }
+            </View>
+            {content(children)}
+          </Animate.View>
+        </GestureDetector>
       </View>
     </Fixed>
   );

@@ -4,7 +4,6 @@ import { useConfiguration } from '../configuration';
 import {
   Gesture,
   GestureDetector,
-  GestureHandlerRootView,
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
@@ -288,16 +287,14 @@ export default function Slider<T extends boolean>
           style={[styles.smooth, smoothStyle]}
         />
       } */}
-      <GestureHandlerRootView style={styles?.gesture}>
-        <GestureDetector gesture={gesture}>
-          <Animated.View
-            style={[iconStyle, styles?.icon]}
-            className={classNames?.icon}
-          >
-            {content(icon)}
-          </Animated.View>
-        </GestureDetector>
-      </GestureHandlerRootView>
+      <GestureDetector gesture={gesture}>
+        <Animated.View
+          style={[iconStyle, styles?.icon]}
+          className={classNames?.icon}
+        >
+          {content(icon)}
+        </Animated.View>
+      </GestureDetector>
     </View>
   );
 }

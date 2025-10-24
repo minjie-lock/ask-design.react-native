@@ -3,7 +3,6 @@ import { StyleSheet, View } from 'react-native';
 import Drawer from '../drawer';
 import SeparationLine from '../separation-line';
 import Button from '../button';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import PickerGesture from './gesture';
 import { useControllableValue } from '@/hooks';
 import { useConfiguration } from '../configuration';
@@ -184,7 +183,6 @@ export default function Picker<T extends PickerItem[][]>
           alignItems: columns ? 'flex-start' : 'center',
         }}>
           <SeparationLine style={styles.line} />
-          <GestureHandlerRootView>
             <View style={{
               ...styles.content,
               justifyContent: columns ? 'flex-start' : 'space-between',
@@ -209,7 +207,6 @@ export default function Picker<T extends PickerItem[][]>
                 })
               }
             </View>
-          </GestureHandlerRootView>
           <SeparationLine style={styles.line} />
         </View>
         <View style={mask.bottom} />

@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react-native/no-inline-styles */
 import { ScrollView, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import SeparationLine from '../separation-line';
 import { content } from '@/utils';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useControllableValue } from '@/hooks';
 import { useConfiguration } from '../configuration';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useUpdateEffect } from 'ahooks';
 
 /**
@@ -197,21 +196,19 @@ export default function Tabs<T extends Tab[]>(props: TabsProps<T>): React.ReactN
           <SeparationLine style={styles?.line} />
         </View>
       </ScrollView>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <GestureDetector gesture={gesture}>
-          <Animated.View style={[styles?.section, sectionStyle]}>
-            {
-              items?.map((item) => {
-                return (
-                  <View key={item.key}>
-                    {item?.children}
-                  </View>
-                );
-              })
-            }
-          </Animated.View>
-        </GestureDetector>
-      </GestureHandlerRootView>
+      <GestureDetector gesture={gesture}>
+        <Animated.View style={[styles?.section, sectionStyle]}>
+          {
+            items?.map((item) => {
+              return (
+                <View key={item.key}>
+                  {item?.children}
+                </View>
+              );
+            })
+          }
+        </Animated.View>
+      </GestureDetector>
     </View>
   );
 }

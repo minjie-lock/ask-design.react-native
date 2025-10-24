@@ -12,7 +12,6 @@ import React, {
 import { useControllableValue } from '@/hooks';
 import {
   GestureDetector,
-  GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 import Animated,
 {
@@ -204,33 +203,31 @@ export default function Swiper<T extends 'horizontal' | 'vertical' = 'horizontal
 
   return (
     <View style={styles.main}>
-      <GestureHandlerRootView>
-        <GestureDetector gesture={gesture}>
-          <Animated.View onLayout={onLayout} style={[
-            styles.content,
-            gestureStyles.main,
-          ]}>
-            {
-              items?.map((item, key) => {
-                const style = isValidElement<ViewProps>(item?.children)
-                  ? item?.children?.props?.style ?? {}
-                  : {};
-                return cloneElement(
-                  item?.children as React.ReactElement<ViewProps>,
-                  {
-                    key: key,
-                    style: {
-                      ...(style as ViewStyle),
-                      width: '100%',
-                      height: '100%',
-                    },
-                  }
-                );
-              })
-            }
-          </Animated.View>
-        </GestureDetector>
-      </GestureHandlerRootView>
+      <GestureDetector gesture={gesture}>
+        <Animated.View onLayout={onLayout} style={[
+          styles.content,
+          gestureStyles.main,
+        ]}>
+          {
+            items?.map((item, key) => {
+              const style = isValidElement<ViewProps>(item?.children)
+                ? item?.children?.props?.style ?? {}
+                : {};
+              return cloneElement(
+                item?.children as React.ReactElement<ViewProps>,
+                {
+                  key: key,
+                  style: {
+                    ...(style as ViewStyle),
+                    width: '100%',
+                    height: '100%',
+                  },
+                }
+              );
+            })
+          }
+        </Animated.View>
+      </GestureDetector>
       {/* <View style={styles.indicators}>
         {
           typeof indicator === 'function' ? indicator(items?.length, value) :
